@@ -1,0 +1,7 @@
+Comment often *No such thing as too many comments*
+Indent properly
+Naming Convention: Camel Casing e.g. playerName
+Use mysqli prepare statement to prevent sql injection
+No style in html documents
+Mod_rewrite to hide file system structure
+Prevent directory listing
