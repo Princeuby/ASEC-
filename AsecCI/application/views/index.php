@@ -1,5 +1,5 @@
 <body>
-	<div id="main">
+	<div id="main" class="login">
 		<section id="top" class="one dark cover">
 			<div class="container">
 
