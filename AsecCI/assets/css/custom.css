@@ -1,3 +1,30 @@
 .login {
 	margin-left: 0px !important;
 }
+
+body {
+	background: rgb(45, 44, 103);
+}
+
+h1 {
+	font-size: 2.5em;
+}
+
+#logo {
+	width:170px;
+	height:170px;
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+.center {
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.red-box {
+	border: 1px solid red;
+}

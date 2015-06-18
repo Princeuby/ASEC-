@@ -2,24 +2,17 @@
 	<div id="main" class="login">
 		<section id="top" class="one dark cover">
 			<div class="container">
-
 				<header>
-					<h2 class="alt">Please provide valid <strong>login</strong> details</h2>
+					<hr><h1>Security Management System</h1><hr>
 				</header>
 
-				<section>
+				<section class="6u center">
+					<img id="logo" src="<?php echo base_url('assets/images/logo.png'); ?>" />
 					<?php echo validation_errors(); ?>
-
 					<?php echo form_open('login') ?>
-					
-					    <label for="id">id</label>
-					    <input type="text" name="id"><br>
-					
-					    <label for="password">Password</label>
-					    <input type="password" name="password"><br>
-					
-					    <input type="submit" name="submit" value="Login" />
-					
+					    <label class="red-box"><input type="text" name="id" placeholder="Officer ID"></label>
+					    <label class="red-box"><input type="password" name="password" placeholder="Password"></label><br>
+					    <input type="submit" name="submit" value="Login">
 					</form>
 				</section>
 
