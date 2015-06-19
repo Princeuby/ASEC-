@@ -2020,7 +2020,7 @@
 		}
 
 			#header .icons a {
-				color: #41484c;
+				color: #fff;
 				-moz-transition: color 0.35s ease-in-out;
 				-webkit-transition: color 0.35s ease-in-out;
 				-ms-transition: color 0.35s ease-in-out;
@@ -2028,7 +2028,7 @@
 			}
 
 				#header .icons a:hover {
-					color: #fff;
+					color: red;
 				}
 
 	#logo {
@@ -2096,7 +2096,8 @@
 		}
 
 			#nav ul li a.active span:before {
-				color: #e27689;
+				/*color: #e27689;*/
+				color: red;
 			}
 
 /* Footer */
