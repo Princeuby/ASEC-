@@ -1,6 +1,6 @@
 <body>
 	<div id="main" class="login">
-		<section id="top" class="one dark cover">
+		<section id="top" class="one dark cover blue">
 			<div class="container">
 				<header>
 					<hr><h1>Security Management System</h1><hr>
