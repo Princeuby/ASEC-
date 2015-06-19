@@ -4,7 +4,7 @@
 	<div class="top">
 		<!-- Logo -->
 		<div id="logo">
-			<span class="image avatar48"><img src="<?php echo base_url('assets/images/logo.png'); ?>" alt="" /></span>
+			<img id="logo2" class="center" src="<?php echo base_url('assets/images/logo.png'); ?>" alt="">
 			<h1 id="title"><?php echo $name;?></h1>
 			<p><?php echo $rank;?></p>
 		</div>
