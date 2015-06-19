@@ -28,3 +28,28 @@ h1 {
 .red-box {
 	border: 1px solid red;
 }
+
+@media (min-width: 200px) and (max-width: 500px) {
+    .size-panel {
+    	width: 75%;
+   	}
+   	.size-input {
+   		width: 90%;
+   	}
+
+}
+@media (min-width: 500px) and (max-width: 900px) {
+    .size-panel {
+    	width: 50%;
+   	}
+   	.size-input {
+   		width: 70%;
+   	}
+
+}
+
+@media (min-width: 900px) {
+	.size-input {
+		width: 55%;
+	}
+}
