@@ -15,12 +15,10 @@ class Login extends CI_Controller {
 	    if ($this->form_validation->run() === FALSE) {
 	        $this->load->view('templates/header', $data);
 	        $this->load->view('index');
-	        // $this->load->view('templates/footer');
 
 	    }
-	    else {
-			// redirect
-	        $this->load->view('welcome_message');
+	    else { // Redirects to correct controller after validation
+			redirect('/officer');
 	    }
 	}
 }	
