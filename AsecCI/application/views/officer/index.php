@@ -19,7 +19,7 @@
 			</table>
 
 			<footer>
-				<a href="officer/activity_report" class="button scrolly">Start Shift</a>
+				<a href="<?php echo base_url('officer/activity_report'); ?>" class="button scrolly">Start Shift</a>
 			</footer>
 
 		</div>

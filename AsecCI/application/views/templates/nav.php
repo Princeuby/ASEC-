@@ -17,7 +17,7 @@
 				if ($page === ucwords($function))
 					$active = 'active';
 				?>
-				<li><a href="<?php echo "officer/" . url_title($function, 'underscore', TRUE);?>" id="" class="skel-layers-ignoreHref <?php echo $active;?>"><span class="icon fa-home"><?php echo ucwords($function);?></span></a></li>
+				<li><a href="<?php echo base_url(strtolower($title) . '/' . url_title($function, 'underscore', TRUE));?>" id="" class="skel-layers-ignoreHref <?php echo $active;?>"><span class="icon fa-home"><?php echo ucwords($function);?></span></a></li>
 				<?php endforeach ?>
 			</ul>
 		</nav>
