@@ -2,11 +2,12 @@
 class Officer extends CI_Controller {
 	
 	public function index() {
-
+		$this->load->library('session');
+		
 	    $data['title'] = 'Officer';
 	    $data['page'] = 'Home';
-		$data['name'] = 'Alice Raymond';
-		$data['rank'] = 'Supervisor';
+		$data['name'] = $this->session->userdata('officerFullName');
+		$data['rank'] = $this->session->userdata('officerRank');
 		$data['functions'] = ['home', 'schedule', 'test', 'test3', 'activity report'];
 		
 		

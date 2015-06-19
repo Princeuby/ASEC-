@@ -2,10 +2,16 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Login extends CI_Controller {
-	
+	public function __construct()
+    {
+            parent::__construct();
+            $this->load->model('login_model');
+    }
+
 	public function index() {
 	    $this->load->helper('form');
 	    $this->load->library('form_validation');
+	    $this->load->library('session');
 
 	    $data['title'] = 'Login';
 
@@ -18,7 +24,29 @@ class Login extends CI_Controller {
 
 	    }
 	    else { // Redirects to correct controller after validation
-			redirect('/officer');
+			$user = $this->input->post('id');
+			$pass = $this->input->post('password');
+			$data['officer'] = $this->login_model->get_officer($user);
+			if (empty($data['officer']))
+            {
+            	show_404();
+            }
+            if (($user == $data['officer']['officer_id']) && ($pass == $data['officer']['password'] ))
+			{
+				$officerFullName = $data['officer']['first_name'] . " " . $data['officer']['last_name'];
+				$newdata = array(
+        			'officerId'  => $data['officer']['officer_id'],
+        			'officerFullName'     => $officerFullName,
+        			'officerRank' => $data['officer']['rank']
+				);
+				$this->session->set_userdata($newdata);
+				redirect('/officer');
+			}
+			else
+			{
+				$this->load->view('templates/header', $data);
+	        	$this->load->view('index');
+			}	
 	    }
 	}
 }	
