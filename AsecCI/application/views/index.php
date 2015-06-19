@@ -7,7 +7,7 @@
 				</header>
 
 				<section class="6u center">
-					<img id="logo" src="<?php echo site_url('assets/images/logo.png'); ?>" />
+					<img id="logo" src="<?php echo base_url('assets/images/logo.png'); ?>" />
 					<?php echo validation_errors(); ?>
 					<?php echo form_open('login') ?>
 					    <label class="red-box"><input type="text" name="id" placeholder="Officer ID"></label>
@@ -25,16 +25,6 @@
 			<li>&copy; American University of Nigeria. All rights reserved.</li><li>Design: <a href="#">UNKNOWN</a></li>
 		</ul>
 
-	</div>
-
-		<!-- Scripts -->
-	<script src="assets/js/jquery.min.js"></script>
-	<script src="assets/js/jquery.scrolly.min.js"></script>
-	<script src="assets/js/jquery.scrollzer.min.js"></script>
-	<script src="assets/js/skel.min.js"></script>
-	<script src="assets/js/util.js"></script>
-	<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
-	<script src="assets/js/main.js"></script>
-	
+	</div>	
 </body>
 </html>
