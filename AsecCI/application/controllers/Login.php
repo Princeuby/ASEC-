@@ -31,7 +31,7 @@ class Login extends CI_Controller {
             {
             	show_404();
             }
-            if (($user == $data['officer']['officer_id']) && ($pass == $data['officer']['password'] ))
+            if (($user == $data['officer']['officer_id']) && (password_verify($pass, $data['officer']['password'])))
 			{
 				$officerFullName = $data['officer']['first_name'] . " " . $data['officer']['last_name'];
 				$newdata = array(
