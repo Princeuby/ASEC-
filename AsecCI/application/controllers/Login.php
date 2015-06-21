@@ -2,8 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Login extends CI_Controller {
-	public function __construct()
-    {
+	public function __construct() {
             parent::__construct();
             $this->load->model('login_model');
     }
@@ -27,13 +26,13 @@ class Login extends CI_Controller {
 			$user = $this->input->post('id');
 			$pass = $this->input->post('password');
 			$data['officer'] = $this->login_model->get_officer($user);
-			if (empty($data['officer']))
-            {
+			if (empty($data['officer'])) 
             	show_404();
-            }
-            if (($user == $data['officer']['officer_id']) && (password_verify($pass, $data['officer']['password'])))
-			{
-				$officerFullName = $data['officer']['first_name'] . " " . $data['officer']['last_name'];
+            
+            if (($user == $data['officer']['officer_id']) &&
+				 (password_verify($pass, $data['officer']['password']))) {
+				$officerFullName = $data['officer']['first_name'] . " " .
+								   $data['officer']['last_name'];
 				$newdata = array(
         			'officerId'  => $data['officer']['officer_id'],
         			'officerFullName'     => $officerFullName,
@@ -42,8 +41,7 @@ class Login extends CI_Controller {
 				$this->session->set_userdata($newdata);
 				redirect('/officer');
 			}
-			else
-			{
+			else {
 				$this->load->view('templates/header', $data);
 	        	$this->load->view('index');
 			}	

@@ -439,7 +439,7 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `mydb`;
-INSERT INTO `mydb`.`security_officer` (`officer_id`, `first_name`, `middle_name`, `last_name`, `gender`, `date_of_birth`, `rank`, `dept_name`, `designation`, `office`, `date_of_emp`, `education_level`, `focus_area`, `school`, `password`) VALUES ('S01', 'Alice', '', 'Raymond', 'Female', '12/08/1981', 'Officer', 'Surveillance', 'EE', 'AnS', '12/07/2001', 'Primary', 'Campus', 'SITC', 'pass');
+INSERT INTO `mydb`.`security_officer` (`officer_id`, `first_name`, `middle_name`, `last_name`, `gender`, `date_of_birth`, `rank`, `dept_name`, `designation`, `office`, `date_of_emp`, `education_level`, `focus_area`, `school`, `password`) VALUES ('S01', 'Alice', '', 'Raymond', 'Female', '1978-01-14', 'Officer', 'Surveillance', 'EE', 'AnS', '2001-11-09', 'Primary', 'Campus', 'SITC', '$2y$10$JSRZSLzqRLFbB9VPkSAcueA1lv/THhLMkb8f/zMwylO4gEt47eotu');
 
 COMMIT;
 

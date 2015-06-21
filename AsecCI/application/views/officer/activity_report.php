@@ -1,10 +1,5 @@
-<!-- Main -->
-<div id="main">
-
-	<!-- Intro -->
-	<section id="top" class="one dark cover">
-		<div class="container">
-
+	    <span id="disp"></span>
+		<script>setInterval(clk, 100);</script>
 			<header>
 				<h2 class="alt">Your Activity <strong>Report</strong></h2>
 				<p>Don't  forget the small details that no one cares about</p>

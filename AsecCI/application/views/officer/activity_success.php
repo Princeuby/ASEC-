@@ -1,10 +1,3 @@
-<!-- Main -->
-<div id="main">
-
-	<!-- Intro -->
-	<section id="top" class="one dark cover">
-		<div class="container">
-
 			<header>
 				<h2 class="alt">That's <strong>Great</strong></h2>
 				<p>Do it again!</p>
