@@ -34,7 +34,7 @@ class Login extends CI_Controller {
 				$officerFullName = $data['officer']['first_name'] . " " .
 								   $data['officer']['last_name'];
 				$newdata = array(
-        			'officerId'  => $data['officer']['officer_id'],
+        			'officerID'  => $data['officer']['officer_id'],
         			'officerFullName'     => $officerFullName,
         			'officerRank' => $data['officer']['rank']
 				);
