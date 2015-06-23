@@ -16,13 +16,7 @@ class Officer_Model extends CI_Model {
 			'shift' => $shift);
 		// Current activity report
 		$query = $this->db->get_where('activity_report', $conditions);
-		$report = $query->row_array();
-		// Gets record of previous officer from security_officer table
-		$prev = $query = $this->db->get_where('security_officer', 
-			array('officer_id' => $report['previous_officer_id']))->row_array();
-		// Name of previous officer
-		$report['previous_officer_name'] = $prev['first_name'] . " " . $prev['last_name'];  
-		return $report;
+		return $query->row_array();
 	}
 	
 	// Creates a new activity report
@@ -37,6 +31,14 @@ class Officer_Model extends CI_Model {
 			'next_officer_id' => null			
 		);
 		$query = $this->db->insert('activity_report', $data);
+	}
+	
+	// Gets record of previous officer from security_officer table
+	public function get_officer_name($officerID) {
+		$query = $this->db->get_where('security_officer', 
+			array('officer_id' => $officerID))->row_array();
+		// Name of officer
+		return $query['first_name'] . " " . $query['last_name'];
 	}
 	
 	// Gets the current shift based on time

@@ -34,14 +34,22 @@ class Officer extends CI_Controller {
 		$data = $this->set_data('Activity Report');
 		// Gets activity report for current shift
 		$data['report'] = $this->officer_model->get_activity_report($data['id']);
-		$data['display'] = 'None'; // Sets CSS display rule of create activity report form in view
-		$data['display_incident'] = 'block'; // Sets CSS display rule of new incident form in view
+		$data['previous_officer_name'] = $this->officer_model->get_officer_name($data['report']['previous_officer_id']);
+		$data['display_create'] = 'None'; // Sets CSS display rule of create activity report form in view
+		$data['display_report'] = 'block'; // Sets CSS display rule of new created report in view
 		// Checks if activity report has been created
 		if (empty($data['report'])) {
 			// Creates new activity report **Uses wrong previous ID**
-			$data['display'] = 'block'; // Makes new activity report form visible
-			$data['display_incident'] = 'None'; // Hides the new incident report form
+			$data['display_create'] = 'block'; // Makes new activity report form visible
+			$data['display_report'] = 'None'; // Hides the new incident report form
 		}
+		else {
+			// foreach ($data['report'] as $key => $value) {
+			// 	echo "$key: $value";
+			// }
+			// die();
+		}
+		// $data['incidents'] = $this->officer_model->get_incidents($data['report']['report_id']);
 	
 		$this->load->helper('form');
 	    $this->load->library('form_validation');

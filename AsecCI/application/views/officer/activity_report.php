@@ -1,6 +1,6 @@
 	    <style> /* I had to do this */
-			#new-report { display: <?php echo $display; ?>; }
-			.not-new {	display: <?php echo $display_incident; ?>; }
+			#new-report { display: <?php echo $display_create; ?>; }
+			#not-new {	display: <?php echo $display_report; ?>; }
 		</style>
 		<!--<span id="disp"></span>-->
 		<!--<script>setInterval(clk, 100);</script>-->
@@ -14,7 +14,7 @@
 						<input type="submit" name="submit" value="Create New Report">
 					</form>
 				</section>
-				<section class="not-new">
+				<section id="not-new">
 					<span>Report Details</span>
 					<hr>
 					<table>
@@ -29,11 +29,14 @@
 							</tr>
 							<tr>
 								<td>Previous Officer</td>
-								<td><?php echo "$report[previous_officer_name] 
+								<td><?php echo "$previous_officer_name 
 									($report[previous_officer_id])";?></td>
 							</tr>
 						</tbody>
 					</table>
+					<div class="row">
+						<?php ?>
+					</div>
 					<?php echo form_open('officer/activity_report') ?>
 					    <label><input type="text" name="incident" placeholder="Incident" class="size-input"></label>
 					    <label><textarea name="details" placeholder="I found a missing dog" class="size-inpu"></textarea></label><br>
