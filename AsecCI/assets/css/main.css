@@ -1866,7 +1866,19 @@
 
 	table {
 		width: 100%;
+		border: 1px solid #222;
+		/*padding: 12px;*/
 	}
+	
+		table td {
+			/*padding: 0.5em 1em 0.5em 1em;*/
+			padding: 0.5em;
+			border-right: #222 1px solid;
+		}
+		
+		table tr {
+			border-bottom: 1px solid #222;
+		}
 
 		table.default {
 			width: 100%;
