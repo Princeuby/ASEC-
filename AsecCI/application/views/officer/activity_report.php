@@ -25,7 +25,8 @@
 							</tr>
 							<tr>
 								<td>Previous Officer </td>
-								<td><?php echo $report['previous_officer_id'];?></td>
+								<td><?php echo "$report[previous_officer_name] 
+									($report[previous_officer_id])";?></td>
 							</tr>
 							<tr>
 								<td>Shift </td>

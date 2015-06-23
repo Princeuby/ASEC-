@@ -16,7 +16,13 @@ class Officer_Model extends CI_Model {
 			'shift' => $shift);
 		// Current activity report
 		$query = $this->db->get_where('activity_report', $conditions);
-		return $query->row_array();
+		$report = $query->row_array();
+		// Gets record of previous officer from security_officer table
+		$prev = $query = $this->db->get_where('security_officer', 
+			array('officer_id' => $report['previous_officer_id']))->row_array();
+		// Name of previous officer
+		$report['previous_officer_name'] = $prev['first_name'] . " " . $prev['last_name'];  
+		return $report;
 	}
 	
 	// Creates a new activity report
