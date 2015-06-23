@@ -216,7 +216,7 @@
 		-moz-box-sizing: border-box;
 		-webkit-box-sizing: border-box;
 		box-sizing: border-box;
-		margin-bottom: 2em !important;
+		/*margin-bottom: 2em !important;*/
 	}
 
 	.row > * {
@@ -1548,7 +1548,8 @@
 	body {
 		background: #fff;
 		/*font-family: 'Source Sans Pro', sans-serif;*/
-		font-family: 'Copperplate Gothic Light', sans-serif;
+		/*font-family: 'Copperplate Gothic Light', sans-serif;*/
+		font-family: 'Segoe UI', sans-serif;
 		font-size: 19pt;
 		font-weight: 300;
 		line-height: 1.75em;
@@ -1570,7 +1571,8 @@
 
 	input, textarea, select {
 		/*font-family: 'Source Sans Pro', sans-serif;*/
-		font-family: 'Copperplate Gothic Light', sans-serif;
+		/*font-family: 'Copperplate Gothic Light', sans-serif;*/
+		font-family: inherit;
 		font-size: 19pt;
 		font-weight: 300;
 		line-height: 1.75em;
@@ -1868,13 +1870,14 @@
 	table {
 		width: 100%;
 		border: 1px solid #222;
-		/*padding: 12px;*/
+		background-color: #bbb;
 	}
 	
 		table td {
 			/*padding: 0.5em 1em 0.5em 1em;*/
 			padding: 0.5em;
 			border-right: #222 1px solid;
+			color: #000;
 		}
 		
 		table tr {
@@ -1962,6 +1965,8 @@
 		/*box-shadow: 0 0.05em 0.15em 0 rgba(0, 0, 0, 0.05);*/
 		margin-bottom: 40px;
 		border: 1px solid #222;
+		background-color: #bbb;
+		color: #000;
 		/*background: rgb(45, 44, 103) !important;*/
 	}
 

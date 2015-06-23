@@ -2,8 +2,6 @@
 			#new-report { display: <?php echo $display_create; ?>; }
 			#not-new {	display: <?php echo $display_report; ?>; }
 		</style>
-		<!--<span id="disp"></span>-->
-		<!--<script>setInterval(clk, 100);</script>-->
 			<header>
 				<h2 class="alt">Your Activity <strong>Report</strong></h2>
 			</header>
@@ -38,13 +36,14 @@
 					<div class="row">
 						<?php foreach ($incidents as $incident):?>
 							<div class="6u 12u$(mobile)">
-								<article class="item blue">
+								<article class="item">
 									<header><h3><?php echo $incident['incident_type'];?></h3></header>
 									<p><?php echo $incident['entry_report'];?></p>
 								</article>
 							</div>
 						<?php endforeach ?>
 					</div>
+					<hr><br>
 					<section class="6u 12u$(mobile) center">
 						<?php echo form_open('officer/activity_report') ?>
 						    <label><input type="text" name="incident-type" placeholder="Incident" class="size-input"></label>
