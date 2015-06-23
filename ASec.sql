@@ -108,15 +108,14 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`leaves` (
   `leaves_id` INT NOT NULL,
-  `month_proceed` VARCHAR(30) NOT NULL,
   `leave_type` VARCHAR(30) NOT NULL,
   `proceeding_date` DATE NOT NULL,
   `returning_date` DATE NULL,
-  `recommendation` VARCHAR(100) NOT NULL,
   `entitled_days` VARCHAR(20) NOT NULL,
   `supervisor` VARCHAR(45) NOT NULL,
-  `approved_date` DATE NOT NULL,
+  `recommendation` VARCHAR(100) NOT NULL,
   `approved_by` VARCHAR(45) NOT NULL,
+  `approved_date` DATE NOT NULL,
   `comments` VARCHAR(100) NOT NULL,
   `officer_id` VARCHAR(20) NOT NULL,
   PRIMARY KEY (`leaves_id`),
@@ -428,7 +427,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`shifts` (
   `shift` VARCHAR(45) NOT NULL,
   `start_time` TIME NOT NULL,
   `end_time` TIME NOT NULL,
-  PRIMARY KEY (`shift`))
+  PRIMARY KEY (`start_time`, `end_time`))
 ENGINE = InnoDB;
 
 
