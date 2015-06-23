@@ -40,7 +40,7 @@ class Officer extends CI_Controller {
 		$data['incidents'] = $this->officer_model->get_incidents($data['report']['report_id']);
 		// Checks if activity report has been created
 		if (empty($data['report'])) {
-			// Creates new activity report **Uses wrong previous ID**
+			// Creates new activity report
 			$data['display_create'] = 'block'; // Makes new activity report form visible
 			$data['display_report'] = 'None'; // Hides the new incident report form
 		}
@@ -77,6 +77,21 @@ class Officer extends CI_Controller {
 			$previousOfficerID = $user = $this->input->post('prevID');
 			$officerID = $this->session->userdata('officerID');
 			$this->officer_model->create_activity_report($officerID,$previousOfficerID); 
+		}
+		redirect('/officer/activity_report');;		
+	}
+	
+	// Closes an activity report
+	public function close_activity_report() {
+		$this->load->helper('form');
+	    $this->load->library('form_validation');
+		$this->form_validation->set_rules('nextID', 'Username', 'required');
+		
+		if ($this->form_validation->run() === TRUE) {
+			$report = $this->officer_model->get_activity_report(
+				$this->session->userdata('officerID'));
+			$nextOfficerID = $this->input->post('nextID');
+			$this->officer_model->close_activity_report($report['report_id'],$nextOfficerID); 
 		}
 		redirect('/officer/activity_report');;		
 	}

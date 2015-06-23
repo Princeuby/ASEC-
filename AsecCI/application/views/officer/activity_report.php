@@ -6,7 +6,7 @@
 				<h2 class="alt">Your Activity <strong>Report</strong></h2>
 			</header>
 			<section class="center">
-				<section id="new-report">
+				<section id="new-report" class="6u 12u$(mobile) center">
 					<?php echo form_open('officer/new_activity_report') ?>
 					    <label><input type="text" name="prevID" placeholder="Previous Officer ID" class="size-input"></label>					
 						<input type="submit" name="submit" value="Create New Report">
@@ -51,6 +51,12 @@
 						    <input type="submit" name="submit" value="Add Incident">
 						</form>
 					</section>
+					<section id="next-officer" class="6u 12u$(mobile) center">
+						<?php echo form_open('officer/close_activity_report') ?>
+						    <label><input type="text" name="nextID" placeholder="Next Officer ID" class="size-input"></label>					
+							<input type="submit" name="submit" value="Close Report">
+						</form>
+				</section>
 				</section>
 			</section>
 			

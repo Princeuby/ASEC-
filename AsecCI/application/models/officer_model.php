@@ -64,4 +64,13 @@ class Officer_Model extends CI_Model {
 		);
 		$query = $this->db->insert('incident', $data);
 	}
+	
+	// Closes an activity report by setting the 'time out' and 'next officer'
+	public function close_activity_report($reportID, $nextOfficerID) {
+		$data = array( // Data for insert statement
+			'next_officer_id' => $nextOfficerID,
+			'date_timeOut' => date('Y-m-d H:i:s')	
+		);
+		$query = $this->db->update('activity_report', $data, "report_id = $reportID");
+	} 
 }
