@@ -25,7 +25,7 @@
 	
 	<div class="bottom center">
 			<ul class="icons">
-				<li><a href="logout" class="icon">Logout</a></li>
+				<li><a href="<?php echo base_url('login/logout'); ?>" class="icon">Logout</a></li>
 			</ul>
 	</div>
 </div>

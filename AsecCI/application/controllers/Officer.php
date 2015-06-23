@@ -5,6 +5,8 @@ class Officer extends CI_Controller {
         parent::__construct();
         $this->load->model('officer_model');
 		$this->load->library('session');
+		if ($this->session->userdata('officerID') === null) 
+			redirect('login/logout');
     }
 	
 	public function index() {
