@@ -1,6 +1,7 @@
 	    <style> /* I had to do this */
 			#new-report { display: <?php echo $display_create; ?>; }
 			#not-new {	display: <?php echo $display_report; ?>; }
+			#incidents { display: <?php echo $display_incidents; ?>; }
 		</style>
 			<header>
 				<h2 class="alt">Your Activity <strong>Report</strong></h2>
@@ -43,7 +44,7 @@
 							</div>
 						<?php endforeach ?>
 					</div>
-					<hr><br>
+					<hr id="incidents"><br>
 					<section class="6u 12u$(mobile) center">
 						<?php echo form_open('officer/activity_report') ?>
 						    <label><input type="text" name="incident-type" placeholder="Incident" class="size-input"></label>
