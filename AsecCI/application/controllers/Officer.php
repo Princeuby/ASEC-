@@ -86,6 +86,42 @@ class Officer extends CI_Controller {
 		
 	    $this->load->view('templates/footer');
 	}
+
+	public function leaves() {
+		$data = $this->set_data('Leaves');	
+		//Gets leave information for officer
+		$data['leaves'] = $this->officer_model->get_officer_leaves($data['id']);
+		$data['display_leaves'] = '';
+		$data['no_leaves'] = '';
+
+		//Check if there is leave history
+		if (empty($data['leaves'])) {
+			//No Leave history
+			$data['display_leaves'] = 'None';
+			$data['no_leaves'] = "Sorry, you have no leave record";
+		}
+
+		$this->load->helper('form');
+	    $this->load->library('form_validation');
+		
+		$this->form_validation->set_rules('leave-type', 'Text', 'required');
+	    $this->form_validation->set_rules('proceeding-date', 'Date', 'required');
+
+	    $this->load->view('templates/header', $data);
+	    $this->load->view('templates/nav', $data);
+
+	    if ($this->form_validation->run() == TRUE) {
+	    	$leaveType = strip_tags($this->input->post('leave-type'));
+	    	$proceedingDate = strip_tags($this->input->post('proceeding-date'));
+	    	$data['supervisor'] = $this->officer_model->get_supervisor($data['id']);
+	    	$this->officer_model->create_officer_leave($data['id'], $leaveType, 
+	    		$proceedingDate, $data['supervisor']['officer_id']);
+	    	redirect('/officer/leaves');
+	    }
+
+	    $this->load->view('officer/leaves');
+	    $this->load->view('templates/footer');
+	}
 }	
 	
 ?>
