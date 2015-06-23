@@ -7,7 +7,7 @@
 			<header>
 				<h2 class="alt">Your Activity <strong>Report</strong></h2>
 			</header>
-			<section class="8u center size-panel">
+			<section class="center">
 				<section id="new-report">
 					<?php echo form_open('officer/new_activity_report') ?>
 					    <label><input type="text" name="prevID" placeholder="Previous Officer ID" class="size-input"></label>					
@@ -17,7 +17,7 @@
 				<section id="not-new">
 					<span>Report Details</span>
 					<hr>
-					<table>
+					<table class="6u 12u$(mobile) center">
 						<tbody>
 							<tr>
 								<td>Report Created</td>
@@ -34,12 +34,20 @@
 							</tr>
 						</tbody>
 					</table>
+					<h3>Incidents</h3><hr>
 					<div class="row">
-						<?php ?>
+						<?php foreach ($incidents as $incident):?>
+							<div class="6u 12u$(mobile)">
+								<article class="item blue">
+									<header><h3><?php echo $incident['incident_type'];?></h3></header>
+									<p><?php echo $incident['entry_report'];?></p>
+								</article>
+							</div>
+						<?php endforeach ?>
 					</div>
 					<?php echo form_open('officer/activity_report') ?>
-					    <label><input type="text" name="incident" placeholder="Incident" class="size-input"></label>
-					    <label><textarea name="details" placeholder="I found a missing dog" class="size-inpu"></textarea></label><br>
+					    <label><input type="text" name="incident-type" placeholder="Incident" class="size-input"></label>
+					    <label><textarea name="incident-details" placeholder="I found a missing dog" class="size-inpu"></textarea></label><br>
 					    <input type="submit" name="submit" value="Add Incident">
 					</form>
 				</section>

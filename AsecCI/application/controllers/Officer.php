@@ -37,36 +37,32 @@ class Officer extends CI_Controller {
 		$data['previous_officer_name'] = $this->officer_model->get_officer_name($data['report']['previous_officer_id']);
 		$data['display_create'] = 'None'; // Sets CSS display rule of create activity report form in view
 		$data['display_report'] = 'block'; // Sets CSS display rule of new created report in view
+		$data['incidents'] = $this->officer_model->get_incidents($data['report']['report_id']);
 		// Checks if activity report has been created
 		if (empty($data['report'])) {
 			// Creates new activity report **Uses wrong previous ID**
 			$data['display_create'] = 'block'; // Makes new activity report form visible
 			$data['display_report'] = 'None'; // Hides the new incident report form
 		}
-		else {
-			// foreach ($data['report'] as $key => $value) {
-			// 	echo "$key: $value";
-			// }
-			// die();
-		}
-		// $data['incidents'] = $this->officer_model->get_incidents($data['report']['report_id']);
-	
+		
 		$this->load->helper('form');
 	    $this->load->library('form_validation');
 		
-		$this->form_validation->set_rules('incident', 'Username', 'required');
-	    $this->form_validation->set_rules('details', 'Text', 'required');
+		$this->form_validation->set_rules('incident-type', 'Username', 'required');
+	    $this->form_validation->set_rules('incident-details', 'Text', 'required');
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('templates/nav', $data);
 			
-		if ($this->form_validation->run() === FALSE) {
-		    $this->load->view('officer/activity_report');
-	    }
-		else {
-	    	$this->load->view('officer/activity_success');
+		if ($this->form_validation->run() === TRUE) {
+			$incidentType = $this->input->post('incident-type');
+			$incidentDetails = $this->input->post('incident-details');
+			$this->officer_model->create_incidents($data['report']['report_id'],
+			$incidentType, $incidentDetails);
+			redirect('/officer/activity_report');
 		}
 		
+		$this->load->view('officer/activity_report');
 	    $this->load->view('templates/footer');
 		
 	}
@@ -82,7 +78,7 @@ class Officer extends CI_Controller {
 			$officerID = $this->session->userdata('officerID');
 			$this->officer_model->create_activity_report($officerID,$previousOfficerID); 
 		}
-		$this->activity_report();		
+		redirect('/officer/activity_report');;		
 	}
 }	
 	

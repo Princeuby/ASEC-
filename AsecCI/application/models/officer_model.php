@@ -21,6 +21,9 @@ class Officer_Model extends CI_Model {
 	
 	// Creates a new activity report
 	public function create_activity_report($officerID, $previousOfficerID) {
+		$row = $this->get_activity_report($officerID);
+		if (!empty($row)) // Restricts to one activity report per shift, per person
+			return;
 		$data = array( // Data for insert statement
 			'report_id' => null, // Autoincrement column
 			'officer_id' => $officerID,

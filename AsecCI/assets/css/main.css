@@ -216,6 +216,7 @@
 		-moz-box-sizing: border-box;
 		-webkit-box-sizing: border-box;
 		box-sizing: border-box;
+		margin-bottom: 2em !important;
 	}
 
 	.row > * {
@@ -1958,12 +1959,13 @@
 /* Item */
 
 	.item {
-		box-shadow: 0 0.05em 0.15em 0 rgba(0, 0, 0, 0.05);
+		/*box-shadow: 0 0.05em 0.15em 0 rgba(0, 0, 0, 0.05);*/
 		margin-bottom: 40px;
+		border: 1px solid #222;
+		/*background: rgb(45, 44, 103) !important;*/
 	}
 
 		.item header {
-			background: #fff;
 			margin: 0;
 			padding: 1em 0 1em 0;
 			font-size: 0.8em;
@@ -1972,6 +1974,12 @@
 			.item header h3 {
 				font-size: 1em;
 			}
+			
+		.item p {
+			padding: 0 1em 0 1em;
+			font-size: 0.8em !important;
+			text-align: left !important;
+		}
 
 /* Icons */
 
