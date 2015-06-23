@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`security_officer` (
   `date_of_birth` DATE NOT NULL,
   `rank` VARCHAR(45) NOT NULL,
   `dept_name` VARCHAR(45) NOT NULL,
-  `designation` VARCHAR(45) NULL,
+  `designation` VARCHAR(45) NOT NULL,
   `office` VARCHAR(45) NULL,
   `date_of_emp` DATE NOT NULL,
   `education_level` VARCHAR(50) NOT NULL,
@@ -111,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`leaves` (
   `month_proceed` VARCHAR(30) NOT NULL,
   `leave_type` VARCHAR(30) NOT NULL,
   `proceeding_date` DATE NOT NULL,
-  `returning_date` DATE NOT NULL,
+  `returning_date` DATE NULL,
   `recommendation` VARCHAR(100) NOT NULL,
   `entitled_days` VARCHAR(20) NOT NULL,
   `supervisor` VARCHAR(45) NOT NULL,
@@ -249,9 +249,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Cab`
+-- Table `mydb`.`cab`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Cab` (
+CREATE TABLE IF NOT EXISTS `mydb`.`cab` (
   `car_number` VARCHAR(20) NOT NULL,
   `first_name` VARCHAR(45) NOT NULL,
   `last_name` VARCHAR(45) NOT NULL,
@@ -375,38 +375,20 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`incident`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`incident` (
-  `incident_id` INT NOT NULL AUTO_INCREMENT,
-  `incident_type` VARCHAR(45) NOT NULL,
-  `entry_report` VARCHAR(500) NOT NULL,
-  PRIMARY KEY (`incident_id`),
-  UNIQUE INDEX `incident_id_UNIQUE` (`incident_id` ASC))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `mydb`.`activity_report`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`activity_report` (
   `report_id` INT NOT NULL AUTO_INCREMENT,
+  `officer_id` VARCHAR(45) NOT NULL,
   `date_timeIn` DATETIME NOT NULL,
-  `date_timeOut` DATETIME NOT NULL,
+  `date_timeOut` DATETIME NULL,
   `shift` VARCHAR(45) NOT NULL,
-  `next_officer_id` VARCHAR(45) NOT NULL,
   `previous_officer_id` VARCHAR(45) NOT NULL,
-  `incident_id` INT NOT NULL,
+  `next_officer_id` VARCHAR(45) NULL,
   PRIMARY KEY (`report_id`),
   UNIQUE INDEX `report_id_UNIQUE` (`report_id` ASC),
-  INDEX `act_incident_id_idx` (`incident_id` ASC),
   INDEX `act_next_officer_id_idx` (`next_officer_id` ASC),
   INDEX `act_previous_officer_id_idx` (`previous_officer_id` ASC),
-  CONSTRAINT `act_incident_id`
-    FOREIGN KEY (`incident_id`)
-    REFERENCES `mydb`.`incident` (`incident_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
   CONSTRAINT `act_next_officer_id`
     FOREIGN KEY (`next_officer_id`)
     REFERENCES `mydb`.`security_officer` (`officer_id`)
@@ -417,6 +399,36 @@ CREATE TABLE IF NOT EXISTS `mydb`.`activity_report` (
     REFERENCES `mydb`.`security_officer` (`officer_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`incident`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`incident` (
+  `incident_id` INT NOT NULL AUTO_INCREMENT,
+  `incident_type` VARCHAR(45) NOT NULL,
+  `entry_report` VARCHAR(500) NOT NULL,
+  `report_id` INT NULL,
+  PRIMARY KEY (`incident_id`),
+  UNIQUE INDEX `incident_id_UNIQUE` (`incident_id` ASC),
+  INDEX `report_id_idx` (`report_id` ASC),
+  CONSTRAINT `report_id`
+    FOREIGN KEY (`report_id`)
+    REFERENCES `mydb`.`activity_report` (`report_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`shifts`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`shifts` (
+  `shift` VARCHAR(45) NOT NULL,
+  `start_time` TIME NOT NULL,
+  `end_time` TIME NOT NULL,
+  PRIMARY KEY (`shift`))
 ENGINE = InnoDB;
 
 
@@ -440,6 +452,19 @@ COMMIT;
 START TRANSACTION;
 USE `mydb`;
 INSERT INTO `mydb`.`security_officer` (`officer_id`, `first_name`, `middle_name`, `last_name`, `gender`, `date_of_birth`, `rank`, `dept_name`, `designation`, `office`, `date_of_emp`, `education_level`, `focus_area`, `school`, `password`) VALUES ('S01', 'Alice', '', 'Raymond', 'Female', '1978-01-14', 'Officer', 'Surveillance', 'EE', 'AnS', '2001-11-09', 'Primary', 'Campus', 'SITC', '$2y$10$JSRZSLzqRLFbB9VPkSAcueA1lv/THhLMkb8f/zMwylO4gEt47eotu');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `mydb`.`shifts`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `mydb`;
+INSERT INTO `mydb`.`shifts` (`shift`, `start_time`, `end_time`) VALUES ('Morning', '06:00:00', '13:59:59');
+INSERT INTO `mydb`.`shifts` (`shift`, `start_time`, `end_time`) VALUES ('Afternoon', '14:00:00', '19:59:59');
+INSERT INTO `mydb`.`shifts` (`shift`, `start_time`, `end_time`) VALUES ('Night', '00:00:00', '05:59:59');
+INSERT INTO `mydb`.`shifts` (`shift`, `start_time`, `end_time`) VALUES ('Night', '20:00:00', '23:59:59');
 
 COMMIT;
 
