@@ -21,7 +21,7 @@ class Officer extends CI_Controller {
 		$data['name'] = $this->session->userdata('officerFullName');
 		$data['rank'] = $this->session->userdata('officerRank');
 		$data['id'] = $this->session->userdata('officerID');
-		$data['functions'] = ['home', 'schedule', 'test', 'test3', 'activity report'];
+		$data['functions'] = ['home', 'schedule', 'test', 'leaves', 'activity report'];
 		
 		return $data;
 	}

@@ -43,7 +43,7 @@ class Officer_Model extends CI_Model {
 
 	// Gets leave records for the officer
 	public function get_officer_leaves($officerID) {
-		$query = $this->db->query(SELECT * FROM 
+		$query = $this->db->query("SELECT * FROM 
 			(SELECT security_officer.officer_id, leaves_id, leave_type, first_name, last_name, proceeding_date, returning_date, comments, approved_status
 			 FROM security_officer, leaves 
 			WHERE security_officer.officer_id = leaves.officer_id
@@ -56,8 +56,8 @@ class Officer_Model extends CI_Model {
 			WHERE designation = Supervisor AND dept_name IN 
 				(SELECT dept_name FROM security_officer WHERE officer_id = $officerID)) s2
 
-			ON s1.officer_id = $officerID;
-			)
+			ON s1.officer_id = $officerID"
+			);
 		return $query->row_array();
 	}
 
