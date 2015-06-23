@@ -20,17 +20,17 @@
 					<table>
 						<tbody>
 							<tr>
-								<td>Report Created </td>
+								<td>Report Created</td>
 								<td><?php echo $report['date_timeIn'];?></td>
 							</tr>
 							<tr>
-								<td>Previous Officer </td>
-								<td><?php echo "$report[previous_officer_name] 
-									($report[previous_officer_id])";?></td>
+								<td>Shift</td>
+								<td><?php echo $report['shift'];?></td>
 							</tr>
 							<tr>
-								<td>Shift </td>
-								<td><?php echo $report['shift'];?></td>
+								<td>Previous Officer</td>
+								<td><?php echo "$report[previous_officer_name] 
+									($report[previous_officer_id])";?></td>
 							</tr>
 						</tbody>
 					</table>

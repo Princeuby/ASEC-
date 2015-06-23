@@ -28,7 +28,7 @@ class Officer_Model extends CI_Model {
 	// Creates a new activity report
 	public function create_activity_report($officerID, $previousOfficerID) {
 		$data = array( // Data for insert statement
-			'report_id' => null,
+			'report_id' => null, // Autoincrement column
 			'officer_id' => $officerID,
 			'date_timeIn' => date('Y-m-d H:i:s'),
 			'date_timeOut' => null,
@@ -45,5 +45,22 @@ class Officer_Model extends CI_Model {
 		$query = $this->db->get_where('shifts', array('start_time <' => $current_time, 
 			'end_time > ' => $current_time)); // Current shift
 		return $query->row_array()['shift'];
+	}
+	
+	// Gets the incidents recorded in a report
+	public function get_incidents($reportID) {
+		$query = $this->db->get_where('incident', array('report_id' => $reportID));
+		return $query->result_array();
+	}
+	
+	// Creates new incidents in a report
+	public function create_incidents($reportID, $incidentType, $incidentDetails) {
+		$data = array( // Data for insert statement
+			'incident_id' => null, // Autoincrement column
+			'incident_type' => $incidentType,
+			'entry_report' => $incidentDetails,
+			'report_id' => $reportID			
+		);
+		$query = $this->db->insert('incident', $data);
 	}
 }
