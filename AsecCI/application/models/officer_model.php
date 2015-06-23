@@ -25,13 +25,10 @@ class Officer_Model extends CI_Model {
 		if (!empty($row)) // Restricts to one activity report per shift, per person
 			return;
 		$data = array( // Data for insert statement
-			'report_id' => null, // Autoincrement column
 			'officer_id' => $officerID,
 			'date_timeIn' => date('Y-m-d H:i:s'),
-			'date_timeOut' => null,
 			'shift' => $this->get_shift(),
 			'previous_officer_id' => $previousOfficerID,
-			'next_officer_id' => null			
 		);
 		$query = $this->db->insert('activity_report', $data);
 	}
@@ -61,7 +58,6 @@ class Officer_Model extends CI_Model {
 	// Creates new incidents in a report
 	public function create_incidents($reportID, $incidentType, $incidentDetails) {
 		$data = array( // Data for insert statement
-			'incident_id' => null, // Autoincrement column
 			'incident_type' => $incidentType,
 			'entry_report' => $incidentDetails,
 			'report_id' => $reportID			

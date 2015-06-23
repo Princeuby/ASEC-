@@ -48,7 +48,7 @@ class Officer extends CI_Controller {
 		$this->load->helper('form');
 	    $this->load->library('form_validation');
 		
-		$this->form_validation->set_rules('incident-type', 'Username', 'required');
+		$this->form_validation->set_rules('incident-type', 'Text', 'required');
 	    $this->form_validation->set_rules('incident-details', 'Text', 'required');
 
 		$this->load->view('templates/header', $data);
@@ -61,7 +61,7 @@ class Officer extends CI_Controller {
 			$incidentType, $incidentDetails);
 			redirect('/officer/activity_report');
 		}
-		
+
 		$this->load->view('officer/activity_report');
 	    $this->load->view('templates/footer');
 		
