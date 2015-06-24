@@ -30,7 +30,7 @@ class Officer_Model extends CI_Model {
 			'shift' => $this->get_shift(),
 			'previous_officer_id' => $previousOfficerID,
 		);
-		$query = $this->db->insert('activity_report', $data);
+		$this->db->insert('activity_report', $data);
 	}
 	
 	// Gets record of previous officer from security_officer table
@@ -78,7 +78,7 @@ class Officer_Model extends CI_Model {
 			'supervisor_id_leaves' => $supervisorID,
 			'low_rank' => 1			
 		);
-		$query = $this->db->insert('leaves', $data);
+		$this->db->insert('leaves', $data);
 	}
 
 	public function get_supervisor($officerID) {
@@ -97,13 +97,14 @@ class Officer_Model extends CI_Model {
 	
 	// Creates new incidents in a report
 	public function create_incidents($reportID, $incidentType, $incidentDetails) {
+		// echo $incidentDetails; die();
 		$data = array( // Data for insert statement
 			'incident_type' => $incidentType,
 			'incident_time' => date('Y-m-d H:i:s'),	
 			'entry_report' => $incidentDetails,
 			'report_id' => $reportID			
 		);
-		$query = $this->db->insert('incident', $data);
+		$this->db->insert('incident', $data);
 	}
 	
 	// Closes an activity report by setting the 'time out' and 'next officer'
@@ -112,6 +113,6 @@ class Officer_Model extends CI_Model {
 			'next_officer_id' => $nextOfficerID,
 			'date_timeOut' => date('Y-m-d H:i:s')	
 		);
-		$query = $this->db->update('activity_report', $data, "report_id = $reportID");
+		$this->db->update('activity_report', $data, "report_id = $reportID");
 	} 
 }
