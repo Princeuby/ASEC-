@@ -23,8 +23,8 @@ class Login extends CI_Controller {
 
 	    }
 	    else { // Redirects to correct controller after validation
-			$user = $this->input->post('id');
-			$pass = $this->input->post('password');
+			$user = strip_tags($this->input->post('id'));
+			$pass = strip_tags($this->input->post('password'));
 			$data['officer'] = $this->login_model->get_officer($user);
 			if (empty($data['officer'])) 
             	show_404();
@@ -60,6 +60,12 @@ class Login extends CI_Controller {
 	        	$this->load->view('index');
 			}	
 	    }
+	}
+	
+	public function logout() {
+		$this->load->library('session');
+		$this->session->sess_destroy();
+		redirect('');
 	}
 }	
 	
