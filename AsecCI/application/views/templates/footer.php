@@ -13,6 +13,7 @@
 	<script src="<?php echo base_url('assets/js/util.js');?>"></script>
 	<!--[if lte IE 8]><script src="<?php echo base_url('assets/js/ie/respond.min.js');?>"></script><![endif]-->
 	<script src="<?php echo base_url('assets/js/main.js');?>"></script>
-
+	<script src="<?php echo base_url('assets/js/tinymce/tinymce.min.js');?>"></script>
+	<script>tinymce.init({selector:'textarea'});</script>
 	</body>
 </html>

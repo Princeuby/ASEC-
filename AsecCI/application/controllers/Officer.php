@@ -63,7 +63,9 @@ class Officer extends CI_Controller {
 			
 		if ($this->form_validation->run() === TRUE) {
 			$incidentType = strip_tags($this->input->post('incident-type'));
-			$incidentDetails = strip_tags($this->input->post('incident-details'));
+			// Keeps relevant tags for html formatting
+			$incidentDetails = strip_tags($this->input->post('incident-details'),
+				"<p><ul><ol><li><span><strong><em><h1><h2><h3><h4><h5><h6><blockquote><pre>");
 			$this->officer_model->create_incidents($data['report']['report_id'],
 			$incidentType, $incidentDetails);
 			redirect($this->session->userdata('home').'/activity_report');
