@@ -58,3 +58,28 @@ h1 {
 		width: 55%;
 	}
 }
+
+.blue-text {
+	color: rgb(45, 44, 103) !important;
+}
+
+#incidents div { 
+	background-color: #bbb;
+	color: #555;
+}
+	#incidents div article {
+		padding: 1em;
+		margin-bottom: 1em;
+		border-top: 3px solid #222;
+		border-top: 5px solid #81918E;
+		text-align: left;
+	}
+	
+	#incidents div article:first-child {
+		border-top: 0;
+	}
+	
+		#incidents div article header {
+			border-bottom: 1px solid #222;
+			margin-bottom: 1em;
+		}

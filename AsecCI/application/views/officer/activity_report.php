@@ -6,61 +6,51 @@
 			<header>
 				<h2 class="alt">Your Activity <strong>Report</strong></h2>
 			</header>
-			<section class="center">
-				<section id="new-report" class="6u 12u$(mobile) center">
-					<?php echo form_open('officer/new_activity_report') ?>
-					    <label><input type="text" name="prevID" placeholder="Previous Officer ID" class="size-input"></label>					
-						<input type="submit" name="submit" value="Create New Report">
-					</form>
+			<section id="new-report" class="6u 12u$(mobile) center">
+				<?php echo form_open('officer/new_activity_report') ?>
+				    <label><input type="text" name="prevID" placeholder="Previous Officer ID" class="size-input"></label>					
+					<input type="submit" name="submit" value="Create New Report">
+				</form>
+			</section>
+			<section id="not-new">
+				<span>Report Details</span>
+				<hr>
+				<section id="report">
+					<p>
+					Time Started (in): <span class="blue-text"><?php echo $report['date_timeIn'];?></span><br>
+					Shift: <span class="blue-text"><?php echo $report['shift'];?></span><br>
+					Previous Officer: <span class="blue-text"><?php echo "$previous_officer_name 
+								($report[previous_officer_id])";?></span></p>
 				</section>
-				<section id="not-new">
-					<span>Report Details</span>
-					<hr>
-					<table class="6u 12u$(mobile) center">
-						<tbody>
-							<tr>
-								<td>Report Created</td>
-								<td><?php echo $report['date_timeIn'];?></td>
-							</tr>
-							<tr>
-								<td>Shift</td>
-								<td><?php echo $report['shift'];?></td>
-							</tr>
-							<tr>
-								<td>Previous Officer</td>
-								<td><?php echo "$previous_officer_name 
-									($report[previous_officer_id])";?></td>
-							</tr>
-						</tbody>
-					</table>
-					<h3>Incidents</h3><hr>
-					<div class="row">
+				<section id="incidents">
+					<div class="10u 12u$(mobile) center">
 						<?php foreach ($incidents as $incident):?>
-							<div class="6u 12u$(mobile)">
-								<article class="item">
-									<header><h3><?php echo $incident['incident_type'];?></h3></header>
-									<p><?php echo $incident['entry_report'];?></p>
-								</article>
-							</div>
+							<article>
+								<header>
+									<h4>Incident: <span class="blue-text"><?php echo $incident['incident_type'];?></span></h4>
+									<span>Incident Time: <span class="blue-text"><?php echo $incident['incident_time'];?></span></span>
+								</header>
+								<p><?php echo $incident['entry_report'];?></p>
+							</article>
 						<?php endforeach ?>
 					</div>
-					<hr id="incidents"><br>
-					<section class="6u 12u$(mobile) center">
-						<?php echo form_open('officer/activity_report') ?>
-						    <label><input type="text" name="incident-type" placeholder="Incident" class="size-input"></label>
-						    <label><textarea name="incident-details" placeholder="I found a missing dog" class="size-inpu"></textarea></label><br>
-						    <input type="submit" name="submit" value="Add Incident">
-						</form>
-					</section>
-					<section id="next-officer" class="6u 12u$(mobile) center">
-						<?php echo form_open('officer/close_activity_report') ?>
-						    <label><input type="text" name="nextID" placeholder="Next Officer ID" class="size-input"></label>					
-							<input type="submit" name="submit" value="Close Report">
-						</form>
 				</section>
+				<hr id="incidents"><br>
+				<section class="6u 12u$(mobile) center">
+					<?php echo form_open('officer/activity_report') ?>
+					    <label><input type="text" name="incident-type" placeholder="Incident" class="size-input"></label>
+					    <label><textarea name="incident-details" placeholder="I found a missing dog" class="size-inpu"></textarea></label><br>
+					    <input type="submit" name="submit" value="Add Incident">
+					</form>
+				</section>
+				<hr><br>
+				<section id="next-officer" class="6u 12u$(mobile) center">
+					<?php echo form_open('officer/close_activity_report') ?>
+					    <label><input type="text" name="nextID" placeholder="Next Officer ID" class="size-input"></label>					
+						<input type="submit" name="submit" value="Close Report">
+					</form>
 				</section>
 			</section>
-			
 		</div>
 	</section>
 </div>

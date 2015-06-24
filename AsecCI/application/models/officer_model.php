@@ -59,6 +59,7 @@ class Officer_Model extends CI_Model {
 	public function create_incidents($reportID, $incidentType, $incidentDetails) {
 		$data = array( // Data for insert statement
 			'incident_type' => $incidentType,
+			'incident_time' => date('Y-m-d H:i:s'),	
 			'entry_report' => $incidentDetails,
 			'report_id' => $reportID			
 		);
