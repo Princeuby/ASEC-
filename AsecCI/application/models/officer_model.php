@@ -114,5 +114,4 @@ class Officer_Model extends CI_Model {
 		);
 		$query = $this->db->update('activity_report', $data, "report_id = $reportID");
 	} 
->>>>>>> origin/pseudo_master
 }

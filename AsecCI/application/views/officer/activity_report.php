@@ -7,7 +7,7 @@
 				<h2 class="alt">Your Activity <strong>Report</strong></h2>
 			</header>
 			<section id="new-report" class="6u 12u$(mobile) center">
-				<?php echo form_open('$designation/new_activity_report') ?>
+				<?php echo form_open("$designation/new_activity_report") ?>
 				    <label><input type="text" name="prevID" placeholder="Previous Officer ID" class="size-input"></label>					
 					<input type="submit" name="submit" value="Create New Report">
 				</form>
@@ -37,7 +37,7 @@
 				</section>
 				<hr id="incidents"><br>
 				<section class="6u 12u$(mobile) center">
-					<?php echo form_open('$designation/activity_report') ?>
+					<?php echo form_open("$designation/activity_report") ?>
 					    <label><input type="text" name="incident-type" placeholder="Incident" class="size-input"></label>
 					    <label><textarea name="incident-details" placeholder="I found a missing dog" class="size-input"></textarea></label><br>
 					    <input type="submit" name="submit" value="Add Incident">
@@ -45,7 +45,7 @@
 				</section>
 				<hr><br>
 				<section id="next-officer" class="6u 12u$(mobile) center">
-					<?php echo form_open('$designation/close_activity_report') ?>
+					<?php echo form_open("$designation/close_activity_report") ?>
 					    <label><input type="text" name="nextID" placeholder="Next Officer ID" class="size-input"></label>					
 						<input type="submit" name="submit" value="Close Report">
 					</form>
