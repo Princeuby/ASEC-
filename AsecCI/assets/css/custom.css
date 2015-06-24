@@ -101,3 +101,8 @@ h1 {
 		#incidents div article p {
 			margin-bottom: 0;
 		}
+		
+		#incidents div article strong{
+			color: #555 !important;
+			font-weight: 500;
+		}
