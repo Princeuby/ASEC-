@@ -4,7 +4,7 @@
 			#incidents { display: <?php echo $display_incidents; ?>; }
 		</style>
 			<header>
-				<h2 class="alt">Your Activity <strong>Report</strong></h2>
+				<h2 class="alt">Activity Report<strong> Details</strong></h2>
 			</header>
 			<section id="new-report" class="6u 12u$(mobile) center">
 				<?php echo form_open("$designation/new_activity_report") ?>
@@ -13,11 +13,10 @@
 				</form>
 			</section>
 			<section id="not-new">
-				<span>Report Details</span>
 				<hr>
 				<section id="report">
-					<p>
-					Time Started (in): <span class="blue-text"><?php echo $report['date_timeIn'];?></span><br>
+					<p class="10u 12u$(mobile) center">
+					Time Started: <span class="blue-text"><?php echo $report['date_timeIn'];?></span><br>
 					Shift: <span class="blue-text"><?php echo $report['shift'];?></span><br>
 					Previous Officer: <span class="blue-text"><?php echo "$previous_officer_name 
 								($report[previous_officer_id])";?></span></p>
@@ -28,7 +27,7 @@
 							<article>
 								<header>
 									<h4>Incident: <span class="blue-text"><?php echo $incident['incident_type'];?></span></h4>
-									<span>Incident Time: <span class="blue-text"><?php echo $incident['incident_time'];?></span></span>
+									<span>Time: <span class="blue-text"><?php echo $incident['incident_time'];?></span></span>
 								</header>
 								<p><?php echo $incident['entry_report'];?></p>
 							</article>
@@ -36,9 +35,9 @@
 					</div>
 				</section>
 				<hr id="incidents"><br>
-				<section class="6u 12u$(mobile) center">
+				<section class="10u 12u$(mobile) center">
 					<?php echo form_open("$designation/activity_report") ?>
-					    <label><input type="text" name="incident-type" placeholder="Incident" class="size-input"></label>
+					    <label class="6u center"><input type="text" name="incident-type" placeholder="Incident" required></label>
 					    <label><textarea name="incident-details" placeholder="I found a missing dog"></textarea></label><br>
 					    <input type="submit" name="submit" value="Add Incident">
 					</form>
