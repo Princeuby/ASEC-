@@ -10,7 +10,7 @@ class Officer extends CI_Controller {
 		$data = $this->set_data();
 	    $this->load->view('templates/header', $data);
 	    $this->load->view('templates/nav', $data);
-	    $this->load->view('officer/index');
+	    $this->load->view($this->session->userdata('home').'/index');
 	    $this->load->view('templates/footer');
 	}
 	
@@ -27,7 +27,7 @@ class Officer extends CI_Controller {
 	}
 	
 	public function home() {
-		redirect('/officer');
+		redirect('/'.$this->session->userdata('home');
 	}
 	
 	public function activity_report() {
@@ -56,10 +56,12 @@ class Officer extends CI_Controller {
 		$this->load->view('templates/nav', $data);
 			
 		if ($this->form_validation->run() === FALSE) {
-		    $this->load->view('officer/activity_report');
+		    $this->load->view($this->session->userdata('home').
+		    	'/activity_report');
 	    }
 		else {
-	    	$this->load->view('officer/activity_success');
+	    	$this->load->view($this->session->userdata('home').
+	    		'/activity_success');
 		}
 		
 	    $this->load->view('templates/footer');
@@ -78,10 +80,12 @@ class Officer extends CI_Controller {
 		$this->load->view('templates/nav', $data);
 			
 		if ($this->form_validation->run() === FALSE) {
-		    $this->load->view('officer/activity_report');
+		    $this->load->view($this->session->userdata('home').
+		    	'/activity_report');
 	    }
 		else {
-	    	$this->load->view('officer/activity_success');
+	    	$this->load->view($this->session->userdata('home').
+	    		'/activity_success');
 		}
 		
 	    $this->load->view('templates/footer');
