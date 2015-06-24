@@ -61,8 +61,8 @@ class Officer extends CI_Controller {
 		$this->load->view('templates/nav', $data);
 			
 		if ($this->form_validation->run() === TRUE) {
-			$incidentType = $this->input->post('incident-type');
-			$incidentDetails = $this->input->post('incident-details');
+			$incidentType = strip_tags($this->input->post('incident-type'));
+			$incidentDetails = strip_tags($this->input->post('incident-details'));
 			$this->officer_model->create_incidents($data['report']['report_id'],
 			$incidentType, $incidentDetails);
 			redirect('/officer/activity_report');
@@ -80,7 +80,7 @@ class Officer extends CI_Controller {
 		$this->form_validation->set_rules('prevID', 'Username', 'required');
 		
 		if ($this->form_validation->run() === TRUE) {
-			$previousOfficerID = $user = $this->input->post('prevID');
+			$previousOfficerID = strip_tags($this->input->post('prevID'));
 			$officerID = $this->session->userdata('officerID');
 			$this->officer_model->create_activity_report($officerID,$previousOfficerID); 
 		}
@@ -96,7 +96,7 @@ class Officer extends CI_Controller {
 		if ($this->form_validation->run() === TRUE) {
 			$report = $this->officer_model->get_activity_report(
 				$this->session->userdata('officerID'));
-			$nextOfficerID = $this->input->post('nextID');
+			$nextOfficerID = strip_tags($this->input->post('nextID'));
 			$this->officer_model->close_activity_report($report['report_id'],$nextOfficerID); 
 		}
 		redirect('/officer/activity_report');;		
