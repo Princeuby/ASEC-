@@ -39,7 +39,7 @@
 				<section class="6u 12u$(mobile) center">
 					<?php echo form_open("$designation/activity_report") ?>
 					    <label><input type="text" name="incident-type" placeholder="Incident" class="size-input"></label>
-					    <label><textarea name="incident-details" placeholder="I found a missing dog" class="size-input"></textarea></label><br>
+					    <label><textarea name="incident-details" placeholder="I found a missing dog"></textarea></label><br>
 					    <input type="submit" name="submit" value="Add Incident">
 					</form>
 				</section>
