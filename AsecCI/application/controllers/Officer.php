@@ -30,7 +30,7 @@ class Officer extends CI_Controller {
 	}
 	
 	public function home() {
-		redirect('/'.$this->session->userdata('home'));
+		redirect($this->session->userdata('home'));
 	}
 	
 	public function activity_report() {
@@ -66,11 +66,10 @@ class Officer extends CI_Controller {
 			$incidentDetails = strip_tags($this->input->post('incident-details'));
 			$this->officer_model->create_incidents($data['report']['report_id'],
 			$incidentType, $incidentDetails);
-			redirect($this->session->userdata('home').
-		    	'/activity_report');
+			redirect($this->session->userdata('home').'/activity_report');
 		}
 
-		$this->load->view('officer/activity_report');
+		$this->load->view($this->session->userdata('home').'/activity_report');
 	    $this->load->view('templates/footer');
 		
 	}
@@ -86,8 +85,7 @@ class Officer extends CI_Controller {
 			$officerID = $this->session->userdata('officerID');
 			$this->officer_model->create_activity_report($officerID,$previousOfficerID); 
 		}
-		redirect('/'.$this->session->userdata('home').
-		    	'/activity_report');		
+		redirect($this->session->userdata('home').'/activity_report');		
 	}
 	
 	// Closes an activity report
@@ -102,7 +100,7 @@ class Officer extends CI_Controller {
 			$nextOfficerID = strip_tags($this->input->post('nextID'));
 			$this->officer_model->close_activity_report($report['report_id'],$nextOfficerID); 
 		}
-		redirect('/officer/activity_report');;		
+		redirect($this->session->userdata('home').'/activity_report');	
 	}
 
 	public function leaves() {
@@ -148,10 +146,10 @@ class Officer extends CI_Controller {
 	    	$data['supervisor'] = $this->officer_model->get_supervisor($data['id']);
 	    	$this->officer_model->create_officer_leave($data['id'], $leaveType, 
 	    		$proceedingDate, $data['supervisor']['officer_id']);
-	    	redirect('/officer/leaves');
+			redirect($this->session->userdata('home').'/leaves');
 	    }
 
-	    $this->load->view('officer/leaves');
+	    $this->load->view($this->session->userdata('home').'/leaves');
 	    $this->load->view('templates/footer');
 	}
 }	
