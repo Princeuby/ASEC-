@@ -19,7 +19,7 @@ class Supervisor extends Officer {
 
 	protected function set_data($page='Home') { // sets the data variables to avoid repition
 		$data = parent::set_data($page);
-		$data['functions'] = ['home', 'schedule', 'leaves', 'leave request', 'activity report'];
+		$data['functions'] = ['home', 'schedule', 'leaves', 'leave requests', 'activity report'];
 
 		return $data;
 	} 
