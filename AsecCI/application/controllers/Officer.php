@@ -14,9 +14,9 @@ class Officer extends CI_Controller {
 	    $this->load->view('templates/footer');
 	}
 	
-	private function set_data($page='Home') { // sets the data variables to avoid repition
+	protected function set_data($page='Home') { // sets the data variables to avoid repition
 		$this->load->library('session');
-		$data['title'] = 'Officer';
+		$data['title'] = ucwords($this->session->userdata('home'));
 	    $data['page'] = $page;
 		$data['name'] = $this->session->userdata('officerFullName');
 		$data['rank'] = $this->session->userdata('officerRank');
@@ -27,7 +27,7 @@ class Officer extends CI_Controller {
 	}
 	
 	public function home() {
-		redirect('/'.$this->session->userdata('home');
+		redirect('/'.$this->session->userdata('home'));
 	}
 	
 	public function activity_report() {
