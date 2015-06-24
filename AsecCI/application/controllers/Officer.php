@@ -109,6 +109,20 @@ class Officer extends CI_Controller {
 		$data = $this->set_data('Leaves');	
 		//Gets leave information for officer
 		$data['leaves'] = $this->officer_model->get_officer_leaves($data['id']);
+		for ($i = 0; $i < count($data['leaves']); $i ++) {
+			if ($data['leaves'][$i]['returning_date'] == Null) {
+				$data['leaves'][$i]['returning_date'] = "Not Assigned";
+			}
+			if ($data['leaves'][$i]['approved_status'] == 1) {
+				$data['leaves'][$i]['approved_status'] = "Approved";
+			}
+			elseif ($data['leaves'][$i]['approved_status'] == 0) {
+				$data['leaves'][$i]['approved_status'] = "Not Approved";
+			}
+			else {
+				$data['leaves'][$i]['approved_status'] = "Pending";
+			}
+		}
 		$data['display_leaves'] = '';
 		$data['no_leaves'] = '';
 

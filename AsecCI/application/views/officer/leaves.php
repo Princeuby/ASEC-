@@ -24,15 +24,10 @@
 									echo "<tr>";
 										echo "<td>$leave[leave_type]</td>";
 										echo "<td>$leave[proceeding_date]</td>";
-										$returningDate = $leave['returning_date'];
-										if ($returningDate == Null) {$returningDate = "Not Assigned";}
-										echo "<td>$returningDate</td>";
+										echo "<td>$leave[returning_date]</td>";
 										$supervisor_name = $leave['first_name'] . " " . $leave['last_name'];
 										echo "<td>$supervisor_name</td>";
-										if ($leave['approved_status'] == 1) {$approval = "Approved";}
-										elseif ($leave['approved_status'] == 0) {$approval = "Not Approved";}
-										else {$approval = "Pending";}
-										echo "<td>$approval</td>";
+										echo "<td>$leave[approved_status]</td>";
 										echo "<td>$leave[comments]</td>";
 									 echo "</tr>";
 									 ?>
