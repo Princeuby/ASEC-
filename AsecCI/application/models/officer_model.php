@@ -67,7 +67,8 @@ class Officer_Model extends CI_Model {
 			'leave_type' => $leaveType,
 			'officer_id' => $officerID,
 			'proceeding_date' => $proceedingDate,
-			'supervisor_id_leaves' => $supervisorID,			
+			'supervisor_id_leaves' => $supervisorID,
+			'low_rank' => 1			
 		);
 		$query = $this->db->insert('leaves', $data);
 	}

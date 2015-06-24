@@ -25,7 +25,7 @@
 										echo "<td>$leave[leave_type]</td>";
 										echo "<td>$leave[proceeding_date]</td>";
 										$returningDate = $leave['returning_date'];
-										if ($returningDate == '0000-00-00') {$returningDate = 'Not Assigned';}
+										if ($returningDate == Null) {$returningDate = "Not Assigned";}
 										echo "<td>$returningDate</td>";
 										$supervisor_name = $leave['first_name'] . " " . $leave['last_name'];
 										echo "<td>$supervisor_name</td>";
