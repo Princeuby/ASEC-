@@ -42,17 +42,18 @@ class Login extends CI_Controller {
 				$this->session->set_userdata($newdata);
 
 				if ($data['officer']['designation'] == "Rank and File") {
-					redirect('/officer');
+					$this->session->set_userdata('home','officer');
 				}
 				elseif ($data['officer']['designation'] == "Supervisor") {
-					redirect('/supervisor');
+					$this->session->set_userdata('home','supervisor');
 				}
 				elseif ($data['officer']['designation'] == "CSO") {
-					redirect('/cso');
+					$this->session->set_userdata('home','cso');
 				}
 				else {
-					redirect('/other');
+					$this->session->set_userdata('home','other');
 				}
+				redirect('/'.$this->session->userdata('home'));
 			}
 			else {
 				$this->load->view('templates/header', $data);
