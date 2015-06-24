@@ -13,12 +13,13 @@ class Officer extends CI_Controller {
 		$data = $this->set_data();
 	    $this->load->view('templates/header', $data);
 	    $this->load->view('templates/nav', $data);
-	    $this->load->view('officer/index');
+	    $this->load->view($this->session->userdata('home').'/index');
 	    $this->load->view('templates/footer');
 	}
 	
-	private function set_data($page='Home') { // sets the data variables to avoid repition
-		$data['title'] = 'Officer';
+	protected function set_data($page='Home') { // sets the data variables to avoid repition
+		$this->load->library('session');
+		$data['title'] = ucwords($this->session->userdata('home'));
 	    $data['page'] = $page;
 		$data['name'] = $this->session->userdata('officerFullName');
 		$data['rank'] = $this->session->userdata('officerRank');
@@ -29,7 +30,7 @@ class Officer extends CI_Controller {
 	}
 	
 	public function home() {
-		redirect('/officer');
+		redirect('/'.$this->session->userdata('home'));
 	}
 	
 	public function activity_report() {
@@ -65,7 +66,8 @@ class Officer extends CI_Controller {
 			$incidentDetails = strip_tags($this->input->post('incident-details'));
 			$this->officer_model->create_incidents($data['report']['report_id'],
 			$incidentType, $incidentDetails);
-			redirect('/officer/activity_report');
+			redirect($this->session->userdata('home').
+		    	'/activity_report');
 		}
 
 		$this->load->view('officer/activity_report');
@@ -84,7 +86,8 @@ class Officer extends CI_Controller {
 			$officerID = $this->session->userdata('officerID');
 			$this->officer_model->create_activity_report($officerID,$previousOfficerID); 
 		}
-		redirect('/officer/activity_report');;		
+		redirect('/'.$this->session->userdata('home').
+		    	'/activity_report');		
 	}
 	
 	// Closes an activity report
