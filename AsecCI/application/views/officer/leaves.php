@@ -24,7 +24,9 @@
 									echo "<tr>";
 										echo "<td>$leave[leave_type]</td>";
 										echo "<td>$leave[proceeding_date]</td>";
-										echo "<td>$leave[returning_date]</td>";
+										$returningDate = $leave[returning_date];
+										if ($returningDate == '0000-00-00') {$returningDate = 'Not Assigned';}
+										echo "<td>$returningDate</td>";
 										$supervisor_name = $leave['first_name'] . " " . $leave['last_name'];
 										echo "<td>$supervisor_name</td>";
 										if ($leave['approved_status'] == 1) {$approval = "Approved";}
