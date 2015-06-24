@@ -22,7 +22,7 @@ class Officer extends CI_Controller {
 		$data['rank'] = $this->session->userdata('officerRank');
 		$data['id'] = $this->session->userdata('officerID');
 		$data['functions'] = ['home', 'schedule', 'test', 'leaves', 'activity report'];
-		
+		$data['designation'] = $this->session->userdata('home');
 		return $data;
 	}
 	

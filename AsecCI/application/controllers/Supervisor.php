@@ -10,18 +10,31 @@ class Supervisor extends Officer {
     }
 	
 	public function index() {
-		parent::index();
+		$data = $this->set_data();
+	    $this->load->view('templates/header', $data);
+	    $this->load->view('templates/nav', $data);
+	    $this->load->view($this->session->userdata('home').'/index');
+	    $this->load->view('templates/footer');
 	}
 
-	private function set_data($page='Home') { // sets the data variables to avoid repition
+	protected function set_data($page='Home') { // sets the data variables to avoid repition
 		$data = parent::set_data($page);
-		$data['functions'] = ['home', 'schedule', 'leaves', 'leave reports', 'activity report'];
+		$data['functions'] = ['home', 'schedule', 'leaves', 'leave request', 'activity report'];
 
 		return $data;
 	} 
 
 	public function home() {
-		parent::home;
+		parent::home();
 	}
+
+	public function activity_report() {
+		parent::activity_report();
+	} 
+
+	public function leaves() {
+		parent::leaves();
+	}
+
 }
 ?>

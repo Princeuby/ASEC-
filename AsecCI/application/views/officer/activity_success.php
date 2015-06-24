@@ -4,7 +4,7 @@
 			</header>
 
 			<footer>
-				<a href="<?php echo base_url('officer/activity_report'); ?>" class="button scrolly">Add to Activiy Report</a>
+				<a href="<?php echo base_url('$designation/activity_report'); ?>" class="button scrolly">Add to Activiy Report</a>
 			</footer>
 
 		</div>
