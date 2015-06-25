@@ -111,7 +111,6 @@ class Officer extends CI_Controller {
 	public function view_activity_reports() {
 		$data = $this->set_data('View Activity Reports');	
 		$this->load->helper('form');
-	    // $this->load->library('form_validation');
 		$data['reports'] = $this->officer_model->get_activity_reports();
 		for ($i = 0; $i < count($data['reports']); $i ++) {
 			$data['reports'][$i]['officer_name'] = $this->officer_model->get_officer_name(
@@ -129,23 +128,18 @@ class Officer extends CI_Controller {
 			$data['selected_report'] = $this->officer_model->get_activity_reports(TRUE,
 				FALSE,FALSE,$this->input->post('report_id'));
 				
-			$data['previous_officer_name'] = $this->officer_model->get_officer_name($data['selected_report']['previous_officer_id']);
-			$data['officer_name'] = $this->officer_model->get_officer_name($data['selected_report']['officer_id']);
-			$data['next_officer_name'] = $this->officer_model->get_officer_name($data['selected_report']['next_officer_id']);
-			$data['incidents'] = $this->officer_model->get_incidents($data['selected_report']['report_id']);
+			$data['previous_officer_name'] = $this->officer_model->get_officer_name(
+				$data['selected_report']['previous_officer_id']);
+			$data['officer_name'] = $this->officer_model->get_officer_name(
+				$data['selected_report']['officer_id']);
+			$data['next_officer_name'] = $this->officer_model->get_officer_name(
+				$data['selected_report']['next_officer_id']);
+			$data['incidents'] = $this->officer_model->get_incidents(
+				$data['selected_report']['report_id']);
 			$data['display_reports'] = 'block';
 		}		
 		$this->load->view($this->session->userdata('home').'/view_activity_reports', $data);
 	    $this->load->view('templates/footer');
-	}
-	
-	public function show_activity_report() {
-		$this->load->helper('form');
-		
-		if ($this->form_validation->run() === TRUE) {
-			$data = $this->set_data('View Activity Reports');	
-		}
-		redirect($this->session->userdata('home').'/view_activity_reports');	
 	}
 
 	public function leaves() {

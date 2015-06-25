@@ -33,6 +33,10 @@ class Supervisor extends Officer {
 	public function leaves() {
 		parent::leaves();
 	}
+	
+	public function view_activity_reports() {
+		parent::view_activity_reports();
+	}
 
 }
 ?>
