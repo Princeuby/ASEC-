@@ -22,13 +22,13 @@
 							<?php
 							echo "<tr>";
 								echo "<td>$report[date_timeIn]</td>";
-								echo "<td>$report[officer_name] ($report[officer_id])</td>";
+								echo "<td>$report[officer_name]</td>";
 								echo "<td>$report[shift]</td>";
-								echo "<td>$report[previous_officer_name] ($report[previous_officer_id])</td>";
-								echo "<td>$report[next_officer_name] ($report[next_officer_id])</td>";
+								echo "<td>$report[previous_officer_name]</td>";
+								echo "<td>$report[next_officer_name]</td>";
 								echo "<td>$report[date_timeOut]</td>";
 								echo "<td><button class='link-button' name='report_id' value='$report[report_id]'>
-								View Report</button></td>";
+								View</button></td>";
 							 echo "</tr>";
 							 ?>
 						<?php endforeach ?>
@@ -39,12 +39,10 @@
 				<script>window.location.hash = 'report';</script>
 				<hr>
 				<p class="10u 12u$(mobile) center">
-				Officer: <span class="blue-text"><?php echo "$officer_name 
-							($selected_report[officer_id])";?></span><br>
+				Officer: <span class="blue-text"><?php echo "$officer_name";?></span><br>
 				Time Started: <span class="blue-text"><?php echo $selected_report['date_timeIn'];?></span><br>
 				Shift: <span class="blue-text"><?php echo $selected_report['shift'];?></span><br>
-				Previous Officer: <span class="blue-text"><?php echo "$previous_officer_name 
-							($selected_report[previous_officer_id])";?></span><br>
+				Previous Officer: <span class="blue-text"><?php echo "$previous_officer_name";?></span><br>
 				Next Officer: <span class="blue-text"><?php echo "$next_officer_name";?></span></p>
 				<section id="incidents">
 					<div class="10u 12u$(mobile) center">
@@ -60,7 +58,6 @@
 					</div>
 				</section>
 			</section>
-			<!--<script>setFocus();</script>-->
 		</div>
 	</section>
 </div>
