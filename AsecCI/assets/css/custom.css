@@ -108,3 +108,13 @@ h1 {
 			color: #555 !important;
 			font-weight: 500;
 		}
+		
+header > a {
+	border: 1px solid #fff;
+	padding: 0.2em;
+}
+
+header > a:hover {
+	background-color: #fff;
+	color: #555 !important;
+}

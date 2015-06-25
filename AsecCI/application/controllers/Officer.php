@@ -36,7 +36,9 @@ class Officer extends CI_Controller {
 	public function activity_report() {
 		$data = $this->set_data('Activity Report');
 		// Gets activity report for current shift
-		$data['report'] = $this->officer_model->get_activity_report($data['id']);
+		$current_day = date('Y-m-d'); // Current day
+		$shift = $this->officer_model->get_shift(); // Current shift
+		$data['report'] = $this->officer_model->get_activity_reports($data['id'], $current_day, $shift);
 		$data['previous_officer_name'] = $this->officer_model->get_officer_name($data['report']['previous_officer_id']);
 		$data['display_create'] = 'None'; // Sets CSS display rule of create activity report form in the view
 		$data['display_report'] = 'block'; // Sets CSS display rule of new created report in the view
@@ -73,7 +75,6 @@ class Officer extends CI_Controller {
 
 		$this->load->view($this->session->userdata('home').'/activity_report');
 	    $this->load->view('templates/footer');
-		
 	}
 	
 	// Creates new activity report from form
@@ -97,12 +98,32 @@ class Officer extends CI_Controller {
 		$this->form_validation->set_rules('nextID', 'Username', 'required');
 		
 		if ($this->form_validation->run() === TRUE) {
-			$report = $this->officer_model->get_activity_report(
-				$this->session->userdata('officerID'));
+			$current_day = date('Y-m-d'); // Current day
+			$shift = $this->officer_model->get_shift(); // Current shift
+			$report = $this->officer_model->get_activity_reports(
+				$this->session->userdata('officerID'), $current_day, $shift);
 			$nextOfficerID = strip_tags($this->input->post('nextID'));
 			$this->officer_model->close_activity_report($report['report_id'],$nextOfficerID); 
 		}
 		redirect($this->session->userdata('home').'/activity_report');	
+	}
+	
+	public function view_activity_reports() {
+		$data = $this->set_data('View Activity Reports');	
+		$data['reports'] = $this->officer_model->get_activity_reports();
+		for ($i = 0; $i < count($data['reports']); $i ++) {
+			$data['reports'][$i]['officer_name'] = $this->officer_model->get_officer_name(
+				$data['reports'][$i]['officer_id']);
+			$data['reports'][$i]['previous_officer_name'] = $this->officer_model->get_officer_name(
+				$data['reports'][$i]['previous_officer_id']);
+			$data['reports'][$i]['next_officer_name'] = $this->officer_model->get_officer_name(
+				$data['reports'][$i]['next_officer_id']);
+		}
+		
+		$this->load->view('templates/header', $data);
+		$this->load->view('templates/nav', $data);
+		$this->load->view($this->session->userdata('home').'/view_activity_reports');
+	    $this->load->view('templates/footer');
 	}
 
 	public function leaves() {
