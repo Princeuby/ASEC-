@@ -3,14 +3,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Login extends CI_Controller {
 	public function __construct() {
-            parent::__construct();
-            $this->load->model('login_model');
+        parent::__construct();
+        $this->load->model('login_model');
     }
 
 	public function index() {
 	    $this->load->helper('form');
 	    $this->load->library('form_validation');
 	    $this->load->library('session');
+		
+		if ($this->session->userdata('home'))
+			redirect($this->session->userdata('home'));			
 
 	    $data['title'] = 'Login';
 
@@ -53,7 +56,7 @@ class Login extends CI_Controller {
 				else {
 					$this->session->set_userdata('home','other');
 				}
-				redirect('/'.$this->session->userdata('home'));
+				redirect($this->session->userdata('home'));
 			}
 			else {
 				$this->load->view('templates/header', $data);
