@@ -6,10 +6,13 @@ class Officer_Model extends CI_Model {
 		date_default_timezone_set('Africa/Lagos'); // Sets current timezone
     }
 	
-	// Gets the most recent activity report
-	public function get_activity_report($officerID) {
-		$current_day = date('Y-m-d'); // Current day
-		$shift = $this->get_shift();
+	// Gets activity reports
+	public function get_activity_reports($officerID = FALSE, $current_day = FALSE, $shift = FALSE) {
+		if ($officerID === FALSE) {
+			$query = $this->db->get('activity_report');
+			return $query->result_array();
+		}
+		
 		$conditions = array( // Conditions to find the correct activity report
 			'officer_id' => $officerID,
 			'date_timeIn LIKE' => $current_day . '%', 
@@ -21,7 +24,9 @@ class Officer_Model extends CI_Model {
 	
 	// Creates a new activity report
 	public function create_activity_report($officerID, $previousOfficerID) {
-		$row = $this->get_activity_report($officerID);
+		$current_day = date('Y-m-d'); // Current day
+		$shift = $this->get_shift();
+		$row = $this->get_activity_reports($officerID, $current_day, $shift);
 		if (!empty($row)) // Restricts to one activity report per shift, per person
 			return;
 		$data = array( // Data for insert statement
