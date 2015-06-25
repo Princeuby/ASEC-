@@ -1,7 +1,7 @@
 <?php
-require_once 'Officer.php';
+require_once 'Supervisor.php';
 
-class Supervisor extends Officer {
+class Other extends Supervisor {
 
 	public function __construct() {
             parent::__construct();
