@@ -58,3 +58,83 @@ h1 {
 		width: 55%;
 	}
 }
+
+.blue-text {
+	color: rgb(45, 44, 103) !important;
+}
+
+#report p {
+	text-align: left !important;
+}
+
+#incidents div { 
+	background-color: #bbb;
+	color: #555;
+}
+	#incidents div article {
+		padding: 1em;
+		margin-bottom: 1em;
+		border-top: 3px solid #222;
+		border-top: 5px solid #81918E;
+		text-align: left;
+		font-size: 0.8em;
+	}
+	
+	#incidents div article:first-child {
+		border-top: 0;
+	}
+	
+		#incidents div article header {
+			border-bottom: 1px solid #222;
+			margin-bottom: 1em;
+			font-size: 1.1em;
+		}
+		
+		#incidents div article ul {
+			padding-left: 1em;
+			list-style: circle;
+		}
+		
+		 #incidents div article ol {
+			padding-left: 1em;
+			list-style: decimal;
+		 }
+		
+		#incidents div article p {
+			margin-bottom: 0;
+		}
+		
+		#incidents div article strong{
+			color: #555 !important;
+			font-weight: 500;
+		}
+		
+#new-link {
+	border: 1px solid #bbb;
+	padding: 0.2em;
+	/*background-color: transparent;*/
+}
+
+#new-link:hover {
+	background-color: #bbb;
+	color: #555 !important;
+}
+
+.link-button {
+	background-image: none;
+	background-color: transparent;
+	border: 1px solid #81918E;
+	color: inherit;
+	padding: 0.7em;
+	width: 100%;
+}
+
+.link-button:hover {
+	background-color: #81918E;
+	color: #bbb;
+}
+
+.link-button:focus {
+	background-color: #81918E;
+	color: #bbb;
+}

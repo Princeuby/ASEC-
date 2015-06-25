@@ -10,10 +10,4 @@
 		<link rel="stylesheet" href="<?php echo base_url('assets/css/custom.css'); ?>">
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
-		<script type="text/javascript">
-	        function clk() {
-	            var a=new Date();   
-	            document.getElementById("disp").innerHTML=a.getHours() + ":" + a.getMinutes() + ":" + a.getSeconds() ;
-	        }
-	    </script>
 	</head>
