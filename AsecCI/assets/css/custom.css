@@ -109,12 +109,25 @@ h1 {
 			font-weight: 500;
 		}
 		
-header > a {
-	border: 1px solid #fff;
+#new-link {
+	border: 1px solid #bbb;
 	padding: 0.2em;
+	/*background-color: transparent;*/
 }
 
-header > a:hover {
-	background-color: #fff;
+#new-link:hover {
+	background-color: #bbb;
 	color: #555 !important;
+}
+
+.link-button {
+	background-image: none;
+	background-color: transparent;
+	border: 1px solid #81918E;
+	color: inherit;
+}
+
+.link-button:hover {
+	background-color: #81918E;
+	color: #bbb;
 }

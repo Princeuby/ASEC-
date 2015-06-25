@@ -7,10 +7,14 @@ class Officer_Model extends CI_Model {
     }
 	
 	// Gets activity reports
-	public function get_activity_reports($officerID = FALSE, $current_day = FALSE, $shift = FALSE) {
+	public function get_activity_reports($officerID=FALSE, $current_day=FALSE, $shift=FALSE, $reportID=FALSE) {
 		if ($officerID === FALSE) {
 			$query = $this->db->get('activity_report');
 			return $query->result_array();
+		}
+		if ($reportID !== FALSE) {
+			$query = $this->db->get_where('activity_report', array('report_id' => $reportID));
+			return $query->row_array();
 		}
 		
 		$conditions = array( // Conditions to find the correct activity report
