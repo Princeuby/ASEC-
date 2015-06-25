@@ -1,0 +1,58 @@
+<?php
+require_once 'Officer.php';
+
+class Supervisor extends Officer {
+
+	public function __construct() {
+            parent::__construct();
+            $this->load->model('supervisor_model');
+            
+    }
+	
+	public function index() {
+		$data = $this->set_data();
+	    $this->load->view('templates/header', $data);
+	    $this->load->view('templates/nav', $data);
+	    $this->load->view($this->session->userdata('home').'/index');
+	    $this->load->view('templates/footer');
+	}
+
+	protected function set_data($page='Home') { // sets the data variables to avoid repition
+		$data = parent::set_data($page);
+		$data['functions'] = ['home', 'schedule', 'leaves', 'leave requests', 'activity report'];
+
+		return $data;
+	} 
+
+	public function home() {
+		parent::home();
+	}
+
+	public function activity_report() {
+		parent::activity_report();
+	} 
+
+	public function leaves() {
+		parent::leaves();
+	}
+
+
+	public function add_recommendation() {
+		$this->load->helper('form');
+	    $this->load->library('form_validation');
+
+		$this->form_validation->set_rules('recommendation-days', 'Number', 'required');
+	    $this->form_validation->set_rules('recommendation-comment', 'Text', 'required');
+
+	    if ($this->form_validation->run() === TRUE) {
+			$leaveID = strip_tags($this->input->post('buttonValue'));
+	    	$entitledDays = strip_tags($this->input->post('recommendation-days'));
+	    	$recommendation = strip_tags($this->input->post('recommendation-comment'));
+	    	$this->supervisor_model->set_recommendation($leaveID, $entitledDays, $recommendation);
+	    	redirect($this->session->userdata('home').'/leave_requests');
+		}
+		$data['failed_recommendation'] = "Failed to add recommendation, Please try again!";
+		redirect($this->session->userdata('home').'/leave_requests');
+	}
+}
+?>
