@@ -64,7 +64,7 @@ class Officer_Model extends CI_Model {
 				(SELECT dept_name FROM security_officer WHERE officer_id = '$officerID')) s2
 
 			ON s1.officer_id = '$officerID'
-			ORDER BY s1.proceeding_date DESC, s1.returning_date DESC"
+			ORDER BY s1.proceeding_date, s1.returning_date"
 			);
 		return $query->result_array();
 	}
@@ -108,7 +108,7 @@ class Officer_Model extends CI_Model {
 	
 	// Closes an activity report by setting the 'time out' and 'next officer'
 	public function close_activity_report($reportID, $nextOfficerID) {
-		$data = array( // Data for insert statement
+		$data = array( // Data for update statement
 			'next_officer_id' => $nextOfficerID,
 			'date_timeOut' => date('Y-m-d H:i:s')	
 		);

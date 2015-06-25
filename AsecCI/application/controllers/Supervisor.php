@@ -5,8 +5,7 @@ class Supervisor extends Officer {
 
 	public function __construct() {
             parent::__construct();
-            $this->load->model('supervisor_model');
-            
+            $this->load->model('supervisor_model');    
     }
 	
 	public function index() {
