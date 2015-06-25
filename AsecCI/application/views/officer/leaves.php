@@ -37,8 +37,8 @@
 					</section>
 					<section class="6u 12u$(mobile) center">
 						<?php echo form_open("$designation/leaves") ?>
-						    <label><input type="text" name="leave-type" placeholder="sick" class="size-input"></label>
-						    <label><input type="date" name="proceeding-date" min="<?php echo date('Y-m-d'); ?>" class="size-input"></label><br>
+						    <label>Leave Type: <input type="text" name="leave-type" placeholder="sick" class="size-input"></label>
+						    <label>Proceeding date: <input type="date" name="proceeding-date" min="<?php echo date('Y-m-d'); ?>" class="size-input"></label><br>
 						    <input type="submit" name="submit" value="Request Leave">
 						</form>
 					</section>
