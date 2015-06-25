@@ -4,9 +4,8 @@ require_once 'Officer.php';
 class Supervisor extends Officer {
 
 	public function __construct() {
-            parent::__construct();
-            $this->load->model('supervisor_model');
-            
+        parent::__construct();
+        $this->load->model('supervisor_model');
     }
 	
 	public function index() {
@@ -19,8 +18,7 @@ class Supervisor extends Officer {
 
 	protected function set_data($page='Home') { // sets the data variables to avoid repition
 		$data = parent::set_data($page);
-		$data['functions'] = ['home', 'schedule', 'leaves', 'leave requests', 'activity report'];
-
+		$data['functions'][] = 'leave requests';
 		return $data;
 	} 
 

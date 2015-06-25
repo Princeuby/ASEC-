@@ -5,7 +5,7 @@
 		</style>
 			<header>
 				<h2 class="alt">Activity Report<strong> Details</strong></h2>
-				<a href="<?php echo base_url("$designation/view_activity_reports"); ?>">View Activity Reports</a>
+				<!--<a id="new-link" href="<?php echo base_url("$designation/view_activity_reports"); ?>">View Activity Reports</a>-->
 			</header>
 			<section id="new-report" class="6u 12u$(mobile) center">
 				<?php echo form_open("$designation/new_activity_report") ?>
