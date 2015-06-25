@@ -111,10 +111,10 @@ class Officer extends CI_Controller {
 			if ($data['leaves'][$i]['returning_date'] === Null) {
 				$data['leaves'][$i]['returning_date'] = "Not Assigned";
 			}
-			if ($data['leaves'][$i]['approved_status'] === 1) {
+			if ($data['leaves'][$i]['approved_status'] === '1') {
 				$data['leaves'][$i]['approved_status'] = "Approved";
 			}
-			elseif ($data['leaves'][$i]['approved_status'] === 0) {
+			elseif ($data['leaves'][$i]['approved_status'] === '0') {
 				$data['leaves'][$i]['approved_status'] = "Not Approved";
 			}
 			else {
