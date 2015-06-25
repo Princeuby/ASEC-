@@ -108,13 +108,13 @@ class Officer extends CI_Controller {
 		//Gets leave information for officer
 		$data['leaves'] = $this->officer_model->get_officer_leaves($data['id']);
 		for ($i = 0; $i < count($data['leaves']); $i ++) {
-			if ($data['leaves'][$i]['returning_date'] == Null) {
+			if ($data['leaves'][$i]['returning_date'] === Null) {
 				$data['leaves'][$i]['returning_date'] = "Not Assigned";
 			}
-			if ($data['leaves'][$i]['approved_status'] == 1) {
+			if ($data['leaves'][$i]['approved_status'] === 1) {
 				$data['leaves'][$i]['approved_status'] = "Approved";
 			}
-			elseif ($data['leaves'][$i]['approved_status'] == 0) {
+			elseif ($data['leaves'][$i]['approved_status'] === 0) {
 				$data['leaves'][$i]['approved_status'] = "Not Approved";
 			}
 			else {
@@ -140,7 +140,7 @@ class Officer extends CI_Controller {
 	    $this->load->view('templates/header', $data);
 	    $this->load->view('templates/nav', $data);
 
-	    if ($this->form_validation->run() == TRUE) {
+	    if ($this->form_validation->run() === TRUE) {
 	    	$leaveType = strip_tags($this->input->post('leave-type'));
 	    	$proceedingDate = strip_tags($this->input->post('proceeding-date'));
 	    	$data['supervisor'] = $this->officer_model->get_supervisor($data['id']);

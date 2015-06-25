@@ -43,7 +43,7 @@ class Supervisor_Model extends Officer_Model {
 			proceeding_date, recommendation
 			FROM security_officer, leaves
 			WHERE security_officer.officer_id = leaves.officer_id AND supervisor_id_leaves = '$officerID' 
-			AND recommendation IS NULL AND low_rank = '1'
+			AND recommendation IS NULL AND low_rank = '1' AND approved_status IS NULL
 			ORDER BY proceeding_date DESC;"
 		);
 		return $query->result_array();
