@@ -22,7 +22,7 @@ class Supervisor_Model extends Officer_Model {
 		parent::get_officer_leaves();
 	}
 
-	public function create_officer_leaves($officerID, $leaveType, $proceedingDate, $supervisorID) {
+	public function create_officer_leave($officerID, $leaveType, $proceedingDate, $supervisorID) {
 		$data = array( // Data for insert statement
 			'leave_type' => $leaveType,
 			'officer_id' => $officerID,

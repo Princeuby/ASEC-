@@ -144,7 +144,8 @@ class Officer extends CI_Controller {
 	    	$leaveType = strip_tags($this->input->post('leave-type'));
 	    	$proceedingDate = strip_tags($this->input->post('proceeding-date'));
 	    	$data['supervisor'] = $this->officer_model->get_supervisor($data['id']);
-	    	$this->officer_model->create_officer_leave($data['id'], $leaveType, 
+	    	$model = $data['designation']."_model";
+	    	$this->$model->create_officer_leave($data['id'], $leaveType, 
 	    		$proceedingDate, $data['supervisor']['officer_id']);
 			redirect($this->session->userdata('home').'/leaves');
 	    }
