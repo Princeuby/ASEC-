@@ -10,8 +10,8 @@
 				<section id="leaveapproval">
 					<h3>Pending Leave Approval</h3>
 					<hr>
-					<table class="alt">
-						<tbody>
+					<table>
+						<thead>
 							<tr>
 								<th>Officer Name</th>
 								<th>Officer Rank</th>
@@ -22,7 +22,9 @@
 								<th>Supervisor Recommendation</th>
 								<th>Approval Status</th>
 							</tr>
-							<?php echo form_open("$designation/pending_leaves") ?>
+						</thead>
+						<?php echo form_open("$designation/pending_leaves") ?>
+						<tbody>
 							<?php foreach ($pending_leaves as $requests):?>
 								<?php 
 								echo "<tr>";

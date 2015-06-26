@@ -16,23 +16,23 @@
 						<th></th>
 					</tr>
 				</thead>
+				<?php echo form_open("$designation/view_activity_reports") ?>
 				<tbody>
-					<?php echo form_open("$designation/view_activity_reports") ?>
-						<?php foreach ($reports as $report):?>
-							<?php
-							echo "<tr>";
-								echo "<td>$report[date_timeIn]</td>";
-								echo "<td>$report[officer_name]</td>";
-								echo "<td>$report[shift]</td>";
-								echo "<td>$report[previous_officer_name]</td>";
-								echo "<td>$report[next_officer_name]</td>";
-								echo "<td>$report[date_timeOut]</td>";
-								echo "<td><button class='link-button' name='report_id' value='$report[report_id]'>
-								View</button></td>";
-							 echo "</tr>";
-							 ?>
-						<?php endforeach ?>
-					</form>
+					<?php foreach ($reports as $report):?>
+						<?php
+						echo "<tr>";
+							echo "<td>$report[date_timeIn]</td>";
+							echo "<td>$report[officer_name]</td>";
+							echo "<td>$report[shift]</td>";
+							echo "<td>$report[previous_officer_name]</td>";
+							echo "<td>$report[next_officer_name]</td>";
+							echo "<td>$report[date_timeOut]</td>";
+							echo "<td><button class='link-button' name='report_id' value='$report[report_id]'>
+							View</button></td>";
+						 echo "</tr>";
+						 ?>
+					<?php endforeach ?>
+				</form>
 				</tbody>
 			</table>
 			<section id="report">

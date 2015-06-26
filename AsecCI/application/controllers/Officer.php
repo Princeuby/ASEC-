@@ -4,10 +4,10 @@ class Officer extends CI_Controller {
 	public function __construct() {
         parent::__construct();
 		$this->load->library('session');
-		$this->session->set_userdata('model', $this->session->userdata('home').'_model');
-        $this->load->model($this->session->userdata('model'));
 		if ($this->session->userdata('officerID') === null) 
 			redirect('login/logout');
+		$this->session->set_userdata('model', $this->session->userdata('home').'_model');
+        $this->load->model($this->session->userdata('model'));
     }
 	
 	public function index() {

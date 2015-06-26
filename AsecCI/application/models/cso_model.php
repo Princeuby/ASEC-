@@ -35,7 +35,8 @@ class CSO_Model extends Supervisor_Model {
 			'approved_date' => date('Y-m-d'),
 			'comments' => $comments
 		);
-		$this->db->update('leaves', $data, "leaves_id = $leaveID");
+		// echo $leavesID; die();
+		$this->db->update('leaves', $data, "leaves_id = $leavesID");
 	}
 }
 ?>

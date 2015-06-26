@@ -35,11 +35,11 @@
 						<?php endforeach ?>
 					</div>
 				</section>
-				<hr id="incidents"><br>
+				<hr><br>
 				<section class="10u 12u$(mobile) center">
 					<?php echo form_open("$designation/activity_report") ?>
-					    <label class="6u center"><input type="text" name="incident-type" placeholder="Incident" required></label>
-					    <label><textarea name="incident-details"></textarea></label><br>
+					    <label class="6u center">Incident Type<input type="text" name="incident-type" placeholder="Inventory" required></label>
+					    <label class="center">Incident Details<textarea name="incident-details"></textarea></label><br>
 					    <input type="submit" name="submit" value="Add Incident">
 					</form>
 				</section>

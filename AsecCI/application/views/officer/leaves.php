@@ -10,7 +10,7 @@
 						<h3>Leave Details</h3>
 						<hr>
 						<table class="10u 12u$(mobile) center">
-							<tbody>
+							<thead>
 								<tr>
 									<th>Leave Type</th>
 									<th>Proceeding Date</th>
@@ -19,6 +19,8 @@
 									<th>Approval Status</th>
 									<th>Comments</th>
 								</tr>
+							</thead>
+							<tbody>
 								<?php foreach ($leaves as $leave):?>
 									<?php
 									echo "<tr>";

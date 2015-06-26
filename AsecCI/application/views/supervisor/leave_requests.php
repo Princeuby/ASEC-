@@ -17,8 +17,8 @@
 				<section id="leaverequests">
 					<h3>Pending Leave Requests</h3>
 					<hr>
-					<table class="6u 12u$(mobile) center">
-						<tbody>
+					<table class="10u 12u$(mobile) center">
+						<thead>
 							<tr>
 								<th>Officer Name</th>
 								<th>Officer Rank</th>
@@ -26,6 +26,8 @@
 								<th>Proceeding Date</th>
 								<th>Recommendation</th>
 							</tr>
+						</thead>
+						<tbody>
 							<?php foreach ($leave_requests as $requests):?>
 								<?php
 								echo "<tr>";
@@ -34,7 +36,7 @@
 									echo "<td>$requests[rank]</td>";
 									echo "<td>$requests[leave_type]</td>";
 									echo "<td>$requests[proceeding_date]</td>";
-									echo "<td><button id='recCom' onclick='setFocus()' value='$requests[leaves_id]'>Add Recommendation</button></td>";
+									echo "<td><button class='link-button' id='recCom' onclick='setFocus()' value='$requests[leaves_id]'>Add</button></td>";
 								 echo "</tr>";
 								 ?>
 							<?php endforeach ?>
