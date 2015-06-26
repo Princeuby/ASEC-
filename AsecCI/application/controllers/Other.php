@@ -36,23 +36,5 @@ class Other extends Supervisor {
 		parent::leaves();
 	}
 
-
-	public function add_recommendation() {
-		$this->load->helper('form');
-	    $this->load->library('form_validation');
-
-		$this->form_validation->set_rules('recommendation-days', 'Number', 'required');
-	    $this->form_validation->set_rules('recommendation-comment', 'Text', 'required');
-
-	    if ($this->form_validation->run() === TRUE) {
-			$leaveID = strip_tags($this->input->post('buttonValue'));
-	    	$entitledDays = strip_tags($this->input->post('recommendation-days'));
-	    	$recommendation = strip_tags($this->input->post('recommendation-comment'));
-	    	$this->supervisor_model->set_recommendation($leaveID, $entitledDays, $recommendation);
-	    	redirect($this->session->userdata('home').'/leave_requests');
-		}
-		$data['failed_recommendation'] = "Failed to add recommendation, Please try again!";
-		redirect($this->session->userdata('home').'/leave_requests');
-	}
 }
 ?>

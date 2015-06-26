@@ -22,7 +22,7 @@ class Other_Model extends Supervisor_Model {
 		parent::get_officer_leaves();
 	}
 
-	public function create_officer_leaves($officerID, $leaveType, $proceedingDate, $supervisorID) {
+	public function create_officer_leave($officerID, $leaveType, $proceedingDate, $supervisorID) {
 		$data = array( // Data for insert statement
 			'leave_type' => $leaveType,
 			'officer_id' => $officerID,
@@ -33,19 +33,5 @@ class Other_Model extends Supervisor_Model {
 		$query = $this->db->insert('leaves', $data);
 	}
 
-	public function get_supervisor($officerID) {
-		parent::get_supervisor();
-	}
-
-
-	//Adds supervisor recommendation for leave
-	public function set_recommendation($leaveID, $entitledDays, $recommendation) {
-		$data = array( // Data for update statement
-			'leaves_id' => $leaveID,
-			'entitled_days' => $entitledDays,
-			'recommendation' => $recommendation
-		);
-		$this->db->update('leaves', $data, "leaves_id = $leaveID");
-	}
 }
 ?>
