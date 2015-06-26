@@ -10,7 +10,7 @@
 				<section id="leaveapproval">
 					<h3>Pending Leave Approval</h3>
 					<hr>
-					<table class="6u 12u$(mobile) center">
+					<table class="alt">
 						<tbody>
 							<tr>
 								<th>Officer Name</th>
@@ -34,7 +34,7 @@
 									echo "<td>$requests[proceeding_date]</td>";
 									echo "<td>$requests[entitled_days]</td>";
 									echo "<td>$requests[recommendation]</td>";
-									echo "<td><button name='setApp' value='$requests[leaves_id]'>Set Approval</button></td>";
+									echo "<td><button class='link-button' name='setApp' value='$requests[leaves_id]'>Set Approval</button></td>";
 								 echo "</tr>";
 								 ?>
 							<?php endforeach ?>
@@ -43,7 +43,7 @@
 					</table>
 				</section>
 				<?php echo "<span><h3>$failed_approval</h3></span>"; ?>
-				<section id="setApproval" class="6u 12u$(mobile) center">
+				<section id="setApproval" class="10u 12u$(mobile) center">
 					<script> window.location.hash = "setApproval"; </script>
 					<?php echo form_open("$designation/leave_approval") ?>
 						<?php 
