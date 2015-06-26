@@ -29,7 +29,7 @@ class CSO_Model extends Supervisor_Model {
 	}
 
 	public function get_leave_record($leavesID) {
-		$query = $this->db->get_where('leaves', 'leaves_id => $leavesID');
+		$query = $this->db->get_where('leaves', array('leaves_id' => $leavesID));
 		return $query->row_array();
 	}
 
@@ -46,7 +46,8 @@ class CSO_Model extends Supervisor_Model {
 
 	public function set_approval_status($leavesID, $proceedingDate, $entitledDays, $approvedStatus, $comments) {
 		$daysToAdd = $entitledDays . " Days";
-		$returningDate = date_add($proceedingDate, date_interval_create_from_date_string($daysToAdd));
+		$returningDate = date_add(date_create($proceedingDate), date_interval_create_from_date_string($daysToAdd));
+		$returningDate = date_format($returningDate,"Y-m-d");
 		$data = array(//Data for update statement
 			'entitled_days' => $entitledDays,
 			'returning_date' => $returningDate,
@@ -54,9 +55,4 @@ class CSO_Model extends Supervisor_Model {
 			'approved_date' => date('Y-m-d'),
 			'comments' => $comments
 		);
-		echo $proceedingDate . " " . $returningDate;
-		die();
-		$query = $this->db->update('leaves', $data, "leaves_id = $leavesID");
-	}	
-}
 ?>

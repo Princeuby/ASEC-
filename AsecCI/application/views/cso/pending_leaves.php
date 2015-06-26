@@ -22,7 +22,7 @@
 								<th>Supervisor Recommendation</th>
 								<th>Approval Status</th>
 							</tr>
-							<?php form_open("$designation/pending_leaves") ?>
+							<?php echo form_open("$designation/pending_leaves") ?>
 							<?php foreach ($pending_leaves as $requests):?>
 								<?php 
 								echo "<tr>";
@@ -46,17 +46,19 @@
 				<section id="setApproval" class="6u 12u$(mobile) center">
 					<script> window.location.hash = "setApproval"; </script>
 					<?php echo form_open("$designation/leave_approval") ?>
-						<?php echo "<label>Entilted Days: <input required type='number' min='1' max='365' id='approval-days' name='approval-days' 
-						class='size-input' value='$selected_leave[entitled_days]'></label>"; ?>
-						<label>Approval Status: <select required name="approval-status" class="size-input">
-								<option value="" disabled selected>Set Approval</option>
-								<option value="approved">Approved</option>
-								<option value="not-approved">Not Approved</option>
-							</select></label>
-						<label>Comments: <textarea name="approval-comment"></textarea></label><br>
-						<input type="hidden" name="buttonLeaveId" value="">
-						<input type="hidden" name="buttonProceedingDate" value="">
-						<input type="submit" name="submit" id="leaApp" value="Set Approval">
+						<?php 
+							echo "<label>Entilted Days: <input required type='number' min='1' max='365' id='approval-days' name='approval-days' 
+							class='size-input' value='$selected_leave[entitled_days]'></label>";
+							echo "<label>Approval Status: <select required name='approval-status' class='size-input'>
+									<option value='' disabled selected>Set Approval</option>
+									<option value='Approved'>Approved</option>
+									<option value='Not Approved'>Not Approved</option>
+								</select></label>";
+							echo "<label>Comments: <textarea name='approval-comment'></textarea></label><br>";
+							echo "<input type='hidden' name='buttonLeaveId' value='$selected_leave[leaves_id]'>";
+							echo "<input type='hidden' name='buttonProceedingDate' value='$selected_leave[proceeding_date]'>";
+							echo "<input type='submit' name='submit' id='leaApp' value='Set Approval'>";
+						?>
 					</form>
 				</section>
 			</section>

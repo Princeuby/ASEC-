@@ -150,7 +150,7 @@ class Officer extends CI_Controller {
 			redirect($this->session->userdata('home').'/leaves');
 	    }
 
-	    $this->load->view($this->session->userdata('home').'/leaves');
+	    $this->load->view($this->session->userdata('home').'/leaves', $data);
 	    $this->load->view('templates/footer');
 	}
 }	

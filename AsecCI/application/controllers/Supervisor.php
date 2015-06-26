@@ -55,7 +55,7 @@ class Supervisor extends Officer {
 	    $this->load->view('templates/header', $data);
 	    $this->load->view('templates/nav', $data);
 	    
-	    $this->load->view($this->session->userdata('home').'/leave_requests');
+	    $this->load->view($this->session->userdata('home').'/leave_requests', $data);
 	    $this->load->view('templates/footer');
 	}
 

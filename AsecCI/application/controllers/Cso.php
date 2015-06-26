@@ -54,10 +54,10 @@ class Cso extends Officer {
 	    
 	    if ($this->input->post('setApp')) {
 	    	$data['selected_leave'] = $this->cso_model->get_leave_record($this->input->post('setApp'));
-	    	$data['display_approval'] = 'block';	
+	    	$data['display_approval'] = 'block';
 	    }
 
-	    $this->load->view($this->session->userdata('home').'/pending_leaves');
+	    $this->load->view($this->session->userdata('home').'/pending_leaves', $data);
 	    $this->load->view('templates/footer');
 	}
  
@@ -80,7 +80,7 @@ class Cso extends Officer {
 	    		$approvedStatus = '0';
 	    	}
 	    	$comments = strip_tags($this->input->post('approval-comment'));
-	    	$this->supervisor_model->set_approval_status($leaveID, $proceedingDate, $entitledDays, $approvedStatus, $comments);
+	    	$this->cso_model->set_approval_status($leaveID, $proceedingDate, $entitledDays, $approvedStatus, $comments);
 	    	redirect($this->session->userdata('home').'/pending_leaves');
 		}
 		$data['failed_approval'] = "Failed to approve leave, Please try again!";
