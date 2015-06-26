@@ -1,5 +1,6 @@
 <?php
-require_once 'Supervisor.php';
+require_once 'supervisor_model.php';
+
 class Other_Model extends Supervisor_Model {
 
 	public function __construct() {
@@ -23,14 +24,7 @@ class Other_Model extends Supervisor_Model {
 	}
 
 	public function create_officer_leave($officerID, $leaveType, $proceedingDate, $supervisorID) {
-		$data = array( // Data for insert statement
-			'leave_type' => $leaveType,
-			'officer_id' => $officerID,
-			'proceeding_date' => $proceedingDate,
-			'supervisor_id_leaves' => $supervisorID,
-			'low_rank' => 0			
-		);
-		$query = $this->db->insert('leaves', $data);
+		parent::create_officer_leave;
 	}
 
 }

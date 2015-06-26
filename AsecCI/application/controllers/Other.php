@@ -5,8 +5,6 @@ class Other extends Supervisor {
 
 	public function __construct() {
             parent::__construct();
-            $this->load->model('supervisor_model');
-            
     }
 	
 	public function index() {
