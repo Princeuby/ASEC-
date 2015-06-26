@@ -5,7 +5,6 @@ class Supervisor extends Officer {
 
 	public function __construct() {
         parent::__construct();
-        $this->load->model('supervisor_model');
     }
 	
 	public function index() {
@@ -41,7 +40,7 @@ class Supervisor extends Officer {
 	public function leave_requests() {
 		$data = $this->set_data('Leave Requests');	
 		//Gets leave request information for supervisor
-		$data['leave_requests'] = $this->supervisor_model->get_leave_requests($data['id']);
+		$data['leave_requests'] = $this->{$this->session->userdata('model')}->get_leave_requests($data['id']);
 		$data['display_requests'] = 'block';
 		$data['no_requests'] = '';
 		$data['failed_recommendation'] = '';
@@ -73,7 +72,7 @@ class Supervisor extends Officer {
 			$leaveID = strip_tags($this->input->post('buttonValue'));
 	    	$entitledDays = strip_tags($this->input->post('recommendation-days'));
 	    	$recommendation = strip_tags($this->input->post('recommendation-comment'));
-	    	$this->supervisor_model->set_recommendation($leaveID, $entitledDays, $recommendation);
+	    	$this->{$this->session->userdata('model')}->set_recommendation($leaveID, $entitledDays, $recommendation);
 	    	redirect($this->session->userdata('home').'/leave_requests');
 		}
 		$data['failed_recommendation'] = "Failed to add recommendation, Please try again!";

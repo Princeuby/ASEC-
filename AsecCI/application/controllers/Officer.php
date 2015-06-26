@@ -3,8 +3,9 @@ class Officer extends CI_Controller {
 	
 	public function __construct() {
         parent::__construct();
-        $this->load->model('officer_model');
 		$this->load->library('session');
+		$this->session->set_userdata('model', $this->session->userdata('home').'_model');
+        $this->load->model($this->session->userdata('model'));
 		if ($this->session->userdata('officerID') === null) 
 			redirect('login/logout');
     }
@@ -37,13 +38,13 @@ class Officer extends CI_Controller {
 		$data = $this->set_data('Activity Report');
 		// Gets activity report for current shift
 		$current_day = date('Y-m-d'); // Current day
-		$shift = $this->officer_model->get_shift(); // Current shift
-		$data['report'] = $this->officer_model->get_activity_reports($data['id'], $current_day, $shift);
-		$data['previous_officer_name'] = $this->officer_model->get_officer_name($data['report']['previous_officer_id']);
+		$shift = $this->{$this->session->userdata('model')}->get_shift(); // Current shift
+		$data['report'] = $this->{$this->session->userdata('model')}->get_activity_reports($data['id'], $current_day, $shift);
+		$data['previous_officer_name'] = $this->{$this->session->userdata('model')}->get_officer_name($data['report']['previous_officer_id']);
 		$data['display_create'] = 'None'; // Sets CSS display rule of create activity report form in the view
 		$data['display_report'] = 'block'; // Sets CSS display rule of new created report in the view
 		$data['display_incidents'] = 'block'; // Sets CSS display rule of incident section in the view
-		$data['incidents'] = $this->officer_model->get_incidents($data['report']['report_id']);
+		$data['incidents'] = $this->{$this->session->userdata('model')}->get_incidents($data['report']['report_id']);
 		// Checks if activity report has been created
 		if (empty($data['report'])) {
 			// Creates new activity report
@@ -68,7 +69,7 @@ class Officer extends CI_Controller {
 			// Keeps relevant tags for html formatting
 			$incidentDetails = strip_tags($this->input->post('incident-details'),
 				"<p><ul><ol><li><span><strong><em><h1><h2><h3><h4><h5><h6><blockquote><pre>");
-			$this->officer_model->create_incidents($data['report']['report_id'],
+			$this->{$this->session->userdata('model')}->create_incidents($data['report']['report_id'],
 			$incidentType, $incidentDetails);
 			redirect($this->session->userdata('home').'/activity_report');
 		}
@@ -86,7 +87,7 @@ class Officer extends CI_Controller {
 		if ($this->form_validation->run() === TRUE) {
 			$previousOfficerID = strip_tags($this->input->post('prevID'));
 			$officerID = $this->session->userdata('officerID');
-			$this->officer_model->create_activity_report($officerID,$previousOfficerID); 
+			$this->{$this->session->userdata('model')}->create_activity_report($officerID,$previousOfficerID); 
 		}
 		redirect($this->session->userdata('home').'/activity_report');		
 	}
@@ -99,11 +100,11 @@ class Officer extends CI_Controller {
 		
 		if ($this->form_validation->run() === TRUE) {
 			$current_day = date('Y-m-d'); // Current day
-			$shift = $this->officer_model->get_shift(); // Current shift
-			$report = $this->officer_model->get_activity_reports(
+			$shift = $this->{$this->session->userdata('model')}->get_shift(); // Current shift
+			$report = $this->{$this->session->userdata('model')}->get_activity_reports(
 				$this->session->userdata('officerID'), $current_day, $shift);
 			$nextOfficerID = strip_tags($this->input->post('nextID'));
-			$this->officer_model->close_activity_report($report['report_id'],$nextOfficerID); 
+			$this->{$this->session->userdata('model')}->close_activity_report($report['report_id'],$nextOfficerID); 
 		}
 		redirect($this->session->userdata('home').'/activity_report');	
 	}
@@ -111,13 +112,13 @@ class Officer extends CI_Controller {
 	public function view_activity_reports() {
 		$data = $this->set_data('View Activity Reports');	
 		$this->load->helper('form');
-		$data['reports'] = $this->officer_model->get_activity_reports();
+		$data['reports'] = $this->{$this->session->userdata('model')}->get_activity_reports();
 		for ($i = 0; $i < count($data['reports']); $i ++) {
-			$data['reports'][$i]['officer_name'] = $this->officer_model->get_officer_name(
+			$data['reports'][$i]['officer_name'] = $this->{$this->session->userdata('model')}->get_officer_name(
 				$data['reports'][$i]['officer_id']);
-			$data['reports'][$i]['previous_officer_name'] = $this->officer_model->get_officer_name(
+			$data['reports'][$i]['previous_officer_name'] = $this->{$this->session->userdata('model')}->get_officer_name(
 				$data['reports'][$i]['previous_officer_id']);
-			$data['reports'][$i]['next_officer_name'] = $this->officer_model->get_officer_name(
+			$data['reports'][$i]['next_officer_name'] = $this->{$this->session->userdata('model')}->get_officer_name(
 				$data['reports'][$i]['next_officer_id']);
 		}
 		$data['display_reports'] = 'None';
@@ -125,16 +126,16 @@ class Officer extends CI_Controller {
 		$this->load->view('templates/nav', $data);
 		
 		if ($this->input->post('report_id')) {
-			$data['selected_report'] = $this->officer_model->get_activity_reports(TRUE,
+			$data['selected_report'] = $this->{$this->session->userdata('model')}->get_activity_reports(TRUE,
 				FALSE,FALSE,$this->input->post('report_id'));
 				
-			$data['previous_officer_name'] = $this->officer_model->get_officer_name(
+			$data['previous_officer_name'] = $this->{$this->session->userdata('model')}->get_officer_name(
 				$data['selected_report']['previous_officer_id']);
-			$data['officer_name'] = $this->officer_model->get_officer_name(
+			$data['officer_name'] = $this->{$this->session->userdata('model')}->get_officer_name(
 				$data['selected_report']['officer_id']);
-			$data['next_officer_name'] = $this->officer_model->get_officer_name(
+			$data['next_officer_name'] = $this->{$this->session->userdata('model')}->get_officer_name(
 				$data['selected_report']['next_officer_id']);
-			$data['incidents'] = $this->officer_model->get_incidents(
+			$data['incidents'] = $this->{$this->session->userdata('model')}->get_incidents(
 				$data['selected_report']['report_id']);
 			$data['display_reports'] = 'block';
 		}		
@@ -145,7 +146,7 @@ class Officer extends CI_Controller {
 	public function leaves() {
 		$data = $this->set_data('Leaves');	
 		//Gets leave information for officer
-		$data['leaves'] = $this->officer_model->get_officer_leaves($data['id']);
+		$data['leaves'] = $this->{$this->session->userdata('model')}->get_officer_leaves($data['id']);
 		for ($i = 0; $i < count($data['leaves']); $i ++) {
 			if ($data['leaves'][$i]['returning_date'] === Null) {
 				$data['leaves'][$i]['returning_date'] = "Not Assigned";
@@ -182,9 +183,8 @@ class Officer extends CI_Controller {
 	    if ($this->form_validation->run() === TRUE) {
 	    	$leaveType = strip_tags($this->input->post('leave-type'));
 	    	$proceedingDate = strip_tags($this->input->post('proceeding-date'));
-	    	$data['supervisor'] = $this->officer_model->get_supervisor($data['id']);
-	    	$model = $data['designation']."_model";
-	    	$this->$model->create_officer_leave($data['id'], $leaveType, 
+	    	$data['supervisor'] = $this->{$this->session->userdata('model')}->get_supervisor($data['id']);
+	    	$this->{$this->session->userdata('model')}->create_officer_leave($data['id'], $leaveType, 
 	    		$proceedingDate, $data['supervisor']['officer_id']);
 			redirect($this->session->userdata('home').'/leaves');
 	    }
