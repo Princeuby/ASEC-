@@ -123,18 +123,20 @@ h1 {
 .link-button {
 	background-image: none;
 	background-color: transparent;
-	border: 1px solid #81918E;
+	border: 1px solid #222;
 	color: inherit;
 	padding: 0.7em;
 	width: 100%;
 }
 
 .link-button:hover {
-	background-color: #81918E;
+	/*background-color: #81918E;*/
+	background-color: rgb(45, 44, 103);
 	color: #bbb;
 }
 
 .link-button:focus {
-	background-color: #81918E;
+	/*background-color: #81918E;*/
+	background-color: rgb(45, 44, 103);
 	color: #bbb;
 }

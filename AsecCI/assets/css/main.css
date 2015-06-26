@@ -1888,8 +1888,14 @@
 			border-bottom: 1px solid #222;
 		}
 		
+		table tr:nth-child(even) {
+			background-color: #888;
+			background-color: #81918E;
+		}
+		
 		table th {
 			/*color: #81918E;*/
+			color: #000;
 			font-weight: 500;
 		}
 

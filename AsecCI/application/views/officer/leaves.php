@@ -9,7 +9,7 @@
 					<section id="leaves_record">
 						<h3>Leave Details</h3>
 						<hr>
-						<table class="6u 12u$(mobile) center">
+						<table class="10u 12u$(mobile) center">
 							<tbody>
 								<tr>
 									<th>Leave Type</th>
