@@ -2,26 +2,6 @@
 require_once 'supervisor_model.php';
 class CSO_Model extends Supervisor_Model {
 
-	public function __construct() {
-		parent::__construct();
-	}
-
-	public function get_activity_report($officerID) {
-		parent::get_activity_report();
-	}
-
-	public function create_activiy_report($officerID, $previousOfficerID) {
-		parent::create_activity_report();
-	}
-
-	public function get_shift() {
-		parent::get_shift();
-	}
-
-	public function get_supervisor($officerID) {
-		parent::get_supervisor();
-	}
-
 	public function get_officer_details($officerID) {
 		$query = $this->db->get_where('security_officer', 
 			array('officer_id' => $officerID))->row_array();

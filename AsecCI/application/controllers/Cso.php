@@ -4,7 +4,7 @@ require_once 'Officer.php';
 class Cso extends Officer {
 
 	public function __construct() {
-            parent::__construct();     
+       	parent::__construct();     
     }
 
    	public function index() {
@@ -52,7 +52,7 @@ class Cso extends Officer {
 	    $this->load->view('templates/nav', $data);
 	    
 	    if ($this->input->post('setApp')) {
-	    	$data['selected_leave'] = $this->cso{$this->session->userdata('model')}->get_leave_record($this->input->post('setApp'));
+	    	$data['selected_leave'] = $this->{$this->session->userdata('model')}->get_leave_record($this->input->post('setApp'));
 	    	$data['display_approval'] = 'block';
 	    }
 
@@ -79,7 +79,7 @@ class Cso extends Officer {
 	    		$approvedStatus = '0';
 	    	}
 	    	$comments = strip_tags($this->input->post('approval-comment'));
-	    	$this->cso{$this->session->userdata('model')}->set_approval_status($leaveID, $proceedingDate, $entitledDays, $approvedStatus, $comments);
+	    	$this->{$this->session->userdata('model')}->set_approval_status($leaveID, $proceedingDate, $entitledDays, $approvedStatus, $comments);
 	    	redirect($this->session->userdata('home').'/pending_leaves');
 		}
 		$data['failed_approval'] = "Failed to approve leave, Please try again!";
