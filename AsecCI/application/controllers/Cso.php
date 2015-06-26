@@ -4,8 +4,7 @@ require_once 'Officer.php';
 class Cso extends Officer {
 
 	public function __construct() {
-            parent::__construct();
-            $this->load->model('cso_model');        
+            parent::__construct();     
     }
 
    	public function index() {
@@ -34,7 +33,7 @@ class Cso extends Officer {
 	public function pending_leaves() {
 		$data = $this->set_data('Pending Leaves');
 		//Gets all the request for leave
-		$data['pending_leaves'] = $this->cso_model->get_all_leave_requests();
+		$data['pending_leaves'] = $this->{$this->session->userdata('model')}->get_all_leave_requests();
 		$data['display_all_leaves'] = 'block';
 		$data['no_leave_requests'] = '';
 		$data['display_approval'] = 'None';
@@ -53,7 +52,7 @@ class Cso extends Officer {
 	    $this->load->view('templates/nav', $data);
 	    
 	    if ($this->input->post('setApp')) {
-	    	$data['selected_leave'] = $this->cso_model->get_leave_record($this->input->post('setApp'));
+	    	$data['selected_leave'] = $this->cso{$this->session->userdata('model')}->get_leave_record($this->input->post('setApp'));
 	    	$data['display_approval'] = 'block';
 	    }
 
@@ -80,7 +79,7 @@ class Cso extends Officer {
 	    		$approvedStatus = '0';
 	    	}
 	    	$comments = strip_tags($this->input->post('approval-comment'));
-	    	$this->cso_model->set_approval_status($leaveID, $proceedingDate, $entitledDays, $approvedStatus, $comments);
+	    	$this->cso{$this->session->userdata('model')}->set_approval_status($leaveID, $proceedingDate, $entitledDays, $approvedStatus, $comments);
 	    	redirect($this->session->userdata('home').'/pending_leaves');
 		}
 		$data['failed_approval'] = "Failed to approve leave, Please try again!";
