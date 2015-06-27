@@ -27,8 +27,8 @@ class Officer_Model extends CI_Model {
 			'date_timeIn LIKE' => $current_day . '%', 
 			'shift LIKE' => $shift);
 		// Current activity report
-		$query = $this->db->get_where('activity_report', $conditions);
 		$this->db->limit($limit);
+		$query = $this->db->get_where('activity_report', $conditions);
 		return $query->result_array();
 	}
 	

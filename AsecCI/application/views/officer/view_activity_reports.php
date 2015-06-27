@@ -11,7 +11,7 @@
 						<tr>
 							<th>Day</th>
 							<th>Shift</th>
-							<th>Results</th>
+							<th>Max Rows</th>
 							<th></th>
 						</tr>
 					</thead>
