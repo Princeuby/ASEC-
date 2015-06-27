@@ -6,20 +6,20 @@
 				<h2 class="alt">View Activity Report<strong> Details</strong></h2>
 			</header>
 			<?php echo form_open("$designation/view_activity_reports") ?>
-				<table class="8u center">
-					<!--<caption><h3>Filter</h3></caption>-->
+				<table class="8u center size-table">
 					<thead>
 						<tr>
 							<th>Day</th>
 							<th>Shift</th>
 							<th>Results</th>
-							<th>Filter</th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody>	
 					    <tr>
-							<td class="t30"><input type="date" name="day"></td>					
-							<td class="t30"><select name='shift'>
+							<td class="t25"><input type="date" name="day"></td>					
+							<td class="t40"><select name='shift'>
+								<option value='%'>All</option>
 								<?php foreach ($shifts as $shift) {
 									$shift = $shift['shift']; // Bad stuff
 									if ($shift === $selected_shift)
@@ -29,7 +29,7 @@
 										
 								} ?>
 								</select></td>		
-							<td class="t30"><input type="number" name="limit" value="<?php echo $limit; ?>"></td>
+							<td class="t25"><input required type="number" name="limit" min="1" value="<?php echo $limit; ?>"></td>
 							<td class="t10"><button class='link-button' name='filter' value='filter'>
 								Filter</button></td>
 						</tr>

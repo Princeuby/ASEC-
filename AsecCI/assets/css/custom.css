@@ -41,6 +41,9 @@ h1 {
    	.size-input {
    		width: 90%;
    	}
+   .size-table {
+	   width: 100%;
+   }
 
 }
 @media (min-width: 500px) and (max-width: 900px) {
@@ -50,7 +53,9 @@ h1 {
    	.size-input {
    		width: 70%;
    	}
-
+	.size-table {
+	   width: 80%;
+   }
 }
 
 @media (min-width: 900px) {
@@ -141,8 +146,12 @@ h1 {
 	color: #bbb;
 }
 
-.t30 {
-	width: 30%;
+.t40 {
+	width: 40%;
+}
+
+.t25 {
+	width: 25%;
 }
 
 .t10 {

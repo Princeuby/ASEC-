@@ -1573,11 +1573,9 @@
 		/*font-family: 'Source Sans Pro', sans-serif;*/
 		/*font-family: 'Copperplate Gothic Light', sans-serif;*/
 		font-family: inherit;
-		/*font-size: 19pt;*/
-		font-size: 14pt !important;
+		font-size: 19pt;
 		font-weight: 300;
-		/*line-height: 1.75em;*/
-		line-height: 1.5em;
+		line-height: 1.75em;
 		color: #888;
 	}
 
@@ -1887,6 +1885,8 @@
 		}
 			
 			table td > input, table td > select {
+				font-size: 14pt !important;
+				line-height: 1.5em !important;
 				width: 100%;
 			}
 		
