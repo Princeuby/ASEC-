@@ -1573,9 +1573,11 @@
 		/*font-family: 'Source Sans Pro', sans-serif;*/
 		/*font-family: 'Copperplate Gothic Light', sans-serif;*/
 		font-family: inherit;
-		font-size: 19pt;
+		/*font-size: 19pt;*/
+		font-size: 14pt !important;
 		font-weight: 300;
-		line-height: 1.75em;
+		/*line-height: 1.75em;*/
+		line-height: 1.5em;
 		color: #888;
 	}
 
@@ -1812,7 +1814,7 @@
 		background: #bbb;
 		width: 100%;
 		/*border-radius: 0.35em;*/
-		padding: 0.75em 1em 0.75em 1em;
+		padding: 0em 0.5em;
 		box-shadow: inset 0 0.1em 0.1em 0 rgba(0, 0, 0, 0.05);
 		border: solid 1px rgba(0, 0, 0, 0.15);
 		-moz-transition: all 0.35s ease-in-out;
@@ -1883,6 +1885,10 @@
 			color: #000;
 			text-align: left;
 		}
+			
+			table td > input, table td > select {
+				width: 100%;
+			}
 		
 		table tr {
 			border-bottom: 1px solid #222;

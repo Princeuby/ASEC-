@@ -6,24 +6,30 @@ class Officer_Model extends CI_Model {
 		date_default_timezone_set('Africa/Lagos'); // Sets current timezone
     }
 	
+	// Gets single activity report
+	public function get_activity_report($officerID, $current_day,
+		 $shift, $reportID='%') {		
+		$conditions = array( // Conditions to find the correct activity report
+			'officer_id LIKE' => $officerID,
+			'date_timeIn LIKE' => $current_day . '%', 
+			'shift LIKE' => $shift,
+			'report_id LIKE' => $reportID);
+		// Current activity report
+		$query = $this->db->get_where('activity_report', $conditions);
+		return $query->row_array();
+	}
+	
 	// Gets activity reports
-	public function get_activity_reports($officerID=FALSE, $current_day=FALSE, $shift=FALSE, $reportID=FALSE) {
-		if ($officerID === FALSE) {
-			$query = $this->db->get('activity_report');
-			return $query->result_array();
-		}
-		if ($reportID !== FALSE) {
-			$query = $this->db->get_where('activity_report', array('report_id' => $reportID));
-			return $query->row_array();
-		}
+	public function get_activity_reports($officerID, $current_day, $shift, $limit=6) {
 		
 		$conditions = array( // Conditions to find the correct activity report
 			'officer_id' => $officerID,
 			'date_timeIn LIKE' => $current_day . '%', 
-			'shift' => $shift);
+			'shift LIKE' => $shift);
 		// Current activity report
 		$query = $this->db->get_where('activity_report', $conditions);
-		return $query->row_array();
+		$this->db->limit($limit);
+		return $query->result_array();
 	}
 	
 	// Creates a new activity report
@@ -56,6 +62,11 @@ class Officer_Model extends CI_Model {
 		$query = $this->db->get_where('shifts', array('start_time <' => $current_time, 
 			'end_time > ' => $current_time)); // Current shift
 		return $query->row_array()['shift'];
+	}
+	
+	// Gets all the shifts allowed
+	public function get_shifts() {
+		return $this->db->query("SELECT DISTINCT(shift) FROM shifts")->result_array();
 	}
 
 	// Gets leave records for the officer

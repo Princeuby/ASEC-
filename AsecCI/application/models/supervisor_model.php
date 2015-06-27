@@ -34,5 +34,15 @@ class Supervisor_Model extends Officer_Model {
 		);
 		$this->db->update('leaves', $data, "leaves_id = $leaveID");
 	}
+	
+	// Gets activity reports
+	public function get_activity_reports($supervisorID, $current_day, $shift, $limit=6) {
+		$query = $this->db->query("SELECT * FROM activity_report 
+			WHERE date_timeIn LIKE '$current_day%' AND shift LIKE '$shift' AND officer_id IN (
+			SELECT officer_id FROM security_officer WHERE dept_name IN
+		 (SELECT dept_name FROM security_officer WHERE officer_id='$supervisorID')) 
+		 ORDER BY date_timeIn DESC LIMIT 0, $limit");
+		return $query->result_array();
+	}
 }
 ?>
