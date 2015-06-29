@@ -1,6 +1,15 @@
 <?php
 require_once 'officer_model.php';
 class Supervisor_Model extends Officer_Model {
+	public function get_officer_leaves($officerID) {
+		$query = $this->db->query("SELECT security_officer.officer_id, leaves_id, leave_type, leave_comment, 
+			first_name, last_name, proceeding_date, returning_date, comments, approved_status
+			FROM security_officer, leaves 
+			WHERE security_officer.officer_id = leaves.officer_id AND security_officer.officer_id = '$officerID'
+			ORDER BY proceeding_date DESC, returning_date DESC
+			");
+		return $query->result_array();
+	}
 
 	public function create_officer_leave($officerID, $leaveType, $leaveComment, $proceedingDate, $supervisorID) {
 		$data = array( // Data for insert statement
