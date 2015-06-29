@@ -1,10 +1,16 @@
 		<style> /* I had to do this */
 			#leaves_record { display: <?php echo $display_leaves; ?>; }
+			#request_leave { display: <?php echo $display_request; ?>; }
 		</style>	
 				<header>
 					<h2 class="alt">Your Leaves <strong>Records</strong></h2>
 				</header>
 				<section class="center">
+					<?php echo form_open("$designation/leaves"); ?>
+					<?php
+						echo "<input type='submit' name='apply-leave' value='Request Leave'><br>";
+					?>
+					</form>
 					<?php echo "<span><h3>$no_leaves</h3></span>"; ?>
 					<section id="leaves_record">
 						<h3>Leave Details</h3>
@@ -39,7 +45,8 @@
 							</tbody>
 						</table>
 					</section>
-					<section class="6u 12u$(mobile) center">
+					<section id="request_leave" class="6u 12u$(mobile) center">
+						<script>window.location.hash = 'request_leave';</script>
 						<?php echo form_open("$designation/leaves") ?>
 							<?php
 								echo "<label>Leave Type: <select required name='leave-type' class='size-input'>
