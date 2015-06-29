@@ -32,7 +32,12 @@ class Cso extends Officer {
 	    $this->load->view('templates/nav', $data);
 	    
 	    if ($this->input->post('setApp')) {
-	    	$data['selected_leave'] = $this->{$this->session->userdata('model')}->get_leave_record($this->input->post('setApp'));
+	    	$data['selected_leave'] = $this->{$this->session->userdata('model')}->
+	    		get_leave_record($this->input->post('setApp'));
+
+	    	$data['selected_officer'] = $this->{$this->session->userdata('model')}->
+	    		get_officer_details($data['selected_leave']['officer_id']);
+
 	    	$data['display_approval'] = 'block';
 	    }
 

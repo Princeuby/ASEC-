@@ -13,6 +13,7 @@
 							<thead>
 								<tr>
 									<th>Leave Type</th>
+									<th>Reason For Leave</th>
 									<th>Proceeding Date</th>
 									<th>Returning Date</th>
 									<th>Supervisor Name</th>
@@ -25,6 +26,7 @@
 									<?php
 									echo "<tr>";
 										echo "<td>$leave[leave_type]</td>";
+										echo "<td>$leave[leave_comment]</td>";
 										echo "<td>$leave[proceeding_date]</td>";
 										echo "<td>$leave[returning_date]</td>";
 										$supervisor_name = $leave['first_name'] . " " . $leave['last_name'];
@@ -39,7 +41,15 @@
 					</section>
 					<section class="6u 12u$(mobile) center">
 						<?php echo form_open("$designation/leaves") ?>
-						    <label>Leave Type: <input type="text" name="leave-type" placeholder="sick" class="size-input"></label>
+							<?php
+								echo "<label>Leave Type: <select required name='leave-type' class='size-input'>
+									<option value='' disabled selected>Choose Type:</option>
+									<option value='Annual' $disable_annual>Annual</option>
+									<option value='Burial'>Burial</option>
+									<option value='Sick'>Sick</option>
+								</select></label>";	
+							?>
+							<label>Reason For Leave: <textarea name="reason-for-leave"></textarea></label><br>
 						    <label>Proceeding date: <input type="date" name="proceeding-date" min="<?php echo date('Y-m-d'); ?>" class="size-input"></label><br>
 						    <input type="submit" name="submit" value="Request Leave">
 						</form>
