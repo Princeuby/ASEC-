@@ -16,6 +16,7 @@ class Supervisor extends Officer {
 		$data['display_requests'] = 'block';
 		$data['no_requests'] = '';
 		$data['failed_recommendation'] = '';
+		$data['display_recommendation'] = 'None';
 
 		//Check if there is leave request
 		if (empty($data['leave_requests'])) {
@@ -29,6 +30,16 @@ class Supervisor extends Officer {
 	    $this->load->view('templates/header', $data);
 	    $this->load->view('templates/nav', $data);
 	    
+	    if ($this->input->post('recCom')) {
+	    	$data['selected_leave'] = $this->{$this->session->userdata('model')}->
+	    		get_leave_record($this->input->post('recCom'));
+
+	    	$data['selected_officer'] = $this->{$this->session->userdata('model')}->
+	    		get_officer_details($data['selected_leave']['officer_id']);
+
+	    	$data['display_recommendation'] = 'block';
+	    }
+
 	    $this->load->view($this->session->userdata('home').'/leave_requests', $data);
 	    $this->load->view('templates/footer');
 	}
@@ -41,7 +52,7 @@ class Supervisor extends Officer {
 	    $this->form_validation->set_rules('recommendation-comment', 'Text', 'required');
 
 	    if ($this->form_validation->run() === TRUE) {
-			$leaveID = strip_tags($this->input->post('buttonValue'));
+			$leaveID = strip_tags($this->input->post('buttonLeaveId'));
 	    	$entitledDays = strip_tags($this->input->post('recommendation-days'));
 	    	$recommendation = strip_tags($this->input->post('recommendation-comment'));
 	    	$this->{$this->session->userdata('model')}->set_recommendation($leaveID, $entitledDays, $recommendation);

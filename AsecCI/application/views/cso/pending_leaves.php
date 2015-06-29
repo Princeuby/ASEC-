@@ -17,6 +17,7 @@
 								<th>Officer Rank</th>
 								<th>Department</th>
 								<th>Leave Type</th>
+								<th>Reason For Leave</th>
 								<th>Proceeding Date</th>
 								<th>Entitled Days</th>
 								<th>Supervisor Recommendation</th>
@@ -33,6 +34,7 @@
 									echo "<td>$requests[rank]</td>";
 									echo "<td>$requests[dept_name]</td>";
 									echo "<td>$requests[leave_type]</td>";
+									echo "<td>$requests[leave_comment]</td>";
 									echo "<td>$requests[proceeding_date]</td>";
 									echo "<td>$requests[entitled_days]</td>";
 									echo "<td>$requests[recommendation]</td>";
@@ -40,21 +42,29 @@
 								 echo "</tr>";
 								 ?>
 							<?php endforeach ?>
-						</form>
 						</tbody>
+						</form>
 					</table>
 				</section>
 				<?php echo "<span><h3>$failed_approval</h3></span>"; ?>
 				<section id="setApproval" class="10u 12u$(mobile) center">
 					<script> window.location.hash = "setApproval"; </script>
+					<p class="10u 12u$(mobile) center">
+					Officer: <span class="blue-text"><?php $officerName = $selected_officer['first_name'] . " " . $selected_officer['last_name']; 
+						echo $officerName;?></span><br>
+					Rank: <span class="blue-text"><?php echo $selected_officer['rank'];?></span><br>
+					Department: <span class="blue-text"><?php echo $selected_officer['dept_name'];?></span><br>
+					Leave Type: <span class="blue-text"><?php echo $selected_leave['leave_type'];?></span><br>
+					Proceeding Date: <span class="blue-text"><?php echo $selected_leave['proceeding_date'];?></span><br>
+					Reason For Leave: <span class="blue-text"><?php echo $selected_leave['leave_comment'];?></span><br>
+					Recommendation: <span class="blue-text"><?php echo $selected_leave['recommendation'];?></span><br>
 					<?php echo form_open("$designation/leave_approval") ?>
 						<?php 
 							echo "<label>Entilted Days: <input required type='number' min='1' max='365' id='approval-days' name='approval-days' 
 							class='size-input' value='$selected_leave[entitled_days]'></label>";
 							echo "<label>Approval Status: <select required name='approval-status' class='size-input'>
-									<option value='' disabled selected>Set Approval</option>
+									<option value='Not Approved' selected>Not Approved</option>
 									<option value='Approved'>Approved</option>
-									<option value='Not Approved'>Not Approved</option>
 								</select></label>";
 							echo "<label>Comments: <textarea name='approval-comment'></textarea></label><br>";
 							echo "<input type='hidden' name='buttonLeaveId' value='$selected_leave[leaves_id]'>";

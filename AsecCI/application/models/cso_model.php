@@ -4,7 +4,7 @@ class CSO_Model extends Supervisor_Model {
 
 	public function get_officer_details($officerID) {
 		$query = $this->db->get_where('security_officer', 
-			array('officer_id' => $officerID))->row_array();
+			array('officer_id' => $officerID));
 		return $query->row_array();
 	}
 
@@ -15,11 +15,11 @@ class CSO_Model extends Supervisor_Model {
 
 	public function get_all_leave_requests() {
 		$query = $this->db->query("SELECT first_name, last_name, rank, dept_name,
-			leaves_id, leave_type, proceeding_date, entitled_days, recommendation
+			leaves_id, leave_type, leave_comment, proceeding_date, entitled_days, recommendation
 		FROM security_officer, leaves
 		WHERE security_officer.officer_id = leaves.officer_id AND approved_status IS NULL 
 		AND (low_rank ='0' OR recommendation IS NOT NULL) 
-		ORDER BY proceeding_date DESC"
+		ORDER BY proceeding_date"
 		);
 		return $query->result_array();
 	}

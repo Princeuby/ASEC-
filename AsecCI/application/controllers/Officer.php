@@ -193,6 +193,12 @@ class Officer extends CI_Controller {
 			$data['no_leaves'] = "Sorry, you have no leave record";
 		}
 
+		$data['disable_annual'] = '';
+		$data['annual_leave'] = $this->{$model}->check_annual_leave($data['id']);
+		if ($data['annual_leave'] != 0) {
+			$data['disable_annual'] = 'disabled';
+		}
+
 		$this->load->helper('form');
 	    $this->load->library('form_validation');
 		
@@ -204,9 +210,10 @@ class Officer extends CI_Controller {
 
 	    if ($this->form_validation->run() === TRUE) {
 	    	$leaveType = strip_tags($this->input->post('leave-type'));
+	    	$leaveComment = strip_tags($this->input->post('reason-for-leave'));
 	    	$proceedingDate = strip_tags($this->input->post('proceeding-date'));
 	    	$data['supervisor'] = $this->{$model}->get_supervisor($data['id']);
-	    	$this->{$model}->create_officer_leave($data['id'], $leaveType, 
+	    	$this->{$model}->create_officer_leave($data['id'], $leaveType, $leaveComment,
 	    		$proceedingDate, $data['supervisor']['officer_id']);
 			redirect($this->session->userdata('home').'/leaves');
 	    }

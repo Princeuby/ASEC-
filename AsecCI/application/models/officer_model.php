@@ -72,7 +72,7 @@ class Officer_Model extends CI_Model {
 	// Gets leave records for the officer
 	public function get_officer_leaves($officerID) {
 		$query = $this->db->query("SELECT * FROM 
-			(SELECT security_officer.officer_id, leaves_id, leave_type, first_name, last_name, proceeding_date, returning_date, comments, approved_status
+			(SELECT security_officer.officer_id, leaves_id, leave_type, leave_comment, first_name, last_name, proceeding_date, returning_date, comments, approved_status
 			 FROM security_officer, leaves 
 			WHERE security_officer.officer_id = leaves.officer_id) s1
 			
@@ -84,15 +84,25 @@ class Officer_Model extends CI_Model {
 				(SELECT dept_name FROM security_officer WHERE officer_id = '$officerID')) s2
 
 			ON s1.officer_id = '$officerID'
-			ORDER BY s1.proceeding_date, s1.returning_date"
+			ORDER BY s1.proceeding_date DESC, s1.returning_date DESC"
 			);
 		return $query->result_array();
 	}
 
+	//Checks if officer has already had an annual leave
+	public function check_annual_leave($officerID) {
+		$query = $this->db->query("SELECT * FROM leaves 
+			WHERE officer_id = '$officerID' AND leave_type = 'annual' 
+			AND approved_status = '1' 
+			AND YEAR(proceeding_date) = YEAR(CURDATE())");
+		return $query->num_rows();
+	}
+
 	//Creates a new Leave Request
-	public function create_officer_leave($officerID, $leaveType, $proceedingDate, $supervisorID) {
+	public function create_officer_leave($officerID, $leaveType, $leaveComment, $proceedingDate, $supervisorID) {
 		$data = array( // Data for insert statement
 			'leave_type' => $leaveType,
+			'leave_comment' => $leaveComment,
 			'officer_id' => $officerID,
 			'proceeding_date' => $proceedingDate,
 			'supervisor_id_leaves' => $supervisorID,
