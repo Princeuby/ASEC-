@@ -183,8 +183,10 @@ class Officer extends CI_Controller {
 				$data['leaves'][$i]['approved_status'] = "Pending";
 			}
 		}
+
 		$data['display_leaves'] = '';
 		$data['no_leaves'] = '';
+		$data['display_request'] = 'None';
 
 		//Check if there is leave history
 		if (empty($data['leaves'])) {
@@ -200,6 +202,11 @@ class Officer extends CI_Controller {
 		}
 
 		$this->load->helper('form');
+
+		if ($this->input->post('apply-leave')) {
+	    	$data['display_request'] = 'block';
+	    }
+
 	    $this->load->library('form_validation');
 		
 		$this->form_validation->set_rules('leave-type', 'Text', 'required');
