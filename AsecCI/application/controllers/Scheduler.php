@@ -29,12 +29,40 @@ class Scheduler extends CI_Controller {
 		$data['display_l'] = "None";
 		// Rotating algorithm
 		$shifts = ["Morning"=>"Afternoon", "Afternoon"=>"Night", "Night"=>"Morning"];
+		$data['workdays'] = ['None', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+		
+		// Starts the process of getting the schedule
+		$getSchedule = $this->input->post('get-schedule');
+
+		// Sets officer's off days		
+		if ($this->input->post('set-schedule')) {
+			$off_days_1 = $this->input->post('off-day-1');
+			$off_days_2 = $this->input->post('off-day-2');
+			$officers = $this->scheduler_model->get_officers_schedule(
+				$this->session->userdata('location'), $this->session->userdata('last_shift'));
+			for ($i = 0; $i < count($officers); $i++) {
+				$this->scheduler_model->update_officer_schedule($officers[$i]['officer_id'],
+					$data['workdays'][intval($off_days_1[$i])], $data['workdays'][intval($off_days_2[$i])]);
+			}
+			$getSchedule = true; // Kickstarts the next process without form submission
+		}
 		
 		// The beginning of the process
-		if ($this->input->post('get-schedule')) {
-			$data['selected_location'] = $this->input->post('location');
-			$data['selected_shift'] = $this->input->post('shift');
+		if ($getSchedule) {
+			if ($this->input->post('location') && $this->input->post('shift')) {
+				$data['selected_location'] = $this->input->post('location');
+				$data['selected_shift'] = $this->input->post('shift');
+			}
+			else {
+				$data['selected_location'] = $this->session->userdata('location');
+				$data['selected_shift'] = $this->session->userdata('shift');
+			}
 			$data['last_shift'] = $shifts[$data['selected_shift']];
+			
+			// Session variables for some sort of security
+			$this->session->set_userdata('location', $data['selected_location']);
+			$this->session->set_userdata('last_shift', $data['last_shift']);
+			
 			$data['officers'] = $this->scheduler_model->get_officers($data['selected_location'],
 			 	$data['last_shift']);
 			
@@ -92,9 +120,12 @@ class Scheduler extends CI_Controller {
 				$data['schedule_officers'][$k]['officer_name'] = $this->scheduler_model->get_officer_name(
 						$data['schedule_officers'][$k]['officer_id']);
 		}
+		
 		$data['display_s'] = (empty($data['officers'])) ? $data['display_s'] : "";
 		$data['display_l'] = (empty($data['unavailable_officers'])) ? $data['display_l'] : "";
-		$data['workdays'] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+		
+		
+		
 		$this->load->view('templates/header', $data);
 	    $this->load->view('templates/nav');
 	    $this->load->view('scheduler/index');
@@ -103,10 +134,6 @@ class Scheduler extends CI_Controller {
 	
 	public function schedule() {
 		redirect('scheduler');
-	}
-	
-	public function add_schedule() {
-		$this->load->helper('form');
 	}
 	
 }

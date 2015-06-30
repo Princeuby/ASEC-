@@ -37,6 +37,15 @@ class Scheduler_Model extends Officer_Model {
 		$this->db->insert('scheduling_interface', $data);
 	}
 	
+	// Updates an officer's schedule
+	public function update_officer_schedule($officerID, $offDay1, $offDay2) {
+		$data = array(
+			'off_day_1' => $offDay1,
+			'off_day_2' => $offDay2
+		);
+		$this->db->update('scheduling_interface', $data, "officer_id = '$officerID'");
+	}
+	
 	// Deletes an based on location and last shift
 	public function delete_officer_schedule($officerID, $location, $shift, $weekStart) {
 		$data = array(
