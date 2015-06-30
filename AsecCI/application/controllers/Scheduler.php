@@ -24,6 +24,7 @@ class Scheduler extends CI_Controller {
 		$data['shifts'] = $this->scheduler_model->get_shifts();
 		$data['officers'] = [];
 		$data['unavailable_officers'] = [];
+		$data['schedule_officers'] = [];
 		$data['display_s'] = "None";
 		$data['display_l'] = "None";
 		// Rotating algorithm
