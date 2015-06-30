@@ -1803,7 +1803,7 @@
 	form select,
 	form textarea {
 		position: relative;
-		-webkit-appearance: none;
+		/*-webkit-appearance: none;*/
 		display: block;
 		border: 0;
 		outline: 0;
@@ -1819,6 +1819,10 @@
 		-webkit-transition: all 0.35s ease-in-out;
 		-ms-transition: all 0.35s ease-in-out;
 		transition: all 0.35s ease-in-out;
+	}
+	
+	form select {
+		display: inline;
 	}
 
 		form input[type="text"]:focus,
