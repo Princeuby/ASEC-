@@ -13,10 +13,39 @@ class Scheduler_Model extends Officer_Model {
 	}
 	
 	// Gets all officers based on location and last shift
+	public function get_officers_schedule($location, $shift) {
+		return $this->db->query("SELECT * FROM scheduling_interface WHERE 
+			officer_id in (SELECT officer_id FROM officer_locations
+			 WHERE officer_location='$location' AND last_shift='$shift')")->result_array();
+	}
+	
+	// Gets all officers based on location and shift
 	public function get_officers($location, $shift) {
-		return $this->db->query("SELECT * FROM scheduling WHERE shift='$shift' 
-			AND officer_id in (SELECT officer_id FROM officer_locations
-			 WHERE officer_location='$location')")->result_array();
+		return $this->db->query("SELECT * FROM scheduling WHERE 
+			officer_id in (SELECT officer_id FROM officer_locations
+			 WHERE officer_location='$location' AND last_shift='$shift')")->result_array();
+	}
+	
+	// Creates an based on location and last shift
+	public function create_officer_schedule($officerID, $location, $shift, $weekStart) {
+		$data = array(
+			'officer_id' => $officerID,
+			'location' => $location,
+			'shift' => $shift,
+			'week_start' => $weekStart
+		);
+		$this->db->insert('scheduling_interface', $data);
+	}
+	
+	// Deletes an based on location and last shift
+	public function delete_officer_schedule($officerID, $location, $shift, $weekStart) {
+		$data = array(
+			'officer_id' => $officerID,
+			'location' => $location,
+			'shift' => $shift,
+			'week_start' => $weekStart
+		);
+		$this->db->delete('scheduling_interface', $data);
 	}
 	
 	// Updates the leave status
