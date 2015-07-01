@@ -5,7 +5,7 @@
 				<?php //echo "<span><h3>$failed_create</h3></span>"; ?>
 				<section id="createvacancy">
 					<hr/>
-					<?php echo form_open("$designation/application"); ?>
+					<?php echo form_open("vacancy/applicants"); ?>
 						<!-- <input id="SnapHostID" name="SnapHostID" type="hidden" value="78QNNFDX7SNS" /> -->
 						<table border="0" cellpadding="0" cellspacing="0">
 							<tr>
