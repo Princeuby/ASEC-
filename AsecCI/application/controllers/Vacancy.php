@@ -38,17 +38,21 @@ class Vacancy extends CI_Controller {
 	public function view_vacancy() {
 		$data = $this->set_data();
 		$this->load->helper('form');
+		$data['selected_vacancy'] = '';
 
 		if ($this->input->post('viewVac')) {
 			$data['selected_vacancy'] = $this->vacancy_model->
 				get_vacancies($this->input->post('viewVac'));
-			redirect('vacancy/view_vacancy');
-		}
 
-		$this->load->view('templates/header', $data);
-	    $this->load->view('templates/nav', $data);
-	    $this->load->view('vacancy/view_vacancy');
-	    $this->load->view('templates/footer');
+			$this->load->view('templates/header', $data);
+		    $this->load->view('templates/nav', $data);
+		    $this->load->view('vacancy/view_vacancy', $data);
+		    $this->load->view('templates/footer');
+
+		}
+		else {
+			redirect('vacancy');
+		}
 	}
 }
 ?>

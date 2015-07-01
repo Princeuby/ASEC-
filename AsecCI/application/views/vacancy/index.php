@@ -7,8 +7,10 @@
 				foreach ($vacancies as $vacancy): 
 					echo "<section> 
 							<h3>$vacancy[position]</h3>
-							<p>$vacancy[department]</p>
-							<button class='2u 12u$(mobile) center' name='viewVac' value='$vacancy[vacancy_id]'>Click to View/Apply</button>
+							<p><span>Created on: $vacancy[opening_date]</span><br/>
+							$vacancy[department]<br/>
+							<button class='2u 12u$(mobile) center' name='viewVac' 
+								value='$vacancy[vacancy_id]'>Click to View/Apply</button></p>
 						</section>";
 				endforeach;
 				echo form_close();

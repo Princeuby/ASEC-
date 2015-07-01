@@ -16,8 +16,9 @@ class Vacancy_Model extends CI_Model {
 		}
 		$query = $this->db->get_where('vacancy', array(
 			'vacancy_id' => $vacancyID,
-			'opening_date >=' => date('Y-m-d'),
-			'closing_date <=' => date('Y-m-d')));
+			'opening_date <=' => date('Y-m-d'),
+			'closing_date >=' => date('Y-m-d')));
+		// print_r($query->row_array()); die();
 		return $query->row_array();
 	}
 }
