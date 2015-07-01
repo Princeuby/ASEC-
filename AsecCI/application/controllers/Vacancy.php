@@ -54,5 +54,24 @@ class Vacancy extends CI_Controller {
 			redirect('vacancy');
 		}
 	}
+
+	public function applicants() {
+		$data = $this->set_data();
+		$this->load->helper('form');
+		$data['vacancyID'] = '';
+
+		if($this->input->post('apply-now')) {
+			$data['vacancyID'] = $this->input->post('apply-now');
+			
+			$this->load->view('templates/header', $data);
+		    $this->load->view('templates/nav', $data);
+		    $this->load->view('vacancy/applicants', $data);
+		    $this->load->view('templates/footer');
+
+		}
+		else {
+			redirect('vacancy');
+		}
+	}
 }
 ?>

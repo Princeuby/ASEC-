@@ -23,8 +23,9 @@
 						<li>Minimum Education requirement: <?php echo $selected_vacancy['education_level']; ?></li>
 						<?php echo $selected_vacancy['other_specifications']; ?>
 					</ul></span>
-				<button class="2u 12u$(mobile) left" name="apply-now" value="vacancyID">
-					Click to Apply</button>
+				<?php echo form_open('vacancy/applicants'); ?>
+				<button class="2u 12u$(mobile) center" name="apply-now" value="<?php echo $selected_vacancy['vacancy_id']; ?>">
+					Click to Apply</button><?php echo form_close(); ?>
 			</section>
 
 		</div>
