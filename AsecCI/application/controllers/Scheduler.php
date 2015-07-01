@@ -31,9 +31,6 @@ class Scheduler extends CI_Controller {
 		$shifts = ["Morning"=>"Afternoon", "Afternoon"=>"Night", "Night"=>"Morning"];
 		$data['workdays'] = ['None', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 		
-		// Starts the process of getting the schedule
-		$getSchedule = $this->input->post('get-schedule');
-
 		// Sets officer's off days		
 		if ($this->input->post('set-schedule')) {
 			$off_days_1 = $this->input->post('off-day-1');
@@ -44,24 +41,28 @@ class Scheduler extends CI_Controller {
 				$this->scheduler_model->update_officer_schedule($officers[$i]['officer_id'],
 					$data['workdays'][intval($off_days_1[$i])], $data['workdays'][intval($off_days_2[$i])]);
 			}
-			$getSchedule = true; // Kickstarts the next process without form submission
 		}
 		
-		// The beginning of the process
-		if ($getSchedule) {
-			if ($this->input->post('location') && $this->input->post('shift')) {
-				$data['selected_location'] = $this->input->post('location');
-				$data['selected_shift'] = $this->input->post('shift');
-			}
-			else {
-				$data['selected_location'] = $this->session->userdata('location');
-				$data['selected_shift'] = $this->session->userdata('shift');
-			}
+		// Checks if the form was submitted or the session variables were set
+		$getSchedule = false; 
+		if ($this->input->post('get-schedule')) {
+			$data['selected_location'] = $this->input->post('location');
+			$data['selected_shift'] = $this->input->post('shift');
 			$data['last_shift'] = $shifts[$data['selected_shift']];
-			
+			$getSchedule = true; 
+		}
+		else if ($this->session->userdata('location') && $this->session->userdata('last_shift')) {
+			$data['selected_location'] = $this->session->userdata('location');
+			$data['selected_shift'] = $this->session->userdata('selected_shift');
+			$data['last_shift'] = $this->session->userdata('last_shift');
+			$getSchedule = true;
+		}
+		
+		if ($getSchedule) {	
 			// Session variables for some sort of security
 			$this->session->set_userdata('location', $data['selected_location']);
 			$this->session->set_userdata('last_shift', $data['last_shift']);
+			$this->session->set_userdata('selected_shift', $data['selected_shift']);
 			
 			$data['officers'] = $this->scheduler_model->get_officers($data['selected_location'],
 			 	$data['last_shift']);
