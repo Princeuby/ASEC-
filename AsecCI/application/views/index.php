@@ -4,8 +4,11 @@
 			<div class="container">
 				<header>
 					<hr><h1>Security Management System</h1><hr>
+					<section style="margin-left: 80%">
+						<a style='color:white;' href='application.php'>Click to Apply>>></a>
+					</section>
 				</header>
-
+				
 				<section class="6u center size-panel">
 					<img id="big-logo" class="center" src="<?php echo base_url('assets/images/logo.png'); ?>" />
 					<?php echo validation_errors(); ?>
