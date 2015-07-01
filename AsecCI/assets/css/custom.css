@@ -134,16 +134,25 @@ h1 {
 	width: 100%;
 }
 
+button > a {
+	color: #000 !important;
+	border-bottom: none;
+}
+
+button > a:hover {
+	color: #fff !important;
+}
+
 .link-button:hover {
 	/*background-color: #81918E;*/
 	background-color: rgb(45, 44, 103);
-	color: #bbb;
+	color: #fff;
 }
 
 .link-button:focus {
 	/*background-color: #81918E;*/
 	background-color: rgb(45, 44, 103);
-	color: #bbb;
+	color: #fff;
 }
 
 label > .link-button {
@@ -174,6 +183,6 @@ label > .link-button {
 	width: 49%;
 }
 
-.hidden{
-	visibility: hidden;
+.text-left {
+	text-align: left;
 }
