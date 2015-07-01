@@ -79,9 +79,13 @@
 						<?php endforeach ?>
 					</tbody>
 				</table>
-				<label class='display_s t25 center button-label'><button class='link-button t40' name='set-schedule' value='schedule'>
-								Set Schedule</button><button class='link-button t40' name='show-schedule' value='schedule'>
-								<a href="<?php echo base_url('scheduler/show_schedule'); ?>">Show Schedule</a></button></label>
+				<section class='display_s t25 center button-label'>
+					<button class='link-button t40' name='set-schedule' value='schedule'>Set Schedule</button>
+					<button type='button' class='link-button t40' name='show-schedule' value='schedule'
+							onclick="location.href='<?php echo base_url('scheduler/show_schedule'); ?>'">
+							Show Schedule</button>
+				</section>
+				
 				<hr class="display_l">
 			</form>
 			<table class="display_l 6u center size-table">

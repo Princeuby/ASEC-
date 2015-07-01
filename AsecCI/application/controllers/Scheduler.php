@@ -78,10 +78,13 @@ class Scheduler extends CI_Controller {
 					for ($j = 0; $j < count($leaves); $j++) {
 						// Checks if the officer should be marked as being on leave or as returned
 						if ($leaveStatus['leave_status'] == 0 && $leaves[$j]['approved_status'] == 1 &&
-							 strtotime($leaves[$j]['returning_date']) > strtotime(date('Y-m-d'))) {
+							 strtotime($leaves[$j]['returning_date']) > strtotime(date('Y-m-d')) &&
+							 strtotime($leaves[$j]['proceeding_date']) < strtotime(date('Y-m-d'))) {
 							$this->scheduler_model->set_leave_status($officerID, 1);
 							$data['officers'][$i]['returning_date'] = $leaves[$j]['returning_date'];
 							$data['unavailable_officers'][] = $data['officers'][$i];
+							$this->scheduler_model->delete_officer_schedule($officerID, $data['selected_location'],
+								 $data['selected_shift'], date('Y-m-d', strtotime("this Sunday")));
 							unset($data['officers'][$i]);
 							break;
 						}
@@ -95,6 +98,8 @@ class Scheduler extends CI_Controller {
 						else {
 							$data['officers'][$i]['returning_date'] = $recentLeave['returning_date'];
 							$data['unavailable_officers'][] = $data['officers'][$i];	
+							$this->scheduler_model->delete_officer_schedule($officerID, $data['selected_location'],
+								 $data['selected_shift'], date('Y-m-d', strtotime("this Sunday")));
 							unset($data['officers'][$i]);
 						}					
 					}
