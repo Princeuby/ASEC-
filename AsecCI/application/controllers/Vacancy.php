@@ -7,6 +7,7 @@ class Vacancy extends CI_Controller {
 	}
 
 	public function index() {
+		$this->load->helper('form');
 		$data = $this->set_data();
 		$data['vacancies'] = $this->vacancy_model->get_vacancies();
 		$data['no_vacancy'] = '';
@@ -32,6 +33,22 @@ class Vacancy extends CI_Controller {
 
 	public function vacancy() {
 		redirect('vacancy');
+	}
+
+	public function view_vacancy() {
+		$data = $this->set_data();
+		$this->load->helper('form');
+
+		if ($this->input->post('viewVac')) {
+			$data['selected_vacancy'] = $this->vacancy_model->
+				get_vacancies($this->input->post('viewVac'));
+			redirect('vacancy/view_vacancy');
+		}
+
+		$this->load->view('templates/header', $data);
+	    $this->load->view('templates/nav', $data);
+	    $this->load->view('vacancy/view_vacancy');
+	    $this->load->view('templates/footer');
 	}
 }
 ?>
