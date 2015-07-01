@@ -5,7 +5,7 @@ class Cso extends Officer {
 
 	protected function set_data($page='Home') { // sets the data variables to avoid repition
 		$data = parent::set_data($page);
-		$data['functions'] = ['home', 'schedule', 'pending leaves', 'activity report'];
+		$data['functions'] = ['home', 'schedule', 'pending leaves', 'vacancy', 'activity report'];
 
 		return $data;
 	} 
@@ -70,5 +70,46 @@ class Cso extends Officer {
 		$data['failed_approval'] = "Failed to approve leave, Please try again!";
 		redirect($this->session->userdata('home').'/pending_leaves');
  	}
+
+ 	public function vacancy() {
+		$data = $this->set_data('Vacancy');
+		$data['failed_create'] = '';
+
+		$this->load->helper('form');
+		$this->load->library('form_validation');
+
+		$this->load->view('templates/header', $data);
+	    $this->load->view('templates/nav', $data);
+	    $this->load->view($this->session->userdata('home').'/vacancy', $data);
+	    $this->load->view('templates/footer');
+
+		$this->form_validation->set_rules('vacant-position', 'Text', 'required');
+		$this->form_validation->set_rules('vacant-department', 'Text', 'required');
+		$this->form_validation->set_rules('vacant-education-level', 'Text', 'required');
+		$this->form_validation->set_rules('vacant-working-experience', 'Text', 'required');
+		$this->form_validation->set_rules('vacant-other-specifications', 'Text', 'required');
+		$this->form_validation->set_rules('vacant-closing-date', 'date', 'required');
+
+
+	    if ($this->form_validation->run() === TRUE) {
+	    	$position = strip_tags($this->input->post('vacant-position'));
+	    	$department = strip_tags($this->input->post('vacant-department'));
+	    	$educationLevel = strip_tags($this->input->post('vacant-education-level'),
+	    		"<p><ul><ol><li><span><strong><em><h1><h2><h3><h4><h5><h6><blockquote><pre>");
+	    	$workingExperience = strip_tags($this->input->post('vacant-working-experience'),
+	    		"<p><ul><ol><li><span><strong><em><h1><h2><h3><h4><h5><h6><blockquote><pre>");
+	    	$otherSpecifications = strip_tags($this->input->post('vacant-other-specifications'),
+	    		"<p><ul><ol><li><span><strong><em><h1><h2><h3><h4><h5><h6><blockquote><pre>");
+	    	$openingDate = date('Y-m-d');
+	    	$closingDate = strip_tags($this->input->post('vacant-closing-date'));
+
+	    	$this->{$this->session->userdata('model')}->create_vacancy($position, $department, $educationLevel, 
+	    		$workingExperience, $otherSpecifications, $openingDate, $closingDate);
+	    	redirect($this->session->userdata('home'));
+	    }
+	    $data['failed_create'] = "Sorry, creating vacancy failed";
+		// redirect($this->session->userdata('home').'/vacancy');
+	}
+
 }
 ?>

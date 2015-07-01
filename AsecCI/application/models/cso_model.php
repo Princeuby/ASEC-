@@ -38,5 +38,19 @@ class CSO_Model extends Supervisor_Model {
 		// echo $leavesID; die();
 		$this->db->update('leaves', $data, "leaves_id = $leavesID");
 	}
+
+	public function create_vacancy($position, $department, $educationLevel, 
+	    		$workingExperience, $otherSpecifications, $openingDate, $closingDate) {
+		$data = array(//Data for update statement
+			'position' => $position,
+			'department' => $department,
+			'education_level' => $educationLevel,
+			'working_experience' => $workingExperience,
+			'other_specifications' => $otherSpecifications,
+			'opening_date' => $openingDate,
+			'closing_date' => $closingDate
+		);
+		$this->db->insert('vacancy', $data);
+	}
 }
 ?>
