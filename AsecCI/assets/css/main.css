@@ -1579,8 +1579,9 @@
 		color: #888;
 	}
 	
-	select:disabled {
-		background-color: #888;
+	button:disabled, select:disabled, button:disabled:hover {
+		background-color: #888 !important;
+		color: #555 !important;
 	}
 
 	h1, h2, h3, h4, h5, h6 {

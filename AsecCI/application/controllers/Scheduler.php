@@ -124,6 +124,7 @@ class Scheduler extends CI_Controller {
 			// Set the status and disabled property of the set schedule form
 			$data['disabled'] = '';
 			$data['status'] = 'Pending';
+			$data['schedule_officers'][0]['approved'] = 1;
 			$data['color_class'] = 'blue-text';
 			if ($data['schedule_officers'][0]['approved'] === 0) {
 				$data['status'] = 'Not Approved';
