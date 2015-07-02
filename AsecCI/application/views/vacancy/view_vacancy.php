@@ -24,7 +24,7 @@
 						<?php echo $selected_vacancy['other_specifications']; ?>
 					</ul></span>
 				<?php echo form_open('vacancy/applicants'); ?>
-				<button class="2u 12u$(mobile) center" name="apply-now" value="<?php echo $selected_vacancy['vacancy_id']; ?>">
+				<button class="center" name="apply-now" value="<?php echo $selected_vacancy['vacancy_id']; ?>">
 					Click to Apply</button><?php echo form_close(); ?>
 			</section>
 
