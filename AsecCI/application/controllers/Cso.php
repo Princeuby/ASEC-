@@ -84,6 +84,7 @@ class Cso extends Officer {
 	    $this->load->view('templates/footer');
 
 		$this->form_validation->set_rules('vacant-position', 'Text', 'required');
+		$this->form_validation->set_rules('vacant-summary', 'date', 'required');
 		$this->form_validation->set_rules('vacant-department', 'Text', 'required');
 		$this->form_validation->set_rules('vacant-education-level', 'Text', 'required');
 		$this->form_validation->set_rules('vacant-working-experience', 'Text', 'required');
@@ -93,17 +94,19 @@ class Cso extends Officer {
 
 	    if ($this->form_validation->run() === TRUE) {
 	    	$position = strip_tags($this->input->post('vacant-position'));
+	    	$summary = strip_tags($this->input->post('vacant-summary'),
+	    		"<ul><ol><li><span><strong><em><h1><h2><h3><h4><h5><h6><blockquote><pre>");
 	    	$department = strip_tags($this->input->post('vacant-department'));
 	    	$educationLevel = strip_tags($this->input->post('vacant-education-level'),
-	    		"<p><ul><ol><li><span><strong><em><h1><h2><h3><h4><h5><h6><blockquote><pre>");
+	    		"<ul><ol><li><span><strong><em><h1><h2><h3><h4><h5><h6><blockquote><pre>");
 	    	$workingExperience = strip_tags($this->input->post('vacant-working-experience'),
-	    		"<p><ul><ol><li><span><strong><em><h1><h2><h3><h4><h5><h6><blockquote><pre>");
+	    		"<ul><ol><li><span><strong><em><h1><h2><h3><h4><h5><h6><blockquote><pre>");
 	    	$otherSpecifications = strip_tags($this->input->post('vacant-other-specifications'),
-	    		"<p><ul><ol><li><span><strong><em><h1><h2><h3><h4><h5><h6><blockquote><pre>");
+	    		"<ul><ol><li><span><strong><em><h1><h2><h3><h4><h5><h6><blockquote><pre>");
 	    	$openingDate = date('Y-m-d');
 	    	$closingDate = strip_tags($this->input->post('vacant-closing-date'));
 
-	    	$this->{$this->session->userdata('model')}->create_vacancy($position, $department, $educationLevel, 
+	    	$this->{$this->session->userdata('model')}->create_vacancy($position, $summary, $department, $educationLevel, 
 	    		$workingExperience, $otherSpecifications, $openingDate, $closingDate);
 	    	redirect($this->session->userdata('home'));
 	    }

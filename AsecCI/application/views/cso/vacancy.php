@@ -7,6 +7,7 @@
 					<hr/>
 					<?php echo form_open("$designation/vacancy"); ?>
 						Position: <span><input type="text" name="vacant-position"></span>
+						Position Summary: <span><textarea name="vacant-summary"></textarea></span>
 						Department: <span><input type="text" name="vacant-department"></span>
 						Education Level: <span><select name="vacant-education-level" class='size-input'>
 								<option value='' disabled selected>Choose:</option>

@@ -3,8 +3,8 @@
 			</header>
 			<section style="text-align: left;">
 				<!-- &nbsp; -->
-				<p><br>AUN is seeking for a permanent Payroll Accountant. 
-				This position is a local one and opens to indigenous and/or legal residents of Nigeria
+				<p><br>AUN Security department is seeking for a/an <?php echo $selected_vacancy['position']; ?>. 
+				This position is open to everyone.
 				<br>
 				<br><strong>Title: <?php echo $selected_vacancy['position']; ?></strong>
 				<br><strong>Department: <?php echo $selected_vacancy['department']; ?></strong>
@@ -12,7 +12,7 @@
 				<br><strong>Closing Date: <?php echo $selected_vacancy['closing_date']; ?></strong>
 				<br>
 				<br><strong>SUMMARY OF POSITION</strong>
-				<br><em>You will be an officer three and do what he does</em>
+				<br><em><?php echo $selected_vacancy['summary']; ?></em>
 				</p><span>
 				<strong>Working Experience</strong>
 					<ul>
