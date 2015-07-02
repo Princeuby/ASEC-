@@ -45,6 +45,7 @@
 					</tbody>
 				</table>
 			</form>
+			<span>Status: <span class="<?php echo $color_class;?>"><?php echo $status;?></span></span>
 			<?php echo form_open("scheduler/index") ?>
 				<table class="display_s 10u center size-table">
 					<thead>
@@ -53,7 +54,6 @@
 							<th>Officer Name</th>
 							<th>Last Shift</th>
 							<th>Off Days</th>
-							<!--<th></th>-->
 						</tr>
 					</thead>
 					<tbody>	
@@ -62,7 +62,7 @@
 							<td class='t10'><?php echo $officer['officer_id'];?></td>
 							<td class='t25'><?php echo $officer['officer_name'];?></td>
 							<td class='2u'><?php echo $last_shift;?></td>
-							<td><select class="ts" name="off-day-1[]">
+							<td><select class="ts" name="off-day-1[]" <?php echo $disabled?>>
 								<?php for ($i = 0; $i < count($workdays); $i++) {
 									if ($workdays[$i] == $officer['off_day_1'])
 										echo "<option value='$i' selected>$workdays[$i]</option>";
@@ -70,7 +70,7 @@
 										echo "<option value='$i'>$workdays[$i]</option>";
 								} ?>
 								</select>
-								<select class="ts" name="off-day-2[]">
+								<select class="ts" name="off-day-2[]" <?php echo $disabled?>>
 								<?php for ($i = 0; $i < count($workdays); $i++) {
 									if ($workdays[$i] == $officer['off_day_2'])
 										echo "<option value='$i' selected>$workdays[$i]</option>";

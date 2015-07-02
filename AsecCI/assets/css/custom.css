@@ -68,6 +68,14 @@ h1 {
 	color: rgb(45, 44, 103) !important;
 }
 
+.red-text {
+	color: red !important;
+}
+
+.green-text {
+	color: green !important;
+}
+
 #report p {
 	text-align: left !important;
 }

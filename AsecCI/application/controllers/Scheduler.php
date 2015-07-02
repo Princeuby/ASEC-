@@ -121,6 +121,20 @@ class Scheduler extends CI_Controller {
 					 $data['last_shift']);
 			}
 			
+			// Set the status and disabled property of the set schedule form
+			$data['disabled'] = '';
+			$data['status'] = 'Pending';
+			$data['color_class'] = 'blue-text';
+			if ($data['schedule_officers'][0]['approved'] === 0) {
+				$data['status'] = 'Not Approved';
+				$data['color_class'] = 'red-text';
+			}
+			else if ($data['schedule_officers'][0]['approved'] === 1) {
+				$data['disabled'] = 'disabled';
+				$data['status'] = 'Approved';
+				$data['color_class'] = 'green-text';
+			}
+			
 			// Gives the officers names
 			for($k = 0; $k < count($data['schedule_officers']); $k++)
 				$data['schedule_officers'][$k]['officer_name'] = $this->scheduler_model->get_officer_name(
@@ -144,7 +158,6 @@ class Scheduler extends CI_Controller {
 	
 	// Shows the schedule
 	public function show_schedule() {
-	
 		$data = $this->set_data();
 		$data['location'] = $this->session->userdata('location');
 		$data['selected_shift'] = $this->session->userdata('selected_shift');
@@ -160,12 +173,15 @@ class Scheduler extends CI_Controller {
 					$data['days'][$day][] = $this->scheduler_model->get_officer_name($officers[$j]['officer_id']);
 			}
 		}
-		// print_r($data['days']);
-		// die();
 		$this->load->view('templates/header', $data);
 	    $this->load->view('templates/nav');
 	    $this->load->view('scheduler/schedule');
 	    $this->load->view('templates/footer');
+	}
+	
+	public function created_schedule() {
+		$data = $this->set_data();
+		
 	}
 	
 }

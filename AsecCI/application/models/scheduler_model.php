@@ -13,17 +13,20 @@ class Scheduler_Model extends Officer_Model {
 	}
 	
 	// Gets all officers based on location and last shift
-	public function get_officers_schedule($location, $shift) {
-		return $this->db->query("SELECT * FROM scheduling_interface WHERE 
-			officer_id in (SELECT officer_id FROM officer_locations
-			 WHERE officer_location='$location' AND last_shift='$shift')")->result_array();
-	}
-	
-	// Gets all officers based on location and shift
-	public function get_officers($location, $shift) {
+	public function get_officers_schedule($location, $shift, $approval=null) {
+		$sql = '';
+		if ($approval) {
+			$sql = "AND approved='$approval'";
+		}
 		return $this->db->query("SELECT * FROM scheduling WHERE 
 			officer_id in (SELECT officer_id FROM officer_locations
-			 WHERE officer_location='$location' AND last_shift='$shift')")->result_array();
+			 WHERE officer_location='$location' AND last_shift='$shift' $sql)")->result_array();
+	}
+	
+	// Gets all officers based on location and last shift
+	public function get_officers($location, $shift) {
+		return $this->db->query("SELECT officer_id FROM officer_locations
+			 WHERE officer_location='$location' AND last_shift='$shift'")->result_array();
 	}
 	
 	// Creates an based on location and last shift
@@ -34,7 +37,7 @@ class Scheduler_Model extends Officer_Model {
 			'shift' => $shift,
 			'week_start' => $weekStart
 		);
-		$this->db->insert('scheduling_interface', $data);
+		$this->db->insert('scheduling', $data);
 	}
 	
 	// Updates an officer's schedule
@@ -43,7 +46,7 @@ class Scheduler_Model extends Officer_Model {
 			'off_day_1' => $offDay1,
 			'off_day_2' => $offDay2
 		);
-		$this->db->update('scheduling_interface', $data, "officer_id = '$officerID'");
+		$this->db->update('scheduling', $data, "officer_id = '$officerID'");
 	}
 	
 	// Deletes an based on location and last shift
@@ -54,7 +57,7 @@ class Scheduler_Model extends Officer_Model {
 			'shift' => $shift,
 			'week_start' => $weekStart
 		);
-		$this->db->delete('scheduling_interface', $data);
+		$this->db->delete('scheduling', $data);
 	}
 	
 	// Updates the leave status

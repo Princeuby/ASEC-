@@ -1578,6 +1578,10 @@
 		line-height: 1.75em;
 		color: #888;
 	}
+	
+	select:disabled {
+		background-color: #888;
+	}
 
 	h1, h2, h3, h4, h5, h6 {
 		font-weight: 300;
