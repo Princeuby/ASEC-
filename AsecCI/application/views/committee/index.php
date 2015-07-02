@@ -8,7 +8,7 @@
 					echo "<section id='incidents'><div class='10u 12u$(mobile) center'><article>
 							<header>
 								<h3>$active[position]</h3>
-								<span>Closing On: <span class='blue-text'>$active[closing_date]</span></span><br>
+								<span>Application Ends: <span class='blue-text'>$active[closing_date]</span></span><br>
 								<span>Number of Pending Applicants: <span class='blue-text'>$active[applicant_count]</span></span><br>
 							</header>
 							$active[summary]

@@ -9,7 +9,7 @@
 							<header>
 								<h3>$vacancy[position]</h3>
 								<span>Created On: <span class='blue-text'>$vacancy[opening_date]</span></span><br>
-								<span>Closing On: <span class='blue-text'>$vacancy[closing_date]</span></span>
+								<span>Application Ends: <span class='blue-text'>$vacancy[closing_date]</span></span>
 							</header>
 							$vacancy[summary]
 							<br><button class='center' name='viewVac' 
