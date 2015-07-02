@@ -21,5 +21,25 @@ class Vacancy_Model extends CI_Model {
 		// print_r($query->row_array()); die();
 		return $query->row_array();
 	}
+
+	public function create_application($vacancy_id, $first_name, 
+				$middle_name, $last_name, $phone_number, $email, $application_letter,
+				$curriculum_vitae) {
+
+		$data = array( // Data for insert statement
+			'date_of_application' => date('Y-m-d H:i:s'),
+			'first_name' => $first_name,
+			'middle_name' => $middle_name,
+			'last_name' => $last_name,
+			'phone_number' => $phone_number,
+			'email_address' => $email,
+			'application_letter' => $application_letter,
+			'curriculum_vitae' => $curriculum_vitae,
+			'vacancy_id' => $vacancy_id,
+			'application_status' => '1',
+			'applicant_added' => '0'			
+		);
+		$this->db->insert('application', $data);
+	}
 }
 ?>
