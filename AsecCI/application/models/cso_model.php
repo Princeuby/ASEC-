@@ -48,7 +48,8 @@ class CSO_Model extends Supervisor_Model {
 			'working_experience' => $workingExperience,
 			'other_specifications' => $otherSpecifications,
 			'opening_date' => $openingDate,
-			'closing_date' => $closingDate
+			'closing_date' => $closingDate,
+			'vacancy_status' => '1'
 		);
 		$this->db->insert('vacancy', $data);
 	}
