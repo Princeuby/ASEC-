@@ -8,12 +8,12 @@ class Scheduler extends CI_Controller {
         $this->load->model('scheduler_model');
     }
 	
-	public function set_data() {
+	public function set_data($page='Schedule') {
 		$data['title'] = 'Scheduler';
-	    $data['page'] = 'Schedule';
+	    $data['page'] = $page;
 		$data['name'] = 'Schedule Officer';
 		$data['rank'] = '';
-		$data['functions'] = ['Schedule', 'Alter Schedule'];
+		$data['functions'] = ['Schedule', 'Created Schedules', 'Alter Schedule'];
 		return $data;
 	}
 	
@@ -38,6 +38,8 @@ class Scheduler extends CI_Controller {
 			$officers = $this->scheduler_model->get_officers_schedule(
 				$this->session->userdata('location'), $this->session->userdata('last_shift'));
 			for ($i = 0; $i < count($officers); $i++) {
+				if ($data['schedule_officers'][0]['approved'] == 1) 
+					break; // If the schedule has already been approved
 				$this->scheduler_model->update_officer_schedule($officers[$i]['officer_id'],
 					$data['workdays'][intval($off_days_1[$i])], $data['workdays'][intval($off_days_2[$i])]);
 			}
@@ -122,15 +124,17 @@ class Scheduler extends CI_Controller {
 			}
 			
 			// Set the status and disabled property of the set schedule form
-			$data['disabled'] = '';
-			$data['status'] = 'Pending';
-			$data['schedule_officers'][0]['approved'] = 1;
-			$data['color_class'] = 'blue-text';
-			if ($data['schedule_officers'][0]['approved'] === 0) {
+			$data['disabled'] = ''; // For select statements
+			
+			if ($data['schedule_officers'][0]['approved'] === null) {
+				$data['status'] = 'Pending';
+				$data['color_class'] = 'blue-text';
+			}
+			else if ($data['schedule_officers'][0]['approved'] == 0) {
 				$data['status'] = 'Not Approved';
 				$data['color_class'] = 'red-text';
 			}
-			else if ($data['schedule_officers'][0]['approved'] === 1) {
+			else if ($data['schedule_officers'][0]['approved'] == 1) {
 				$data['disabled'] = 'disabled';
 				$data['status'] = 'Approved';
 				$data['color_class'] = 'green-text';
@@ -144,8 +148,6 @@ class Scheduler extends CI_Controller {
 		
 		$data['display_s'] = (empty($data['officers'])) ? $data['display_s'] : "";
 		$data['display_l'] = (empty($data['unavailable_officers'])) ? $data['display_l'] : "";
-		
-		
 		
 		$this->load->view('templates/header', $data);
 	    $this->load->view('templates/nav');
@@ -180,9 +182,29 @@ class Scheduler extends CI_Controller {
 	    $this->load->view('templates/footer');
 	}
 	
-	public function created_schedule() {
-		$data = $this->set_data();
+	public function created_schedules() {
+		$data = $this->set_data('Created Schedules');
+		$this->load->helper('form');		
+		$data['not_approved'] = $this->scheduler_model->get_schedules(0);
+		$data['approved'] = $this->scheduler_model->get_schedules(1);
+		$data['pending'] = $this->scheduler_model->get_schedules();
 		
+		// For showing or hiding the tables
+		$data['display_n'] = '';
+		$data['display_a'] = '';
+		$data['display_p'] = '';
+		
+		if (empty($data['not_approved']))
+			$data['display_n'] = 'None';
+		if (empty($data['approved']))
+			$data['display_a'] = 'None';
+		if (empty($data['pending']))
+			$data['display_p'] = 'None';
+			
+		$this->load->view('templates/header', $data);
+	    $this->load->view('templates/nav');
+	    $this->load->view('scheduler/created_schedules');
+	    $this->load->view('templates/footer');
 	}
 	
 }

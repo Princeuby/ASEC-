@@ -13,20 +13,34 @@ class Scheduler_Model extends Officer_Model {
 	}
 	
 	// Gets all officers based on location and last shift
-	public function get_officers_schedule($location, $shift, $approval=null) {
-		$sql = '';
-		if ($approval) {
-			$sql = "AND approved='$approval'";
-		}
+	public function get_officers_schedule($location, $shift) {
 		return $this->db->query("SELECT * FROM scheduling WHERE 
 			officer_id in (SELECT officer_id FROM officer_locations
-			 WHERE officer_location='$location' AND last_shift='$shift' $sql)")->result_array();
+			 WHERE officer_location='$location' AND last_shift='$shift')")->result_array();
+	}
+	
+	// Gets all the schedules
+	public function get_schedules($approved=null) {
+		$conditions = array(
+			'week_start' => date('Y-m-d', strtotime("this Sunday")),
+			'approved' => $approved
+		);
+		if ($approved === null) {
+			unset($conditions['approved']);
+			$conditions['approved IS null'] = null;
+		}
+		// print_r($conditions);
+		$this->db->group_by(array('location', 'shift'));
+		return $this->db->get_where('scheduling', $conditions)->result_array();
 	}
 	
 	// Gets all officers based on location and last shift
 	public function get_officers($location, $shift) {
-		return $this->db->query("SELECT officer_id FROM officer_locations
-			 WHERE officer_location='$location' AND last_shift='$shift'")->result_array();
+		$conditions = array(
+			'officer_location' => $location,
+			'last_shift' => $shift
+		);
+		return $this->db->get_where('officer_locations', $conditions)->result_array();
 	}
 	
 	// Creates an based on location and last shift
