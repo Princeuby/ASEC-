@@ -94,11 +94,9 @@ class Cso extends Officer {
 
 	    if ($this->form_validation->run() === TRUE) {
 	    	$position = strip_tags($this->input->post('vacant-position'));
-	    	$summary = strip_tags($this->input->post('vacant-summary'),
-	    		"<ul><ol><li><span><strong><em><h1><h2><h3><h4><h5><h6><blockquote><pre>");
+	    	$summary = strip_tags($this->input->post('vacant-summary'));
 	    	$department = strip_tags($this->input->post('vacant-department'));
-	    	$educationLevel = strip_tags($this->input->post('vacant-education-level'),
-	    		"<ul><ol><li><span><strong><em><h1><h2><h3><h4><h5><h6><blockquote><pre>");
+	    	$educationLevel = strip_tags($this->input->post('vacant-education-level'));
 	    	$workingExperience = strip_tags($this->input->post('vacant-working-experience'),
 	    		"<ul><ol><li><span><strong><em><h1><h2><h3><h4><h5><h6><blockquote><pre>");
 	    	$otherSpecifications = strip_tags($this->input->post('vacant-other-specifications'),
