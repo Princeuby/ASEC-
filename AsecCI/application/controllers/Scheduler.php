@@ -27,6 +27,9 @@ class Scheduler extends CI_Controller {
 		$data['schedule_officers'] = [];
 		$data['display_s'] = "None";
 		$data['display_l'] = "None";
+		$data['disabled'] = '';
+		$data['color_class'] = '';
+		$data['status'] = '';
 		// Rotating algorithm
 		$shifts = ["Morning"=>"Afternoon", "Afternoon"=>"Night", "Night"=>"Morning"];
 		$data['workdays'] = ['None', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -124,21 +127,20 @@ class Scheduler extends CI_Controller {
 			}
 			
 			// Set the status and disabled property of the set schedule form
-			$data['disabled'] = ''; // For select statements
-			
-			if ($data['schedule_officers'][0]['approved'] === null) {
-				$data['status'] = 'Pending';
-				$data['color_class'] = 'blue-text';
-			}
-			else if ($data['schedule_officers'][0]['approved'] == 0) {
-				$data['status'] = 'Not Approved';
-				$data['color_class'] = 'red-text';
-			}
-			else if ($data['schedule_officers'][0]['approved'] == 1) {
-				$data['disabled'] = 'disabled';
-				$data['status'] = 'Approved';
-				$data['color_class'] = 'green-text';
-			}
+			if (!empty($data['schedule_officers']))
+				if ($data['schedule_officers'][0]['approved'] === null) {
+					$data['color_class'] = 'blue-text';
+					$data['status'] = 'Pending';
+				}
+				else if ($data['schedule_officers'][0]['approved'] == 0) {
+					$data['status'] = 'Not Approved';
+					$data['color_class'] = 'red-text';
+				}
+				else if ($data['schedule_officers'][0]['approved'] == 1) {
+					$data['disabled'] = 'disabled';
+					$data['status'] = 'Approved';
+					$data['color_class'] = 'green-text';
+				}
 			
 			// Gives the officers names
 			for($k = 0; $k < count($data['schedule_officers']); $k++)

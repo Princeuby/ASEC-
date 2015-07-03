@@ -135,4 +135,13 @@ class Officer_Model extends CI_Model {
 		);
 		$this->db->update('activity_report', $data, "report_id = $reportID");
 	} 
+	
+	// Gets the schedule of the officer for a particular officer and week
+	public function get_schedule($officerID, $weekStart) {
+		$conditions = array(
+			'officer_id' => $officerID,
+			'week_start' => $weekStart
+		);
+		return $this->db->get_where('scheduling', $conditions)->result_array();
+	}
 }

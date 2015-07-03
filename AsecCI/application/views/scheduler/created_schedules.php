@@ -52,7 +52,8 @@
 								    <tr>
 										<td class="t"><?php echo $schedule['location']; ?></td>				
 										<td class="t"><?php echo $schedule['shift']; ?></td>		
-										<td class="t10"><button class='link-button' name='show-schedule' value="">
+										<td class="t10"><button class='link-button' name='show-schedule' value="
+											<?php echo $schedule['location'] .'.'. $schedule['shift']; ?>">
 											Show</button></td>
 									</tr>
 									<?php endforeach ?>
