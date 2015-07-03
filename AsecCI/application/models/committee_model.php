@@ -38,7 +38,7 @@ class Committee_Model extends Officer_Model {
 			'application_status' => '1',
 			'interview_status' => $interviewStatus
 		);
-		if ($interviewStatus = null) {
+		if ($interviewStatus === null) {
 			unset($conditions['interview_status']);
 			$conditions['interview_status IS null'] = null;
 		}
@@ -61,11 +61,21 @@ class Committee_Model extends Officer_Model {
 	}
 
 	public function set_applicant_interview($applicantID, $interviewStatus, $interviewDate) {
-		$data = array( // Data for update statement
+		if ($interviewStatus === '1') {
+			$data = array( // Data for update statement
 			'interview_status' => $interviewStatus,
 			'interview_date_time' => $interviewDate
-		);
-		$this->db->update('application', $data, "applicant_id = $applicantID");
+			);
+			$this->db->update('application', $data, "applicant_id = $applicantID");
+		}
+		else {
+			$data = array( // Data for update statement
+			'interview_status' => $interviewStatus,
+			'interview_date_time' => $interviewDate,
+			'application_status' => '0'
+			);
+			$this->db->update('application', $data, "applicant_id = $applicantID");
+		}
 	}
 }
 ?>

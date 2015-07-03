@@ -110,7 +110,13 @@ class Committee extends Officer {
 			$applicantID = strip_tags($this->input->post('buttonAppID'));
 	    	$interviewStatus = strip_tags($this->input->post('applicant-interview-status'));
 	    	if ($interviewStatus === "Approved") {
-	    		$interviewStatus = '1';
+				$this->form_validation->set_rules('applicant-interview-date', 'date', 'required');
+				if ($this->form_validation->run() === TRUE) {
+					$interviewStatus = '1';
+				}
+				else{
+					redirect($this->session->userdata('home').'/applicants_review');
+				}
 	    	}
 	    	elseif ($interviewStatus === "Not Approved") {
 	    		$interviewStatus = '0';
