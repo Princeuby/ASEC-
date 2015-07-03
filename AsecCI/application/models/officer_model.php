@@ -26,6 +26,7 @@ class Officer_Model extends CI_Model {
 			'officer_id' => $officerID,
 			'date_timeIn LIKE' => $current_day . '%', 
 			'shift LIKE' => $shift);
+		$this->db->order_by('date_timeIn DESC');
 		// Current activity report
 		$query = $this->db->get_where('activity_report', $conditions);
 		$this->db->limit($limit);

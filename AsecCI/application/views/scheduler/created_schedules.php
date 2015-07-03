@@ -28,9 +28,11 @@
 								<td class="t"><?php echo $schedule['location']; ?></td>				
 								<td class="t"><?php echo $schedule['shift']; ?></td>		
 								<td class="t40"><?php echo $schedule['comments']; ?></td>		
-								<td class="t10"><button class='link-button' name='fix' value="">
+								<td class="t10"><button class='link-button' name='fix-schedule' 
+									value="<?php echo $schedule['location'] .'.'. $schedule['shift']; ?>">
 									Fix</button></td>
-								<td class="t10"><button class='link-button' name='show-schedule' value="">
+								<td class="t10"><button class='link-button' name='show-schedule' 
+									value="<?php echo $schedule['location'] .'.'. $schedule['shift']; ?>">
 									Show</button></td>
 							</tr>
 							<?php endforeach ?>
@@ -52,8 +54,8 @@
 								    <tr>
 										<td class="t"><?php echo $schedule['location']; ?></td>				
 										<td class="t"><?php echo $schedule['shift']; ?></td>		
-										<td class="t10"><button class='link-button' name='show-schedule' value="
-											<?php echo $schedule['location'] .'.'. $schedule['shift']; ?>">
+										<td class="t10"><button class='link-button' name='show-schedule' 
+											value="<?php echo $schedule['location'] .'.'. $schedule['shift']; ?>">
 											Show</button></td>
 									</tr>
 									<?php endforeach ?>
@@ -75,7 +77,8 @@
 								    <tr>
 										<td class="t"><?php echo $schedule['location']; ?></td>				
 										<td class="t"><?php echo $schedule['shift']; ?></td>		
-										<td class="t10"><button class='link-button' name='show-schedule' value="">
+										<td class="t10"><button class='link-button' name='show-schedule' 
+											value="<?php echo $schedule['location'] .'.'. $schedule['shift']; ?>">
 											Show</button></td>
 									</tr>
 									<?php endforeach ?>

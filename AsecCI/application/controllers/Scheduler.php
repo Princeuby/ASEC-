@@ -169,6 +169,7 @@ class Scheduler extends Officer {
 		$data = $this->set_data();
 		$data['location'] = $this->session->userdata('location');
 		$data['selected_shift'] = $this->session->userdata('selected_shift');
+
 		$officers = $this->scheduler_model->get_officers_schedule(
 				$data['location'], $this->session->userdata('last_shift'));
 		$data['days'] = $this->get_working_days($officers);
@@ -197,6 +198,28 @@ class Scheduler extends Officer {
 			$data['display_a'] = 'None';
 		if (empty($data['pending']))
 			$data['display_p'] = 'None';
+			
+		$clicked = false;
+		if ($this->input->post('fix')) {
+			list($location, $shift) = explode('.', $this->input->post('fix'));			
+			$redirect = "scheduler";
+			$clicked = true;
+		} 
+		
+		if ($this->input->post('show-schedule')) {
+			list($location, $shift) = explode('.', $this->input->post('show-schedule'));
+			$redirect = "scheduler/show_schedule";
+			$clicked = true;			
+		}
+		
+		if ($clicked) {
+			$shifts = ["Morning"=>"Afternoon", "Afternoon"=>"Night", "Night"=>"Morning"];
+			$this->session->set_userdata('location', $location);
+			$this->session->set_userdata('selected_shift', $shift);
+			$this->session->set_userdata('last_shift',$shifts[$shift]);
+			
+			redirect($redirect);
+		}
 			
 		$this->load->view('templates/header', $data);
 	    $this->load->view('templates/nav');
