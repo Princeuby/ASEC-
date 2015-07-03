@@ -47,8 +47,8 @@
 			</form>
 			<?php echo form_open("scheduler/index") ?>
 				<table class="display_s 10u center size-table">
-					<caption><span>Status: <span class="<?php echo $color_class;?>">
-					<?php echo $status;?></span></span><caption>
+					<caption><h3>Status: <span class="<?php echo $color_class;?>">
+					<?php echo $status;?></span></h3><caption>
 					<thead>
 						<tr>
 							<th>ID</th>

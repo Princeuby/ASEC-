@@ -12,7 +12,7 @@
 			<section>
 				<?php echo form_open("scheduler/created_schedules") ?>
 					<table id="not-approved" class="8u center size-table">
-						<caption class='red-text'>Not Approved</caption>
+						<caption class='red-text'><h3>Not Approved</h3></caption>
 						<thead>
 							<tr>
 								<th>Location</th>
@@ -39,7 +39,7 @@
 					<section class="row">
 						<div id="pending" class="6u 12u$(mobile) center">
 							<table>
-								<caption class='blue-text'>Pending</caption>
+								<caption class='blue-text'><h3>Pending</h3></caption>
 								<thead>
 									<tr>
 										<th>Location</th>
@@ -62,7 +62,7 @@
 						</div>
 						<div id="approved" class="6u 12u$(mobile) center">
 							<table>
-								<caption class='green-text'>Approved</caption>
+								<caption class='green-text'><h3>Approved</h3></caption>
 								<thead>
 									<tr>
 										<th>Location</th>

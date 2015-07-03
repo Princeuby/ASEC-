@@ -1,5 +1,6 @@
 <?php
-class Scheduler extends CI_Controller {
+require 'Officer.php';
+class Scheduler extends Officer {
 	public function __construct() {
         parent::__construct();
 		$this->load->library('session');
@@ -41,10 +42,12 @@ class Scheduler extends CI_Controller {
 			$officers = $this->scheduler_model->get_officers_schedule(
 				$this->session->userdata('location'), $this->session->userdata('last_shift'));
 			for ($i = 0; $i < count($officers); $i++) {
-				if ($data['schedule_officers'][0]['approved'] == 1) 
+				if ($officers[$i]['approved'] == 1) 
 					break; // If the schedule has already been approved
+				$off_days_1[$i] = intval($off_days_1[$i]) % count($data['workdays']); 
+				$off_days_2[$i] = intval($off_days_2[$i]) % count($data['workdays']); 
 				$this->scheduler_model->update_officer_schedule($officers[$i]['officer_id'],
-					$data['workdays'][intval($off_days_1[$i])], $data['workdays'][intval($off_days_2[$i])]);
+					$data['workdays'][$off_days_1[$i]], $data['workdays'][$off_days_2[$i]]);
 			}
 		}
 		
@@ -168,7 +171,7 @@ class Scheduler extends CI_Controller {
 		$data['selected_shift'] = $this->session->userdata('selected_shift');
 		$officers = $this->scheduler_model->get_officers_schedule(
 				$data['location'], $this->session->userdata('last_shift'));
-		$data['days'] = $this->scheduler_model->get_working_days();
+		$data['days'] = $this->get_working_days($officers);
 		
 		$this->load->view('templates/header', $data);
 	    $this->load->view('templates/nav');
