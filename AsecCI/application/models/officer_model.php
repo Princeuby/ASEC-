@@ -140,8 +140,9 @@ class Officer_Model extends CI_Model {
 	public function get_schedule($officerID, $weekStart) {
 		$conditions = array(
 			'officer_id' => $officerID,
-			'week_start' => $weekStart
+			'week_start' => $weekStart,
+			'approved' => 1
 		);
-		return $this->db->get_where('scheduling', $conditions)->result_array();
+		return $this->db->get_where('scheduling', $conditions)->row_array();
 	}
 }

@@ -168,16 +168,8 @@ class Scheduler extends CI_Controller {
 		$data['selected_shift'] = $this->session->userdata('selected_shift');
 		$officers = $this->scheduler_model->get_officers_schedule(
 				$data['location'], $this->session->userdata('last_shift'));
-		$data['days'] = ['Sunday'=>[], 'Monday'=>[], 'Tuesday'=>[], 'Wednesday'=>[], 'Thursday'=>[],
-			 'Friday'=>[], 'Saturday'=>[]];
+		$data['days'] = $this->scheduler_model->get_working_days();
 		
-		// Adds officers to days that are not their off days
-		foreach ($data['days'] as $day => $schedule) {
-			for ($j = 0; $j < count($officers); $j++) {
-				if ($day != $officers[$j]['off_day_1'] && $day != $officers[$j]['off_day_2'])
-					$data['days'][$day][] = $this->scheduler_model->get_officer_name($officers[$j]['officer_id']);
-			}
-		}
 		$this->load->view('templates/header', $data);
 	    $this->load->view('templates/nav');
 	    $this->load->view('scheduler/schedule');

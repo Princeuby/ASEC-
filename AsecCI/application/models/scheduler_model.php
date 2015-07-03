@@ -14,9 +14,11 @@ class Scheduler_Model extends Officer_Model {
 	
 	// Gets all officers based on location and last shift
 	public function get_officers_schedule($location, $shift) {
+		$weekStart = date('Y-m-d', strtotime('this Sunday'));
 		return $this->db->query("SELECT * FROM scheduling WHERE 
 			officer_id in (SELECT officer_id FROM officer_locations
-			 WHERE officer_location='$location' AND last_shift='$shift')")->result_array();
+			 WHERE officer_location='$location' AND last_shift='$shift') 
+			 AND week_start = '$weekStart'")->result_array();
 	}
 	
 	// Gets all the schedules

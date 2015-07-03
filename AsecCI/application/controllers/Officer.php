@@ -13,12 +13,13 @@ class Officer extends CI_Controller {
 	public function index() {
 		$data = $this->set_data();
 		$data['weekStart'] = $this->get_week_start();
-		$data['officer_schedule'] = $this->{$this->session->userdata('model')}->get_schedule($data['id'], 
+		$data['schedule'] = $this->{$this->session->userdata('model')}->get_schedule($data['id'], 
 			$data['weekStart']);
-		$data['days'] = $this->get_working_days($data['officer_schedule']);
+		$officer_schedule[] = $data['schedule'];
+		$data['days'] = $this->get_working_days($officer_schedule);
 	    $this->load->view('templates/header', $data);
 	    $this->load->view('templates/nav');
-		if (empty($data['officer_schedule']))
+		if (empty($data['schedule']))
 		    $this->load->view($this->session->userdata('home').'/no_schedule');
 		else
 		    $this->load->view($this->session->userdata('home').'/index');

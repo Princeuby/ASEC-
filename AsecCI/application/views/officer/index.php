@@ -6,8 +6,8 @@
 			</header>
 			
 			<table class="6u center size-table">
-				<caption><h3><?php echo $officer_schedule[0]['location'] ." ".
-					 $officer_schedule[0]['shift']; ?>
+				<caption><h3><?php echo $schedule['location'] ." ".
+					 $schedule['shift']; ?></h3></caption>
 				<thead>
 					<tr>
 						<th>Day</th>
@@ -22,7 +22,7 @@
 							<?php if (!empty($status))
 									echo "Workday";
 								  else
-								  	echo "-- Offday --";
+								  	echo "<strong>Day Off</strong>";
 							?></td>		
 					</tr>
 					<?php endforeach ?>
@@ -30,7 +30,7 @@
 			</table>
 
 			<footer>
-				<a href="<?php echo base_url("$designation/activity_report"); ?>" class="button scrolly">Start Shift</a>
+				<a href="<?php echo base_url("$designation/activity_report"); ?>" class="link-button">Start Shift</a>
 			</footer>
 
 		</div>
