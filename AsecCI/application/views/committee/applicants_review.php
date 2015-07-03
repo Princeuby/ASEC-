@@ -46,6 +46,20 @@
 								Application Letter: <span class="blue-text"><?php echo $selected_applicant['application_letter'];?></span><br>
 								Curriculum Vitae: <span class="blue-text"><?php echo $selected_applicant['curriculum_vitae'];?></span><br>
 							</p>
+							<section class="6u 6u$(mobile) center">
+							<?php echo form_open("$designation/add_applicant_review") ?>
+								<?php 
+									echo "<label>Interview Date: <input type='date' min='".date('Y-m-d')."' name='applicant-interview-date' 
+										class='size-input'></label>";
+									echo "<label>Approval Status: <select required name='applicant-interview-status' class='size-input'>
+											<option value='Not Approved' selected>Not Approved</option>
+											<option value='Approved'>Approved</option>
+										</select></label>";
+									echo "<input type='hidden' name='buttonAppID' value='$selected_applicant[applicant_id]'>";
+									echo "<input type='submit' name='submit' id='addAppRev' value='Add Review'>";
+								?>
+							<?php echo form_close(); ?>
+							</section>
 						</section>
 					</section>
 				</section>

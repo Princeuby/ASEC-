@@ -98,6 +98,29 @@ class Committee extends Officer {
 	    $this->load->view('templates/nav');
 	    $this->load->view('committee/applicants_review');
 	    $this->load->view('templates/footer');
+	}
+
+	public function add_applicant_review() {
+		$this->load->helper('form');
+	    $this->load->library('form_validation');
+
+		$this->form_validation->set_rules('applicant-interview-status', 'text', 'required');
+
+	    if ($this->form_validation->run() === TRUE) {
+			$applicantID = strip_tags($this->input->post('buttonAppID'));
+	    	$interviewStatus = strip_tags($this->input->post('applicant-interview-status'));
+	    	if ($interviewStatus === "Approved") {
+	    		$interviewStatus = '1';
+	    	}
+	    	elseif ($interviewStatus === "Not Approved") {
+	    		$interviewStatus = '0';
+	    	}
+	    	$interviewDate = strip_tags($this->input->post('applicant-interview-date'));
+	    	
+	    	$this->{$this->session->userdata('model')}->set_applicant_interview($applicantID, $interviewStatus, $interviewDate);
+	    	redirect($this->session->userdata('home').'/applicants_review');
+		}
+		redirect($this->session->userdata('home').'/applicants_review');
 	} 
 }
 ?>

@@ -59,5 +59,13 @@ class Committee_Model extends Officer_Model {
 
 		return $query->row_array();
 	}
+
+	public function set_applicant_interview($applicantID, $interviewStatus, $interviewDate) {
+		$data = array( // Data for update statement
+			'interview_status' => $interviewStatus,
+			'interview_date_time' => $interviewDate
+		);
+		$this->db->update('application', $data, "applicant_id = $applicantID");
+	}
 }
 ?>
