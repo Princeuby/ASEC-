@@ -35,7 +35,22 @@ class Committee extends Officer {
 			$this->session->set_userdata('vacancy_position', $this->{$this->session->userdata('model')}->
 				get_vacancy_position($this->input->post('viewAct')));
 			redirect('committee/applicants_review');
-		}	
+		}
+
+		$data['can_end'] = '';
+		if ($this->input->post('closeAct')) {
+			$current_vacancy = $this->{$this->session->userdata('model')}->
+				get_active_vacancies($this->input->post('closeAct'));
+			if ((strtotime($current_vacancy['closing_date']) < strtotime(date('Y-m-d'))) || 
+					($this->{$this->session->userdata('model')}->count_active_applicants($this->input->post('closeAct')) == 0)) {
+				$this->{$this->session->userdata('model')}->
+					close_active_vacancy($this->input->post('closeAct'));
+				redirect('committee/index');
+			}
+			else {
+				$data['can_end'] = "Sorry, you cannot end the review now!";
+			}
+		}
 
 		$this->load->view('templates/header', $data);
 	    $this->load->view('templates/nav', $data);

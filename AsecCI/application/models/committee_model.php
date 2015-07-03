@@ -2,11 +2,25 @@
 require_once 'officer_model.php';
 class Committee_Model extends Officer_Model {
 
-	public function get_active_vacancies() {
-		$query = $this->db->get_where('vacancy', array(
+	public function get_active_vacancies($vacancyID = FALSE) {
+		if ($vacancyID === FALSE) {
+			$query = $this->db->get_where('vacancy', array(
 			'vacancy_status' => '1'));
 
-		return $query->result_array();
+			return $query->result_array();
+		}
+		$query = $this->db->get_where('vacancy', array(
+			'vacancy_id' => $vacancyID,
+			'vacancy_status' => '1'));
+
+		return $query->row_array();
+	}
+
+	public function close_active_vacancy($vacancyID) {
+		$data = array( // Data for update statement
+			'vacancy_status' => '0'
+		);
+		$this->db->update('vacancy', $data, "vacancy_id = $vacancyID");
 	}
 
 	public function count_active_applicants($vacancyID) {

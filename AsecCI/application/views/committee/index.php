@@ -3,6 +3,7 @@
 			</header>
 			<?php
 				echo "<span><h3>$none_active</h3></span>";
+				echo "<span><h4 style='color:red'>$can_end</h4></span>";
 				echo form_open("committee/index");
 				foreach ($active_vacancies as $active): 
 					echo "<section id='incidents'><div class='10u 12u$(mobile) center'><article>
