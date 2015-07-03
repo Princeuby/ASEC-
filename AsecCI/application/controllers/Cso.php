@@ -2,7 +2,7 @@
 require_once 'Officer.php';
 
 class Cso extends Officer {
-
+	
 	protected function set_data($page='Home') { // sets the data variables to avoid repition
 		$data = parent::set_data($page);
 		$data['functions'] = ['home', 'pending leaves', 'view activity reports'];
@@ -12,8 +12,20 @@ class Cso extends Officer {
 	
 	public function index() {
 		$data = $this->set_data();
+		$data['not_approved'] = $this->{$this->session->userdata('model')}->get_schedules(0);
+		$data['pending'] = $this->{$this->session->userdata('model')}->get_schedules();
+
+		$data['display_n'] = '';
+		$data['display_p'] = '';
+		
+		if (empty($data['not_approved']))
+			$data['display_n'] = 'None';
+		if (empty($data['pending']))
+			$data['display_p'] = 'None';
+		
 		$this->load->view('templates/header', $data);
 	    $this->load->view('templates/nav');
+	    $this->load->view($this->session->userdata('home').'/index');
 	    $this->load->view('templates/footer');
 	}
 
@@ -72,5 +84,23 @@ class Cso extends Officer {
 		$data['failed_approval'] = "Failed to approve leave, Please try again!";
 		redirect($this->session->userdata('home').'/pending_leaves');
  	}
+	 
+	public function show_schedule() {
+		$data = $this->set_data();
+		if ($this->input->post('show-schedule')) {
+			list($data['location'], $data['selected_shift']) = explode('.', $this->input->post('show-schedule'));	
+			$shifts = ["Morning"=>"Afternoon", "Afternoon"=>"Night", "Night"=>"Morning"];
+			$officers = $this->{$this->session->userdata('model')}->get_officers_schedule(
+					$data['location'], $shifts[$data['selected_shift']]);
+			$data['days'] = $this->get_working_days($officers);
+			
+			$this->load->view('templates/header', $data);
+		    $this->load->view('templates/nav');
+		    $this->load->view($this->session->userdata('home').'/schedule');
+		    $this->load->view('templates/footer');
+		}
+		else
+			redirect($this->session->userdata('home'));
+	}
 }
 ?>

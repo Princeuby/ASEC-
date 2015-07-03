@@ -25,8 +25,8 @@
 						<tbody>	
 							<?php foreach ($not_approved as $schedule): ?>
 						    <tr>
-								<td class="t"><?php echo $schedule['location']; ?></td>				
-								<td class="t"><?php echo $schedule['shift']; ?></td>		
+								<td><?php echo $schedule['location']; ?></td>				
+								<td><?php echo $schedule['shift']; ?></td>		
 								<td class="t40"><?php echo $schedule['comments']; ?></td>		
 								<td class="t10"><button class='link-button' name='fix-schedule' 
 									value="<?php echo $schedule['location'] .'.'. $schedule['shift']; ?>">
@@ -52,8 +52,8 @@
 								<tbody>	
 									<?php foreach ($pending as $schedule): ?>
 								    <tr>
-										<td class="t"><?php echo $schedule['location']; ?></td>				
-										<td class="t"><?php echo $schedule['shift']; ?></td>		
+										<td><?php echo $schedule['location']; ?></td>				
+										<td><?php echo $schedule['shift']; ?></td>		
 										<td class="t10"><button class='link-button' name='show-schedule' 
 											value="<?php echo $schedule['location'] .'.'. $schedule['shift']; ?>">
 											Show</button></td>
@@ -75,8 +75,8 @@
 								<tbody>	
 									<?php foreach ($approved as $schedule): ?>
 								    <tr>
-										<td class="t"><?php echo $schedule['location']; ?></td>				
-										<td class="t"><?php echo $schedule['shift']; ?></td>		
+										<td><?php echo $schedule['location']; ?></td>				
+										<td><?php echo $schedule['shift']; ?></td>		
 										<td class="t10"><button class='link-button' name='show-schedule' 
 											value="<?php echo $schedule['location'] .'.'. $schedule['shift']; ?>">
 											Show</button></td>

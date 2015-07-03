@@ -75,6 +75,8 @@ class Scheduler extends Officer {
 			$data['officers'] = $this->scheduler_model->get_officers($data['selected_location'],
 			 	$data['last_shift']);
 			
+			$sunday = date('Y-m-d', strtotime("this Sunday"));			
+			$nextSunday = date('Y-m-d', strtotime($sunday." + 1 week"));
 			$num_officers = count($data['officers']); // To prevent everything from breaking
 			if (!(empty($data['officers']))) {
 				for ($i = 0; $i < $num_officers; $i++) {
@@ -83,47 +85,69 @@ class Scheduler extends Officer {
 						$officerID);
 					$leaveStatus = $this->scheduler_model->get_leave_status($officerID);
 					$leaves = $this->scheduler_model->get_officer_leaves($officerID);
-					for ($j = 0; $j < count($leaves); $j++) {
-						// Checks if the officer should be marked as being on leave or as returned
-						if ($leaveStatus['leave_status'] == 0 && $leaves[$j]['approved_status'] == 1 &&
-							 strtotime($leaves[$j]['returning_date']) > strtotime(date('Y-m-d')) &&
-							 strtotime($leaves[$j]['proceeding_date']) < strtotime(date('Y-m-d'))) {
+					if ($leaveStatus['leave_status'] == 0) {
+						for ($j = 0; $j < count($leaves); $j++) {
+							// Checks if the officer should be marked as being on leave or as returned
+							if ($leaves[$j]['approved_status'] == 1
+								&& ((strtotime($nextSunday) >= strtotime($leaves[$j]['proceeding_date']) &&
+									 strtotime($leaves[$j]['proceeding_date']) >= strtotime($sunday)) ||
+								    (strtotime($nextSunday) >= strtotime($leaves[$j]['returning_date']) && 
+								     strtotime($leaves[$j]['returning_date']) >= strtotime($sunday))  ||
+									(strtotime($leaves[$j]['returning_date']) >= strtotime($nextSunday) && 
+								     strtotime($leaves[$j]['proceeding_date']) <= strtotime($sunday)))) {
+								$this->scheduler_model->set_leave_status($officerID, 1);
+								$data['officers'][$i]['returning_date'] = $leaves[$j]['returning_date'];
+								$data['unavailable_officers'][] = $data['officers'][$i];
+								$this->scheduler_model->delete_officer_schedule($officerID, $data['selected_location'],
+									 $data['selected_shift'], $sunday);
+								unset($data['officers'][$i]);
+								break;
+							}
+						}
+					}					
+					else { 
+						for ($j = 0; $j < count($leaves); $j++) {
+							// Checks if the officer should be marked as being on leave or as returned
+							if ($leaves[$j]['approved_status'] == 1
+								&& ((strtotime($nextSunday) >= strtotime($leaves[$j]['proceeding_date']) &&
+									 strtotime($leaves[$j]['proceeding_date']) >= strtotime($sunday)) ||
+								    (strtotime($nextSunday) >= strtotime($leaves[$j]['returning_date']) && 
+								     strtotime($leaves[$j]['returning_date']) >= strtotime($sunday))  ||
+									(strtotime($leaves[$j]['returning_date']) >= strtotime($nextSunday) && 
+								     strtotime($leaves[$j]['proceeding_date']) <= strtotime($sunday)))) {
+								$available = false;
+								$returningDate = $leaves[$j]['returning_date'];
+							 }
+							else
+								$available = true;
+						}		
+						
+						if ($available) 
+							$this->scheduler_model->set_leave_status($officerID, 0);	
+						else {
 							$this->scheduler_model->set_leave_status($officerID, 1);
-							$data['officers'][$i]['returning_date'] = $leaves[$j]['returning_date'];
+							$data['officers'][$i]['returning_date'] = $returningDate;
 							$data['unavailable_officers'][] = $data['officers'][$i];
 							$this->scheduler_model->delete_officer_schedule($officerID, $data['selected_location'],
-								 $data['selected_shift'], date('Y-m-d', strtotime("this Sunday")));
+								 $data['selected_shift'], $sunday);
 							unset($data['officers'][$i]);
 							break;
 						}
 					}
-					// For officers whose leaves are over
-					if ($leaveStatus['leave_status'] == 1) {
-						$recentLeave = $this->scheduler_model->get_most_recent_leave($officerID);
-						if (!empty($recentLeave) && strtotime($recentLeave['returning_date'])
-							 < strtotime(date('Y-m-d')))
-							$this->scheduler_model->set_leave_status($officerID, 0);
-						else {
-							$data['officers'][$i]['returning_date'] = $recentLeave['returning_date'];
-							$data['unavailable_officers'][] = $data['officers'][$i];	
-							$this->scheduler_model->delete_officer_schedule($officerID, $data['selected_location'],
-								 $data['selected_shift'], date('Y-m-d', strtotime("this Sunday")));
-							unset($data['officers'][$i]);
-						}					
-					}
-					
 				}
 			}
 			// For the officer schedule... It's confusing
 			$data['schedule_officers'] = $this->scheduler_model->get_officers_schedule($data['selected_location'],
 					 $data['last_shift']);
 					 
-			if (empty($data['schedule_officers'])) {
+			if (count($data['schedule_officers']) < count($data['officers'])) {
 				foreach ($data['officers'] as $officer) {
 					$officerID = $officer['officer_id'];
+					echo $officerID ."<br>"; 
 					$leaveStatus = $this->scheduler_model->get_leave_status($officerID);
-					$this->scheduler_model->create_officer_schedule($officerID, $data['selected_location'],
-						 $data['selected_shift'], date('Y-m-d', strtotime("this Sunday")));
+					if (empty($this->scheduler_model->get_schedule($officerID, $sunday, 0)))
+						$this->scheduler_model->create_officer_schedule($officerID, $data['selected_location'],
+							 $data['selected_shift'], $sunday);
 				}
 				$data['schedule_officers'] = $this->scheduler_model->get_officers_schedule($data['selected_location'],
 					 $data['last_shift']);
@@ -200,13 +224,13 @@ class Scheduler extends Officer {
 			$data['display_p'] = 'None';
 			
 		$clicked = false;
-		if ($this->input->post('fix')) {
-			list($location, $shift) = explode('.', $this->input->post('fix'));			
+		if ($this->input->post('fix-schedule')) {
+			list($location, $shift) = explode('.', $this->input->post('fix-schedule'));			
 			$redirect = "scheduler";
 			$clicked = true;
 		} 
 		
-		if ($this->input->post('show-schedule')) {
+		else if ($this->input->post('show-schedule')) {
 			list($location, $shift) = explode('.', $this->input->post('show-schedule'));
 			$redirect = "scheduler/show_schedule";
 			$clicked = true;			

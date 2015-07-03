@@ -34,6 +34,22 @@ h1 {
 	border: 1.5px solid red;
 }
 
+.green-box {
+	border: 1.5px solid green !important;
+}
+
+button.red-box {
+	border: 1.5px solid darkred !important;
+}
+
+button.red-box:hover {
+	background-color: darkred !important;
+}
+
+button.green-box:hover {
+	background-color: green !important;
+}
+
 @media (min-width: 200px) and (max-width: 500px) {
     .size-panel {
     	width: 75%;

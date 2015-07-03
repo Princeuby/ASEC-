@@ -35,8 +35,32 @@ class CSO_Model extends Supervisor_Model {
 			'approved_date' => date('Y-m-d'),
 			'comments' => $comments
 		);
-		// echo $leavesID; die();
+		
 		$this->db->update('leaves', $data, "leaves_id = $leavesID");
+	}
+	
+	// Gets all the schedules
+	public function get_schedules($approved=null) {
+		$conditions = array(
+			'week_start' => date('Y-m-d', strtotime("this Sunday")),
+			'approved' => $approved
+		);
+		if ($approved === null) {
+			unset($conditions['approved']);
+			$conditions['approved IS null'] = null;
+		}
+		
+		$this->db->group_by(array('location', 'shift'));
+		return $this->db->get_where('scheduling', $conditions)->result_array();
+	}
+	
+	// Gets all officers based on location and last shift
+	public function get_officers_schedule($location, $shift) {
+		$weekStart = date('Y-m-d', strtotime('this Sunday'));
+		return $this->db->query("SELECT * FROM scheduling WHERE 
+			officer_id in (SELECT officer_id FROM officer_locations
+			 WHERE officer_location='$location' AND last_shift='$shift') 
+			 AND week_start = '$weekStart'")->result_array();
 	}
 }
 ?>
