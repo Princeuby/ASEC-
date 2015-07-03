@@ -1,3 +1,3 @@
 <?php
-	require '/application/views/officer/leaves.php';
+	$this->load->view('officer/leaves');
 ?>
