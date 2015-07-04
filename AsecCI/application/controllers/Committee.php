@@ -130,5 +130,89 @@ class Committee extends Officer {
 		}
 		redirect($this->session->userdata('home').'/applicants_review');
 	} 
+
+	public function scheduled_interview() {
+		$data = $this->set_data('Scheduled Interview');
+		$this->load->helper('form');
+		$data['selected_scheduledInterview'] = '';
+
+		$data['display_scheduledInterview'] = '';
+		$data['no_scheduledInterview'] = '';
+		$data['interview_applicant'] = 'None';
+		$data['can_interview'] ='';
+		$data['job_position'] = $this->session->userdata('vacancy_position');
+
+		if ($this->session->userdata('vacancy_id')) {
+			$data['selected_scheduledInterview'] = $this->{$this->session->userdata('model')}->
+				get_applicants_interview($this->session->userdata('vacancy_id'));
+
+			$this->session->set_userdata('vacancies', $this->session->userdata('vacancy_id'));
+			// print_r($data['selected_applicantsReview']); die();
+			if (empty($data['selected_scheduledInterview'])) {
+				$data['display_scheduledInterview'] = 'None';
+				$data['no_scheduledInterview'] = 'There are no pending applicants to interview';
+			}
+
+			if ($this->input->post('intApp')) {
+				// echo "in the review button"; die();
+				$data['selected_scheduledInterview'] = $this->{$this->session->userdata('model')}->
+					get_applicants_interview($this->session->userdata('vacancy_id'));
+
+				$data['selected_applicant'] = $this->{$this->session->userdata('model')}->
+					get_applicant($this->input->post('intApp'));
+
+				$data['interview_applicant'] = 'block';
+			}
+		}
+		else {
+			redirect('committee');
+		}
+
+		$this->load->view('templates/header', $data);
+	    $this->load->view('templates/nav');
+	    $this->load->view('committee/scheduled_interview');
+	    $this->load->view('templates/footer');
+	}
+
+	public function add_applicant_interview() {
+		$this->load->helper('form');
+	    $this->load->library('form_validation');
+
+		$this->form_validation->set_rules('applicant-training-status', 'text', 'required');
+
+	    if ($this->form_validation->run() === TRUE) {
+			$applicantID = strip_tags($this->input->post('buttonAppID'));
+			$applicant_IntDate = $this->{$this->session->userdata('model')}->get_applicant($applicantID);
+
+			// echo "in the first condition"; die();
+
+			if (strtotime($applicant_IntDate['interview_date']) <= strtotime(date('Y-m-d'))) {
+				// echo "in the second condition"; die();
+				$trainingStatus = strip_tags($this->input->post('applicant-training-status'));
+		    	if ($trainingStatus === "Approved") {
+					$this->form_validation->set_rules('applicant-training-date', 'date', 'required');
+					$this->form_validation->set_rules('applicant-training-location', 'text', 'required');
+					if ($this->form_validation->run() === TRUE) {
+						$trainingStatus = '1';
+					}
+					else{
+						redirect($this->session->userdata('home').'/scheduled_interview');
+					}
+		    	}
+		    	elseif ($trainingStatus === "Not Approved") {
+		    		$trainingStatus = '0';
+		    	}
+		    	$trainingDate = strip_tags($this->input->post('applicant-training-date'));
+		    	$trainingLocation = strip_tags($this->input->post('applicant-training-location'));
+		    	
+		    	$this->{$this->session->userdata('model')}->set_applicant_training($applicantID, $trainingStatus, $trainingDate, $trainingLocation);
+		    	redirect($this->session->userdata('home').'/scheduled_interview');
+			}
+			else {
+				$data['can_interview'] ='Sorry, you have to interview applicant before you can review!';
+			}
+		}
+		redirect($this->session->userdata('home').'/scheduled_interview');
+	}
 }
 ?>
