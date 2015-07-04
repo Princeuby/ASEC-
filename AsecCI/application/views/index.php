@@ -7,7 +7,6 @@
 					<section style="margin-left: 80%">
 						<a style='color:white;' href="<?php echo base_url('vacancy');?>">Click to Apply>>></a>
 					</section>
-					<hr><h2>Security Management System</h2><hr>
 				</header>
 				
 				<section class="6u center size-panel">
