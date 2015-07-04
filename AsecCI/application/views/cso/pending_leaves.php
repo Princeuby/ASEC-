@@ -3,12 +3,12 @@
 			#setApproval { display: <?php echo $display_approval; ?>; }
 		</style>
 			<header>
-				<h2 class="alt">Leave <strong>Approval</strong></h2>
+				<h2 class="alt">Pending Leaves <strong>Approval</strong></h2>
 			</header>
 			<section class="center">
 				<?php echo "<span><h3>$no_leave_requests</h3></span>"; ?>
 				<section id="leaveapproval">
-					<h3>Pending Leave Approval</h3>
+					<!--<h3>Pending Leave Approval</h3>-->
 					<hr>
 					<table>
 						<thead>
@@ -46,7 +46,7 @@
 						</form>
 					</table>
 				</section>
-				<?php echo "<span><h3>$failed_approval</h3></span>"; ?>
+				<?php echo "<h3>$failed_approval</h3>"; ?>
 				<section id="setApproval" class="10u 12u$(mobile) center">
 					<script> window.location.hash = "setApproval"; </script>
 					<p class="10u 12u$(mobile) center">
@@ -63,7 +63,8 @@
 							echo "<label>Entilted Days: <input required type='number' min='1' max='365' id='approval-days' name='approval-days' 
 							class='size-input' value='$selected_leave[entitled_days]'></label>";
 							echo "<label>Approval Status: <select required name='approval-status' class='size-input'>
-									<option value='Not Approved' selected>Not Approved</option>
+									<option value='' selected>Select Status</option>
+									<option value='Not Approved'>Not Approved</option>
 									<option value='Approved'>Approved</option>
 								</select></label>";
 							echo "<label>Comments: <textarea name='approval-comment'></textarea></label><br>";
@@ -74,7 +75,6 @@
 					</form>
 				</section>
 			</section>
-
 		</div>
 	</section>
 </div>

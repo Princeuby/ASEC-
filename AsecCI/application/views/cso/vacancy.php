@@ -10,7 +10,7 @@
 						<label>Position Summary: <textarea name="vacant-summary"></textarea></label>
 						<label>Department: <input type="text" name="vacant-department" required></label>
 						<label>Education Level: <br><select name="vacant-education-level" class='size-input' required>
-								<option value='' disabled selected>Choose:</option>
+								<option value='' disabled selected>Select Level:</option>
 								<option value='Primary'>Primary</option>
 								<option value='WAEC/JAMB/GCE'>WAEC/JAMB/GCE</option>
 								<option value='OND/HND/NCE'>OND/HND/NCE</option>
