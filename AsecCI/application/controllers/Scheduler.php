@@ -1,19 +1,9 @@
 <?php
 require 'Officer.php';
 class Scheduler extends Officer {
-	public function __construct() {
-        parent::__construct();
-		$this->load->library('session');
-		if ($this->session->userdata('officerID') === null) 
-			redirect('login/logout');
-        $this->load->model('scheduler_model');
-    }
 	
 	public function set_data($page='Schedule') {
-		$data['title'] = 'Scheduler';
-	    $data['page'] = $page;
-		$data['name'] = 'Schedule Officer';
-		$data['rank'] = '';
+		$data = parent::set_data($page);
 		$data['functions'] = ['Schedule', 'Created Schedules', 'Alter Schedule'];
 		return $data;
 	}
@@ -21,8 +11,8 @@ class Scheduler extends Officer {
 	public function index() {
 		$data = $this->set_data();	
 		$this->load->helper('form');
-		$data['locations'] = $this->scheduler_model->get_locations();
-		$data['shifts'] = $this->scheduler_model->get_shifts();
+		$data['locations'] = $this->{$this->session->userdata('model')}->get_locations();
+		$data['shifts'] = $this->{$this->session->userdata('model')}->get_shifts();
 		$data['officers'] = [];
 		$data['unavailable_officers'] = [];
 		$data['schedule_officers'] = [];
@@ -39,14 +29,14 @@ class Scheduler extends Officer {
 		if ($this->input->post('set-schedule')) {
 			$off_days_1 = $this->input->post('off-day-1');
 			$off_days_2 = $this->input->post('off-day-2');
-			$officers = $this->scheduler_model->get_officers_schedule(
+			$officers = $this->{$this->session->userdata('model')}->get_officers_schedule(
 				$this->session->userdata('location'), $this->session->userdata('last_shift'));
 			for ($i = 0; $i < count($officers); $i++) {
 				if ($officers[$i]['approved'] == 1) 
 					break; // If the schedule has already been approved
 				$off_days_1[$i] = intval($off_days_1[$i]) % count($data['workdays']); 
 				$off_days_2[$i] = intval($off_days_2[$i]) % count($data['workdays']); 
-				$this->scheduler_model->update_officer_schedule($officers[$i]['officer_id'],
+				$this->{$this->session->userdata('model')}->update_officer_schedule($officers[$i]['officer_id'],
 					$data['workdays'][$off_days_1[$i]], $data['workdays'][$off_days_2[$i]]);
 			}
 		}
@@ -72,82 +62,96 @@ class Scheduler extends Officer {
 			$this->session->set_userdata('last_shift', $data['last_shift']);
 			$this->session->set_userdata('selected_shift', $data['selected_shift']);
 			
-			$data['officers'] = $this->scheduler_model->get_officers($data['selected_location'],
+			$data['officers'] = $this->{$this->session->userdata('model')}->get_officers($data['selected_location'],
 			 	$data['last_shift']);
 			
+			$weekStart = date('Y-m-d', strtotime("this Sunday"));			
+			$weekEnd = date('Y-m-d', strtotime($weekStart." + 1 week - 1 day"));
 			$num_officers = count($data['officers']); // To prevent everything from breaking
 			if (!(empty($data['officers']))) {
 				for ($i = 0; $i < $num_officers; $i++) {
 					$officerID = $data['officers'][$i]['officer_id'];
-					$data['officers'][$i]['officer_name'] = $this->scheduler_model->get_officer_name(
+					$data['officers'][$i]['officer_name'] = $this->{$this->session->userdata('model')}->get_officer_name(
 						$officerID);
-					$leaveStatus = $this->scheduler_model->get_leave_status($officerID);
-					$leaves = $this->scheduler_model->get_officer_leaves($officerID);
-					for ($j = 0; $j < count($leaves); $j++) {
-						// Checks if the officer should be marked as being on leave or as returned
-						if ($leaveStatus['leave_status'] == 0 && $leaves[$j]['approved_status'] == 1 &&
-							 strtotime($leaves[$j]['returning_date']) > strtotime(date('Y-m-d')) &&
-							 strtotime($leaves[$j]['proceeding_date']) < strtotime(date('Y-m-d'))) {
-							$this->scheduler_model->set_leave_status($officerID, 1);
-							$data['officers'][$i]['returning_date'] = $leaves[$j]['returning_date'];
+					$leaveStatus = $this->{$this->session->userdata('model')}->get_leave_status($officerID);
+					$leaves = $this->{$this->session->userdata('model')}->get_officer_leaves($officerID);
+					if ($leaveStatus['leave_status'] == 0) {
+						for ($j = 0; $j < count($leaves); $j++) {
+							// Checks if the officer should be marked as being on leave or as returned
+							if ($this->isNotAvailable($leaves[$j], $weekStart, $weekEnd)) {
+								$this->{$this->session->userdata('model')}->set_leave_status($officerID, 1);
+								$data['officers'][$i]['returning_date'] = $leaves[$j]['returning_date'];
+								$data['unavailable_officers'][] = $data['officers'][$i];
+								$this->{$this->session->userdata('model')}->delete_officer_schedule($officerID, $data['selected_location'],
+									 $data['selected_shift'], $weekStart);
+								unset($data['officers'][$i]);
+								break;
+							}
+						}
+					}					
+					else { 
+						for ($j = 0; $j < count($leaves); $j++) {
+							// Checks if the officer should be marked as being on leave or as returned
+							$available = $this->isNotAvailable($leaves[$j], $weekStart, $weekEnd);
+							if ($available) {
+								$returningDate = $leaves[$j]['returning_date'];
+								break;
+							 }
+						}		
+						
+						if (!$available) 
+							$this->{$this->session->userdata('model')}->set_leave_status($officerID, 0);	
+						else {
+							$this->{$this->session->userdata('model')}->set_leave_status($officerID, 1);
+							$data['officers'][$i]['returning_date'] = $returningDate;
 							$data['unavailable_officers'][] = $data['officers'][$i];
-							$this->scheduler_model->delete_officer_schedule($officerID, $data['selected_location'],
-								 $data['selected_shift'], date('Y-m-d', strtotime("this Sunday")));
+							$this->{$this->session->userdata('model')}->delete_officer_schedule($officerID, $data['selected_location'],
+								 $data['selected_shift'], $weekStart);
 							unset($data['officers'][$i]);
 							break;
 						}
 					}
-					// For officers whose leaves are over
-					if ($leaveStatus['leave_status'] == 1) {
-						$recentLeave = $this->scheduler_model->get_most_recent_leave($officerID);
-						if (!empty($recentLeave) && strtotime($recentLeave['returning_date'])
-							 < strtotime(date('Y-m-d')))
-							$this->scheduler_model->set_leave_status($officerID, 0);
-						else {
-							$data['officers'][$i]['returning_date'] = $recentLeave['returning_date'];
-							$data['unavailable_officers'][] = $data['officers'][$i];	
-							$this->scheduler_model->delete_officer_schedule($officerID, $data['selected_location'],
-								 $data['selected_shift'], date('Y-m-d', strtotime("this Sunday")));
-							unset($data['officers'][$i]);
-						}					
-					}
-					
 				}
-			}
+			} 
 			// For the officer schedule... It's confusing
-			$data['schedule_officers'] = $this->scheduler_model->get_officers_schedule($data['selected_location'],
+			$data['schedule_officers'] = $this->{$this->session->userdata('model')}->get_officers_schedule($data['selected_location'],
 					 $data['last_shift']);
 					 
-			if (empty($data['schedule_officers'])) {
+			if (count($data['schedule_officers']) < count($data['officers'])) {
 				foreach ($data['officers'] as $officer) {
 					$officerID = $officer['officer_id'];
-					$leaveStatus = $this->scheduler_model->get_leave_status($officerID);
-					$this->scheduler_model->create_officer_schedule($officerID, $data['selected_location'],
-						 $data['selected_shift'], date('Y-m-d', strtotime("this Sunday")));
+					echo $officerID ."<br>"; 
+					$leaveStatus = $this->{$this->session->userdata('model')}->get_leave_status($officerID);
+					if (empty($this->{$this->session->userdata('model')}->get_schedule($officerID, $weekStart, 0)))
+						$this->{$this->session->userdata('model')}->create_officer_schedule($officerID, $data['selected_location'],
+							 $data['selected_shift'], $weekStart);
 				}
-				$data['schedule_officers'] = $this->scheduler_model->get_officers_schedule($data['selected_location'],
+				$data['schedule_officers'] = $this->{$this->session->userdata('model')}->get_officers_schedule($data['selected_location'],
 					 $data['last_shift']);
 			}
 			
 			// Set the status and disabled property of the set schedule form
-			if (!empty($data['schedule_officers']))
-				if ($data['schedule_officers'][0]['approved'] === null) {
+			if (!empty($data['schedule_officers'])) {
+				$status = $this->{$this->session->userdata('model')}->get_schedule_status(
+					$data['selected_location'], $data['selected_shift']);
+				if ($status['approved'] === null) {
 					$data['color_class'] = 'blue-text';
 					$data['status'] = 'Pending';
 				}
-				else if ($data['schedule_officers'][0]['approved'] == 0) {
+				else if ($status['approved'] == 0) {
 					$data['status'] = 'Not Approved';
 					$data['color_class'] = 'red-text';
 				}
-				else if ($data['schedule_officers'][0]['approved'] == 1) {
+				else if ($status['approved'] == 1) {
 					$data['disabled'] = 'disabled';
 					$data['status'] = 'Approved';
 					$data['color_class'] = 'green-text';
 				}
+			}
 			
 			// Gives the officers names
 			for($k = 0; $k < count($data['schedule_officers']); $k++)
-				$data['schedule_officers'][$k]['officer_name'] = $this->scheduler_model->get_officer_name(
+				$data['schedule_officers'][$k]['officer_name'] = $this->{$this->session->userdata('model')}->get_officer_name(
 						$data['schedule_officers'][$k]['officer_id']);
 		}
 		
@@ -156,12 +160,12 @@ class Scheduler extends Officer {
 		
 		$this->load->view('templates/header', $data);
 	    $this->load->view('templates/nav');
-	    $this->load->view('scheduler/index');
+	    $this->load->view($this->session->userdata('home').'/index');
 	    $this->load->view('templates/footer');
 	}
 	
 	public function schedule() {
-		redirect('scheduler');
+		redirect($this->session->userdata('home'));
 	}
 	
 	// Shows the schedule
@@ -170,22 +174,22 @@ class Scheduler extends Officer {
 		$data['location'] = $this->session->userdata('location');
 		$data['selected_shift'] = $this->session->userdata('selected_shift');
 
-		$officers = $this->scheduler_model->get_officers_schedule(
+		$officers = $this->{$this->session->userdata('model')}->get_officers_schedule(
 				$data['location'], $this->session->userdata('last_shift'));
 		$data['days'] = $this->get_working_days($officers);
 		
 		$this->load->view('templates/header', $data);
 	    $this->load->view('templates/nav');
-	    $this->load->view('scheduler/schedule');
+	    $this->load->view($this->session->userdata('home').'/schedule');
 	    $this->load->view('templates/footer');
 	}
 	
 	public function created_schedules() {
 		$data = $this->set_data('Created Schedules');
 		$this->load->helper('form');		
-		$data['not_approved'] = $this->scheduler_model->get_schedules(0);
-		$data['approved'] = $this->scheduler_model->get_schedules(1);
-		$data['pending'] = $this->scheduler_model->get_schedules();
+		$data['not_approved'] = $this->{$this->session->userdata('model')}->get_schedules(0);
+		$data['approved'] = $this->{$this->session->userdata('model')}->get_schedules(1);
+		$data['pending'] = $this->{$this->session->userdata('model')}->get_schedules();
 		
 		// For showing or hiding the tables
 		$data['display_n'] = '';
@@ -200,15 +204,15 @@ class Scheduler extends Officer {
 			$data['display_p'] = 'None';
 			
 		$clicked = false;
-		if ($this->input->post('fix')) {
-			list($location, $shift) = explode('.', $this->input->post('fix'));			
-			$redirect = "scheduler";
+		if ($this->input->post('fix-schedule')) {
+			list($location, $shift) = explode('.', $this->input->post('fix-schedule'));			
+			$redirect = $this->session->userdata('home');
 			$clicked = true;
 		} 
 		
-		if ($this->input->post('show-schedule')) {
+		else if ($this->input->post('show-schedule')) {
 			list($location, $shift) = explode('.', $this->input->post('show-schedule'));
-			$redirect = "scheduler/show_schedule";
+			$redirect = $this->session->userdata('home').'/show_schedule';
 			$clicked = true;			
 		}
 		
@@ -223,8 +227,18 @@ class Scheduler extends Officer {
 			
 		$this->load->view('templates/header', $data);
 	    $this->load->view('templates/nav');
-	    $this->load->view('scheduler/created_schedules');
+	    $this->load->view($this->session->userdata('home').'/created_schedules');
 	    $this->load->view('templates/footer');
 	}
 	
+	// Checks if an officer is available
+	protected function isNotAvailable($leave, $weekStart, $weekEnd) {
+		return ($leave['approved_status'] == 1 &&
+			   ((strtotime($weekEnd) >= strtotime($leave['proceeding_date']) &&
+				 strtotime($leave['proceeding_date']) >= strtotime($weekStart)) ||
+			    (strtotime($weekEnd) >= strtotime($leave['returning_date']) && 
+			     strtotime($leave['returning_date']) >= strtotime($weekStart))  ||
+				(strtotime($leave['returning_date']) >= strtotime($weekEnd) && 
+			     strtotime($leave['proceeding_date']) <= strtotime($weekStart))));
+	}	
 }
