@@ -19,7 +19,6 @@
 									<th>Phone Number</th>
 									<th>Email Address</th>
 									<th>Interview Date</th>
-									<th>Interview Location</th>
 									<th></th>
 								</tr>
 							</thead>
@@ -32,7 +31,6 @@
 											echo "<td>$interview[phone_number]</td>";
 											echo "<td>$interview[email_address]</td>";
 											echo "<td>$interview[interview_date]</td>";
-											echo "<td>$interview[interview_location]</td>";
 											echo "<td><button class='link-button' name='intApp' value='$interview[applicant_id]'>
 												Review</button></td>";
 										echo "</tr>";
@@ -62,7 +60,8 @@
 										class='size-input'></label>";
 									echo "<label>Training Location: <textarea name='applicant-training-location'></textarea></label><br>";
 									echo "<label>Approval Status: <select required name='applicant-training-status' class='size-input'>
-											<option value='Not Approved' selected>Not Approved</option>
+											<option value='' disabled selected>Choose Status: </option>
+											<option value='Not Approved'>Not Approved</option>
 											<option value='Approved'>Approved</option>
 										</select></label>";
 									echo "<input type='hidden' name='buttonAppID' value='$selected_applicant[applicant_id]'>";

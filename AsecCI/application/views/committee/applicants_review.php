@@ -57,7 +57,8 @@
 										class='size-input'></label>";
 									echo "<label>Interview Location: <textarea name='applicant-interview-location'></textarea></label><br>";
 									echo "<label>Approval Status: <select required name='applicant-interview-status' class='size-input'>
-											<option value='Not Approved' selected>Not Approved</option>
+											<option value='' disabled selected>Choose Status: </option>
+											<option value='Not Approved'>Not Approved</option>
 											<option value='Approved'>Approved</option>
 										</select></label>";
 									echo "<input type='hidden' name='buttonAppID' value='$selected_applicant[applicant_id]'>";

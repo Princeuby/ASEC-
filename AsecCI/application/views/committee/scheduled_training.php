@@ -19,7 +19,6 @@
 									<th>Phone Number</th>
 									<th>Email Address</th>
 									<th>Training Date</th>
-									<th>Training Location</th>
 									<th></th>
 								</tr>
 							</thead>
@@ -32,7 +31,6 @@
 											echo "<td>$training[phone_number]</td>";
 											echo "<td>$training[email_address]</td>";
 											echo "<td>$training[training_date]</td>";
-											echo "<td>$training[training_location]</td>";
 											echo "<td><button class='link-button' name='traApp' value='$training[applicant_id]'>
 												Review</button></td>";
 										echo "</tr>";
@@ -59,7 +57,8 @@
 							<?php echo form_open("$designation/add_applicant_training") ?>
 								<?php 
 									echo "<label>Approval Status: <select required name='applicant-success-status' class='size-input'>
-											<option value='Not Approved' selected>Not Approved</option>
+											<option value='' disabled selected>Choose Status: </option>
+											<option value='Not Approved'>Not Approved</option>
 											<option value='Approved'>Approved</option>
 										</select></label>";
 									echo "<input type='hidden' name='buttonAppID' value='$selected_applicant[applicant_id]'>";
