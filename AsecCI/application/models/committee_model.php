@@ -77,5 +77,27 @@ class Committee_Model extends Officer_Model {
 			$this->db->update('application', $data, "applicant_id = $applicantID");
 		}
 	}
+
+	public function get_applicants_interview($vacancyID) {
+
+	}
+
+	public function set_applicant_training($applicantID, $trainingStatus, $trainingDate) {
+		if ($trainingStatus === '1') {
+			$data = array( // Data for update statement
+			'training_status' => $trainingStatus,
+			'training_date_time' => $interviewDate
+			);
+			$this->db->update('application', $data, "applicant_id = $applicantID");
+		}
+		else {
+			$data = array( // Data for update statement
+			'training_status' => $trainingStatus,
+			'training_date_time' => $interviewDate,
+			'application_status' => '0'
+			);
+			$this->db->update('application', $data, "applicant_id = $applicantID");
+		}
+	}
 }
 ?>
