@@ -1,3 +1,5 @@
+	<div class="push"></div>
+	</div>
 	<div id="footer">
 		<!-- Copyright -->
 		<ul class="copyright">
@@ -5,7 +7,7 @@
 		</ul>
 	</div>
 
-		<!-- Scripts -->
+	<!-- Scripts -->
 	<script src="<?php echo base_url('assets/js/jquery.min.js');?>"></script>
 	<script src="<?php echo base_url('assets/js/jquery.scrolly.min.js');?>"></script>
 	<script src="<?php echo base_url('assets/js/jquery.scrollzer.min.js');?>"></script>

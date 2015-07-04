@@ -30,7 +30,7 @@ class Login extends CI_Controller {
 			$pass = strip_tags($this->input->post('password'));
 			$data['officer'] = $this->login_model->get_officer($user);
 			if (empty($data['officer'])) {
-            	$this->session->set_flashdata('error','Sorry, No Such Officer.');
+            	$this->session->set_flashdata('error','Invalid Username or Password.');
             	redirect('');
 			}
             
@@ -67,7 +67,7 @@ class Login extends CI_Controller {
 				redirect($this->session->userdata('home'));
 			}
 			else {
-            	$this->session->set_flashdata('error','Sorry, Wrong Password.');
+            	$this->session->set_flashdata('error','Invalid Username or Password.');
 				$this->load->view('templates/header', $data);
 	        	$this->load->view('index');
 			}	
