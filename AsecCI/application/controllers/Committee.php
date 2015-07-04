@@ -41,7 +41,7 @@ class Committee extends Officer {
 		if ($this->input->post('closeAct')) {
 			$current_vacancy = $this->{$this->session->userdata('model')}->
 				get_active_vacancies($this->input->post('closeAct'));
-			if ((strtotime($current_vacancy['closing_date']) < strtotime(date('Y-m-d'))) || 
+			if ((strtotime($current_vacancy['closing_date']) < strtotime(date('Y-m-d'))) && 
 					($this->{$this->session->userdata('model')}->count_active_applicants($this->input->post('closeAct')) == 0)) {
 				$this->{$this->session->userdata('model')}->
 					close_active_vacancy($this->input->post('closeAct'));
