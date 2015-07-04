@@ -93,7 +93,42 @@ class Cso extends Officer {
 		redirect($this->session->userdata('home').'/pending_leaves');
  	}
 
- 	public function vacancy() {
+	public function show_schedule() {
+		if ($this->input->post('show-schedule')) {
+			$data = $this->set_data();
+			list($data['location'], $data['selected_shift']) = explode('.', $this->input->post('show-schedule'));	
+			$shifts = ["Morning"=>"Afternoon", "Afternoon"=>"Night", "Night"=>"Morning"];
+			$officers = $this->{$this->session->userdata('model')}->get_officers_schedule(
+					$data['location'], $shifts[$data['selected_shift']]);
+			$status = $this->{$this->session->userdata('model')}->get_schedule_status(
+					$data['location'], $data['selected_shift']);
+			$data['status'] = $status['approved'];
+			$data['days'] = $this->get_working_days($officers);
+			
+			$this->load->view('templates/header', $data);
+		    $this->load->view('templates/nav');
+		    $this->load->view($this->session->userdata('home').'/schedule');
+		    $this->load->view('templates/footer');
+		}
+		else
+			redirect($this->session->userdata('home'));
+	}
+	
+	public function set_schedule() {
+		if ($this->input->post('yes')) {
+			list($location, $shift) = explode('.', $this->input->post('yes'));
+			$this->{$this->session->userdata('model')}->set_schedule_status(
+					$location, $shift, 1);
+		}
+		elseif ($this->input->post('no')) {
+			list($location, $shift) = explode('.', $this->input->post('no'));
+			$this->{$this->session->userdata('model')}->set_schedule_status(
+					$location, $shift, 0, strip_tags($this->input->post('comment')));
+		}
+		redirect($this->session->userdata('home'));
+	}
+
+	public function vacancy() {
 		$data = $this->set_data('Vacancy');
 		$data['failed_create'] = '';
 
@@ -132,41 +167,6 @@ class Cso extends Officer {
 	    }
 	    $data['failed_create'] = "Sorry, creating vacancy failed";
 		// redirect($this->session->userdata('home').'/vacancy');
-	}
-	 
-	public function show_schedule() {
-		if ($this->input->post('show-schedule')) {
-			$data = $this->set_data();
-			list($data['location'], $data['selected_shift']) = explode('.', $this->input->post('show-schedule'));	
-			$shifts = ["Morning"=>"Afternoon", "Afternoon"=>"Night", "Night"=>"Morning"];
-			$officers = $this->{$this->session->userdata('model')}->get_officers_schedule(
-					$data['location'], $shifts[$data['selected_shift']]);
-			$status = $this->{$this->session->userdata('model')}->get_schedule_status(
-					$data['location'], $data['selected_shift']);
-			$data['status'] = $status['approved'];
-			$data['days'] = $this->get_working_days($officers);
-			
-			$this->load->view('templates/header', $data);
-		    $this->load->view('templates/nav');
-		    $this->load->view($this->session->userdata('home').'/schedule');
-		    $this->load->view('templates/footer');
-		}
-		else
-			redirect($this->session->userdata('home'));
-	}
-	
-	public function set_schedule() {
-		if ($this->input->post('yes')) {
-			list($location, $shift) = explode('.', $this->input->post('yes'));
-			$this->{$this->session->userdata('model')}->set_schedule_status(
-					$location, $shift, 1);
-		}
-		elseif ($this->input->post('no')) {
-			list($location, $shift) = explode('.', $this->input->post('no'));
-			$this->{$this->session->userdata('model')}->set_schedule_status(
-					$location, $shift, 0, strip_tags($this->input->post('comment')));
-		}
-		redirect($this->session->userdata('home'));
 	}
 }
 ?>

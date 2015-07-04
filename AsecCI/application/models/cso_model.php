@@ -38,22 +38,6 @@ class CSO_Model extends Supervisor_Model {
 		
 		$this->db->update('leaves', $data, "leaves_id = $leavesID");
 	}
-
-	public function create_vacancy($position, $summary, $department, $educationLevel, 
-	    		$workingExperience, $otherSpecifications, $openingDate, $closingDate) {
-		$data = array(//Data for update statement
-			'position' => $position,
-			'summary' => $summary,
-			'department' => $department,
-			'education_level' => $educationLevel,
-			'working_experience' => $workingExperience,
-			'other_specifications' => $otherSpecifications,
-			'opening_date' => $openingDate,
-			'closing_date' => $closingDate,
-			'vacancy_status' => '1'
-		);
-		$this->db->insert('vacancy', $data);
-	}
 	
 	// Gets all the schedules
 	public function get_schedules($approved=null, $weekStart=null) {
@@ -109,6 +93,22 @@ class CSO_Model extends Supervisor_Model {
 			officer_id in (SELECT officer_id FROM officer_locations
 			 WHERE officer_location='$location' AND last_shift='$shift') 
 			 AND week_start = '$weekStart'")->result_array();
+	}
+
+	public function create_vacancy($position, $summary, $department, $educationLevel, 
+	    		$workingExperience, $otherSpecifications, $openingDate, $closingDate) {
+		$data = array(//Data for update statement
+			'position' => $position,
+			'summary' => $summary,
+			'department' => $department,
+			'education_level' => $educationLevel,
+			'working_experience' => $workingExperience,
+			'other_specifications' => $otherSpecifications,
+			'opening_date' => $openingDate,
+			'closing_date' => $closingDate,
+			'vacancy_status' => '1'
+		);
+		$this->db->insert('vacancy', $data);
 	}
 }
 ?>
