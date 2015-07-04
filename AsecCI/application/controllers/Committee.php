@@ -111,7 +111,7 @@ class Committee extends Officer {
 	    	$interviewStatus = strip_tags($this->input->post('applicant-interview-status'));
 	    	if ($interviewStatus === "Approved") {
 				$this->form_validation->set_rules('applicant-interview-date', 'date', 'required');
-				$this->form_validation->set_rules('applicant-interview-location', 'date', 'required');
+				$this->form_validation->set_rules('applicant-interview-location', 'text', 'required');
 				if ($this->form_validation->run() === TRUE) {
 					$interviewStatus = '1';
 				}
@@ -125,7 +125,7 @@ class Committee extends Officer {
 	    	$interviewDate = strip_tags($this->input->post('applicant-interview-date'));
 	    	$interviewLocation = strip_tags($this->input->post('applicant-interview-location'));
 	    	
-	    	$this->{$this->session->userdata('model')}->set_applicant_interview($applicantID, $interviewStatus, $interviewDate);
+	    	$this->{$this->session->userdata('model')}->set_applicant_interview($applicantID, $interviewStatus, $interviewDate, $interviewLocation);
 	    	redirect($this->session->userdata('home').'/applicants_review');
 		}
 		redirect($this->session->userdata('home').'/applicants_review');
