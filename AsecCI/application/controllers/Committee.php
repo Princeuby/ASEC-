@@ -214,5 +214,80 @@ class Committee extends Officer {
 		}
 		redirect($this->session->userdata('home').'/scheduled_interview');
 	}
+
+	public function scheduled_training() {
+		$data = $this->set_data('Scheduled Training');
+		$this->load->helper('form');
+		$data['selected_scheduledTraining'] = '';
+
+		$data['display_scheduledTraining'] = '';
+		$data['no_scheduledTraining'] = '';
+		$data['training_applicant'] = 'None';
+		$data['can_training'] ='';
+		$data['job_position'] = $this->session->userdata('vacancy_position');
+
+		if ($this->session->userdata('vacancy_id')) {
+			$data['selected_scheduledTraining'] = $this->{$this->session->userdata('model')}->
+				get_applicants_training($this->session->userdata('vacancy_id'));
+
+			$this->session->set_userdata('vacancies', $this->session->userdata('vacancy_id'));
+			// print_r($data['selected_applicantsReview']); die();
+			if (empty($data['selected_scheduledTraining'])) {
+				$data['display_scheduledTraining'] = 'None';
+				$data['no_scheduledTraining'] = 'There are no pending applicants for training';
+			}
+
+			if ($this->input->post('traApp')) {
+				// echo "in the review button"; die();
+				$data['selected_scheduledTraining'] = $this->{$this->session->userdata('model')}->
+					get_applicants_training($this->session->userdata('vacancy_id'));
+
+				$data['selected_applicant'] = $this->{$this->session->userdata('model')}->
+					get_applicant($this->input->post('traApp'));
+
+				$data['training_applicant'] = 'block';
+			}
+		}
+		else {
+			redirect('committee');
+		}
+
+		$this->load->view('templates/header', $data);
+	    $this->load->view('templates/nav');
+	    $this->load->view('committee/scheduled_training');
+	    $this->load->view('templates/footer');
+	}
+
+	public function add_applicant_training() {
+		$this->load->helper('form');
+	    $this->load->library('form_validation');
+
+		$this->form_validation->set_rules('applicant-success-status', 'text', 'required');
+
+		if ($this->form_validation->run() === TRUE) {
+			$applicantID = strip_tags($this->input->post('buttonAppID'));
+			$applicant_TraDate = $this->{$this->session->userdata('model')}->get_applicant($applicantID);
+
+			// echo "in the first condition"; die();
+
+			if (strtotime($applicant_TraDate['training_date']) <= strtotime(date('Y-m-d'))) {
+				// echo "in the second condition"; die();
+				$successStatus = strip_tags($this->input->post('applicant-success-status'));
+		    	if ($successStatus === "Approved") {
+					$successStatus = '1';
+		    	}
+		    	elseif ($successStatus === "Not Approved") {
+		    		$successStatus = '0';
+		    	}
+		    	
+		    	$this->{$this->session->userdata('model')}->set_applicant_success($applicantID, $successStatus);
+		    	redirect($this->session->userdata('home').'/scheduled_training');
+			}
+			else {
+				$data['can_training'] ='Sorry, you have to train applicant before you can review!';
+			}
+		}
+		redirect($this->session->userdata('home').'/scheduled_training');
+	}
 }
 ?>
