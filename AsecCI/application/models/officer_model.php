@@ -148,12 +148,14 @@ class Officer_Model extends CI_Model {
 	} 
 	
 	// Gets the schedule of the officer for a particular officer and week
-	public function get_schedule($officerID, $weekStart) {
+	public function get_schedule($officerID, $weekStart, $approved=1) {
 		$conditions = array(
 			'officer_id' => $officerID,
-			'week_start' => $weekStart,
-			'approved' => 1
+			'week_start' => $weekStart
 		);
+		if ($approved === 1)
+			$conditions['approved'] = 1;
+		
 		return $this->db->get_where('scheduling', $conditions)->row_array();
 	}
 }

@@ -4,14 +4,14 @@
 			</style>
 			<header>
 				<h2 class="alt">Officer <strong>Schedule</strong></h2>
-				<p>Select a location and shift to create a schedule<br>
-				   Week: <span class='blue-text'><?php echo date('d/m/Y', strtotime('this Sunday'))
+				<p>Week: <span class='blue-text'><?php echo date('d/m/Y', strtotime('this Sunday'))
 					   . " - " . date('d/m/Y', strtotime('this Saturday + 1 week')); ?></span>
 				</p>
 			</header>
 			
 			<?php echo form_open("scheduler/index") ?>
 				<table class="8u center size-table">
+					<caption><h3>Select a location and shift to create a schedule</h3></caption>
 					<thead>
 						<tr>
 							<th>Location</th>

@@ -1,6 +1,6 @@
 <?php
-require_once 'officer_model.php';
-class Scheduler_Model extends Officer_Model {
+require_once 'cso_model.php';
+class Scheduler_Model extends CSO_Model {
 	
 	public function __construct() {
         $this->load->database();
@@ -10,30 +10,6 @@ class Scheduler_Model extends Officer_Model {
 	// Get all locations
 	public function get_locations() {
 		return $this->db->get('locations')->result_array();
-	}
-	
-	// Gets all officers based on location and last shift
-	public function get_officers_schedule($location, $shift) {
-		$weekStart = date('Y-m-d', strtotime('this Sunday'));
-		return $this->db->query("SELECT * FROM scheduling WHERE 
-			officer_id in (SELECT officer_id FROM officer_locations
-			 WHERE officer_location='$location' AND last_shift='$shift') 
-			 AND week_start = '$weekStart'")->result_array();
-	}
-	
-	// Gets all the schedules
-	public function get_schedules($approved=null) {
-		$conditions = array(
-			'week_start' => date('Y-m-d', strtotime("this Sunday")),
-			'approved' => $approved
-		);
-		if ($approved === null) {
-			unset($conditions['approved']);
-			$conditions['approved IS null'] = null;
-		}
-		// print_r($conditions);
-		$this->db->group_by(array('location', 'shift'));
-		return $this->db->get_where('scheduling', $conditions)->result_array();
 	}
 	
 	// Gets all officers based on location and last shift
@@ -60,7 +36,8 @@ class Scheduler_Model extends Officer_Model {
 	public function update_officer_schedule($officerID, $offDay1, $offDay2) {
 		$data = array(
 			'off_day_1' => $offDay1,
-			'off_day_2' => $offDay2
+			'off_day_2' => $offDay2,
+			'approved' => null
 		);
 		$this->db->update('scheduling', $data, "officer_id = '$officerID'");
 	}
