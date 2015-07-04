@@ -17,10 +17,8 @@
 								<th>Officer Rank</th>
 								<th>Department</th>
 								<th>Leave Type</th>
-								<th>Reason For Leave</th>
 								<th>Proceeding Date</th>
 								<th>Entitled Days</th>
-								<th>Supervisor Recommendation</th>
 								<th>Approval Status</th>
 							</tr>
 						</thead>
@@ -34,10 +32,8 @@
 									echo "<td>$requests[rank]</td>";
 									echo "<td>$requests[dept_name]</td>";
 									echo "<td>$requests[leave_type]</td>";
-									echo "<td>$requests[leave_comment]</td>";
 									echo "<td>$requests[proceeding_date]</td>";
 									echo "<td>$requests[entitled_days]</td>";
-									echo "<td>$requests[recommendation]</td>";
 									echo "<td><button class='link-button' name='setApp' value='$requests[leaves_id]'>Set Approval</button></td>";
 								 echo "</tr>";
 								 ?>
@@ -50,20 +46,24 @@
 				<section id="setApproval" class="10u 12u$(mobile) center">
 					<script> window.location.hash = "setApproval"; </script>
 					<p class="10u 12u$(mobile) center">
-					Officer: <span class="blue-text"><?php $officerName = $selected_officer['first_name'] . " " . $selected_officer['last_name']; 
-						echo $officerName;?></span><br>
-					Rank: <span class="blue-text"><?php echo $selected_officer['rank'];?></span><br>
-					Department: <span class="blue-text"><?php echo $selected_officer['dept_name'];?></span><br>
-					Leave Type: <span class="blue-text"><?php echo $selected_leave['leave_type'];?></span><br>
-					Proceeding Date: <span class="blue-text"><?php echo $selected_leave['proceeding_date'];?></span><br>
-					Reason For Leave: <span class="blue-text"><?php echo $selected_leave['leave_comment'];?></span><br>
-					Recommendation: <span class="blue-text"><?php echo $selected_leave['recommendation'];?></span><br>
+					<section id="incidents"><div class="10u 12u$(mobile) center"><article>
+						<header>
+							<strong>Officer: </strong><span class="blue-text"><?php $officerName = $selected_officer['first_name'] . " " . $selected_officer['last_name']; 
+								echo $officerName;?></span><br>
+							<strong>Rank: </strong><span class="blue-text"><?php echo $selected_officer['rank'];?></span><br>
+							<strong>Department: </strong><span class="blue-text"><?php echo $selected_officer['dept_name'];?></span><br>
+							<strong>Leave Type: </strong><span class="blue-text"><?php echo $selected_leave['leave_type'];?></span><br>
+							<strong>Proceeding Date: </strong><span class="blue-text"><?php echo $selected_leave['proceeding_date'];?></span><br>
+						</header>
+						<strong>Reason For Leave: </strong><span class="blue-text"><?php echo $selected_leave['leave_comment'];?></span><br>
+						<strong>Supervisor Recommendation: </strong><span class="blue-text"><?php echo $selected_leave['recommendation'];?></span><br>
+					</article></div></section>
 					<?php echo form_open("$designation/leave_approval") ?>
 						<?php 
 							echo "<label>Entilted Days: <input required type='number' min='1' max='365' id='approval-days' name='approval-days' 
 							class='size-input' value='$selected_leave[entitled_days]'></label>";
 							echo "<label>Approval Status: <select required name='approval-status' class='size-input'>
-									<option value='' selected>Select Status</option>
+									<option value='' disabled selected>Select Status</option>
 									<option value='Not Approved'>Not Approved</option>
 									<option value='Approved'>Approved</option>
 								</select></label>";
