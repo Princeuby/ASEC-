@@ -235,10 +235,46 @@ class Officer extends CI_Controller {
 			$data['disable_annual'] = 'disabled';
 		}
 
+		$data['one_leave_selected'] = '';
+		$data['leave_supervisor'] = '';
+		$data['display_one_leave'] = 'None';
+		$data['go_to'] = "";
+
 		$this->load->helper('form');
 
 		if ($this->input->post('apply-leave')) {
+			$data['go_to'] = "<script>window.location.hash = 'request_leave';</script>";
 	    	$data['display_request'] = 'block';
+	    }
+
+	    if ($this->input->post('view-leave')) {
+			$data['go_to'] = "<script>window.location.hash = 'leave_view';</script>";
+
+	    	$data['one_leave_selected'] = $this->{$this->session->userdata('model')}->
+				get_officer_leave($this->input->post('view-leave'));
+
+			if ($data['one_leave_selected']['returning_date'] === Null) {
+				$data['one_leave_selected']['returning_date'] = "Not Assigned";	
+			} 
+			if ($data['one_leave_selected']['approved_status'] === "1") {
+				$data['one_leave_selected']['approved_status'] = "Approved";
+			}
+			else if ($data['one_leave_selected']['approved_status'] === "0") {
+				$data['one_leave_selected']['approved_status'] = "Not Approved";
+			}
+			else {
+				$data['one_leave_selected']['approved_status'] = "Pending";	
+			}
+
+			$data['leave_supervisor'] = $this->{$this->session->userdata('model')}->
+				get_officer_name($data['one_leave_selected']['supervisor_id_leaves']);
+			// print_r($data['leave_supervisor']); die();
+
+	    	$data['display_one_leave'] = 'block';
+	    }
+
+	    if ($this->input->post('close-leave')) {
+	    	$data['display_one_leave'] = 'None';
 	    }
 
 	    $this->load->library('form_validation');
