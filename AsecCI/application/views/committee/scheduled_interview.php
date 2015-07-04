@@ -45,11 +45,15 @@
 							<script type="text/javascript">window.location.hash = 'applicant_interview';</script>
 							<hr>
 							<p class="10u 12u$(mobile) center">
-								Officer: <span class="blue-text"><?php $applicantName = $selected_applicant['first_name'].' '.$selected_applicant['last_name']; echo "$applicantName";?></span><br>
-								Phone Number: <span class="blue-text"><?php echo $selected_applicant['phone_number'];?></span><br>
-								Email: <span class="blue-text"><?php echo $selected_applicant['email_address'];?></span><br>
-								Interview Date: <span class="blue-text"><?php echo $selected_applicant['interview_date'];?></span><br>
-								Interview Location: <span class="blue-text"><?php echo $selected_applicant['interview_location'];?></span><br>
+							<section id="incidents"><div class="10u 12u$(mobile) center"><article>
+								<header>
+									<strong>Officer: </strong><span class="blue-text"><?php $applicantName = $selected_applicant['first_name'].' '.$selected_applicant['last_name']; echo "$applicantName";?></span><br>
+									<strong>Phone Number: </strong><span class="blue-text"><?php echo $selected_applicant['phone_number'];?></span><br>
+									<strong>Email: </strong><span class="blue-text"><?php echo $selected_applicant['email_address'];?></span><br>
+								</header>
+								<strong>Interview Date: </strong><span class="blue-text"><?php echo $selected_applicant['interview_date'];?></span><br>
+								<strong>Interview Location: </strong><span class="blue-text"><?php echo $selected_applicant['interview_location'];?></span><br>
+							</article></div></section>
 							</p>
 							<section class="6u 6u$(mobile) center">
 							<?php echo form_open("$designation/add_applicant_interview") ?>

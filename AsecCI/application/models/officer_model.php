@@ -158,4 +158,9 @@ class Officer_Model extends CI_Model {
 		
 		return $this->db->get_where('scheduling', $conditions)->row_array();
 	}
+
+	public function get_officer_leave($leaveID) {
+		$query = $this->db->get_where('leaves', array('leaves_id' => $leaveID));
+		return $query->row_array();
+	}
 }

@@ -52,6 +52,7 @@
 						</header>
 						<strong>Reason For Leave: </strong><span class="blue-text"><?php echo $selected_leave['leave_comment'];?></span><br>
 					</article></div></section>
+					</p>
 					<?php echo form_open("$designation/add_recommendation") ?>
 						<label>Entilted Days: <input required type="number" min="1" max="365" name="recommendation-days" class="size-input"></label>
 						<label>Comments: <textarea name="recommendation-comment"></textarea></label><br>
