@@ -11,13 +11,12 @@
 				
 				<section class="6u center size-panel">
 					<img id="big-logo" class="center" src="<?php echo base_url('assets/images/logo.png'); ?>" />
+				    <p class="error"><?php echo $this->session->flashdata('error'); ?></p>
 					<?php echo validation_errors(); ?>
 					<?php echo form_open('login') ?>
 					    <label class="red-box"><input type="text" name="id" placeholder="Officer ID" class="size-input" required></label>
 					    <label class="red-box"><input type="password" name="password" placeholder="Password" class="size-input" required></label><br>
-
 					    <input type="submit" name="submit" value="Login">
-					    <p class="error"><?php echo $this->session->flashdata('error'); ?></p>
 					</form>
 				</section>
 
