@@ -54,6 +54,7 @@
 									<option value='Annual' $disable_annual>Annual</option>
 									<option value='Burial'>Burial</option>
 									<option value='Sick'>Sick</option>
+									<option value='Other'>Other</option>
 								</select></label>";	
 							?>
 							<label>Reason For Leave: <textarea name="reason-for-leave"></textarea></label><br>
