@@ -6,7 +6,6 @@ class Cso extends Officer {
 	protected function set_data($page='Home') { // sets the data variables to avoid repition
 		$data = parent::set_data($page);
 		$data['functions'] = ['home', 'pending leaves', 'vacancy', 'view activity reports'];
-
 		return $data;
 	} 
 	
