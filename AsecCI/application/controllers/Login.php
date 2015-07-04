@@ -30,7 +30,8 @@ class Login extends CI_Controller {
 			$pass = strip_tags($this->input->post('password'));
 			$data['officer'] = $this->login_model->get_officer($user);
 			if (empty($data['officer'])) 
-            	show_404();
+            	$this->session->set_flashdata('error','Sorry, No Such Officer.');
+            	redirect('');
             
             if (($user == $data['officer']['officer_id']) &&
 				 (password_verify($pass, $data['officer']['password']))) {
