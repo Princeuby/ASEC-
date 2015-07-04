@@ -131,20 +131,23 @@ class Scheduler extends Officer {
 			}
 			
 			// Set the status and disabled property of the set schedule form
-			if (!empty($data['schedule_officers']))
-				if ($data['schedule_officers'][0]['approved'] === null) {
+			if (!empty($data['schedule_officers'])) {
+				$status = $this->{$this->session->userdata('model')}->get_schedule_status(
+					$data['selected_location'], $data['selected_shift']);
+				if ($status['approved'] === null) {
 					$data['color_class'] = 'blue-text';
 					$data['status'] = 'Pending';
 				}
-				else if ($data['schedule_officers'][0]['approved'] == 0) {
+				else if ($status['approved'] == 0) {
 					$data['status'] = 'Not Approved';
 					$data['color_class'] = 'red-text';
 				}
-				else if ($data['schedule_officers'][0]['approved'] == 1) {
+				else if ($status['approved'] == 1) {
 					$data['disabled'] = 'disabled';
 					$data['status'] = 'Approved';
 					$data['color_class'] = 'green-text';
 				}
+			}
 			
 			// Gives the officers names
 			for($k = 0; $k < count($data['schedule_officers']); $k++)
@@ -237,6 +240,5 @@ class Scheduler extends Officer {
 			     strtotime($leave['returning_date']) >= strtotime($weekStart))  ||
 				(strtotime($leave['returning_date']) >= strtotime($weekEnd) && 
 			     strtotime($leave['proceeding_date']) <= strtotime($weekStart))));
-	}
-	
+	}	
 }

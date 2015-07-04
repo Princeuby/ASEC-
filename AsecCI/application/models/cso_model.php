@@ -40,11 +40,15 @@ class CSO_Model extends Supervisor_Model {
 	}
 	
 	// Gets all the schedules
-	public function get_schedules($approved=null) {
+	public function get_schedules($approved=null, $weekStart=null) {
+		if ($weekStart === null)
+			$weekStart = date('Y-m-d', strtotime("this Sunday"));
+			
 		$conditions = array(
-			'week_start' => date('Y-m-d', strtotime("this Sunday")),
+			'week_start' => $weekStart,
 			'approved' => $approved
 		);
+		
 		if ($approved === null) {
 			unset($conditions['approved']);
 			$conditions['approved IS null'] = null;
@@ -52,6 +56,34 @@ class CSO_Model extends Supervisor_Model {
 		
 		$this->db->group_by(array('location', 'shift'));
 		return $this->db->get_where('scheduling', $conditions)->result_array();
+	}
+	
+	// Gets a schedule's status
+	public function get_schedule_status($location, $shift, $weekStart=null) {
+		if ($weekStart === null)
+			$weekStart = date('Y-m-d', strtotime("this Sunday"));
+			
+		$conditions = array(
+			'week_start' => $weekStart,
+			'location' => $location,
+			'shift' => $shift
+		);
+		
+		return $this->db->select('approved')->get_where('scheduling', $conditions)->row_array();
+	}
+	
+	public function set_schedule_status($location, $shift, $approved, $comment=null) {
+		$data = array(
+			'approved' => $approved,
+			'comments' => $comment
+		);
+		$conditions = array(
+			'week_start' => date('Y-m-d', strtotime("this Sunday")),
+			'location' => $location,
+			'shift' => $shift
+		);
+		// $this->db-where($conditions);
+		$this->db->update('scheduling', $data, $conditions);
 	}
 	
 	// Gets all officers based on location and last shift

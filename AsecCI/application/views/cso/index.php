@@ -1,5 +1,6 @@
-<style>
+			<style>
 				#not-approved { display: <?php echo $display_n; ?> }	
+				#approved { display: <?php echo $display_a; ?> }	
 				#pending { display: <?php echo $display_p; ?> }	
 			</style>
 			<header>
@@ -10,35 +11,54 @@
 			</header>
 			<section>
 				<?php echo form_open("$designation/show_schedule") ?>
-					<div id="pending" class="8u 12u$(mobile) center">
-						<table>
-							<caption class='blue-text'><h3>Pending</h3></caption>
-							<thead>
-								<tr>
-									<th>Location</th>
-									<th>Shift</th>
-									<th></th>
-								</tr>
-							</thead>
-							<tbody>	
-								<?php foreach ($pending as $schedule): ?>
-							    <tr>
-									<td><?php echo $schedule['location']; ?></td>				
-									<td><?php echo $schedule['shift']; ?></td>		
-									<td class="t10"><button class='link-button' name='show-schedule' 
-										value="<?php echo $schedule['location'] .'.'. $schedule['shift']; ?>">
-										Show</button></td>
-									<!--<td class="t10"><button class='link-button green-box' name='show-schedule' 
-										value="<?php echo $schedule['location'] .'.'. $schedule['shift']; ?>">
-										Yes</button></td>
-									<td class="t10"><button class='link-button red-box' name='show-schedule' 
-										value="<?php echo $schedule['location'] .'.'. $schedule['shift']; ?>">
-										No</button></td>-->
-								</tr>
-								<?php endforeach ?>
-							</tbody>
-						</table>
-					</div>
+					<section class="row">
+						<div id="pending" class="6u 12u$(mobile) center">
+							<table>
+								<caption class='blue-text'><h3>Pending</h3></caption>
+								<thead>
+									<tr>
+										<th>Location</th>
+										<th>Shift</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>	
+									<?php foreach ($pending as $schedule): ?>
+								    <tr>
+										<td><?php echo $schedule['location']; ?></td>				
+										<td><?php echo $schedule['shift']; ?></td>		
+										<td class="t10"><button class='link-button' name='show-schedule' 
+											value="<?php echo $schedule['location'] .'.'. $schedule['shift']; ?>">
+											Show</button></td>
+									</tr>
+									<?php endforeach ?>
+								</tbody>
+							</table>
+						</div>
+						<div id="approved" class="6u 12u$(mobile) center">
+							<table>
+								<caption class='green-text'><h3>Approved</h3></caption>
+								<thead>
+									<tr>
+										<th>Location</th>
+										<th>Shift</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>	
+									<?php foreach ($approved as $schedule): ?>
+								    <tr>
+										<td><?php echo $schedule['location']; ?></td>				
+										<td><?php echo $schedule['shift']; ?></td>		
+										<td class="t10"><button class='link-button' name='show-schedule' 
+											value="<?php echo $schedule['location'] .'.'. $schedule['shift']; ?>">
+											Show</button></td>
+									</tr>
+									<?php endforeach ?>
+								</tbody>
+							</table>
+						</div>
+					</section>
 					<table id="not-approved" class="8u center size-table">
 						<caption class='red-text'><h3>Not Approved</h3></caption>
 						<thead>
