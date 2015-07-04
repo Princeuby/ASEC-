@@ -67,6 +67,7 @@ class Login extends CI_Controller {
 				redirect($this->session->userdata('home'));
 			}
 			else {
+            	$this->session->set_flashdata('error','Sorry, Wrong Password.');
 				$this->load->view('templates/header', $data);
 	        	$this->load->view('index');
 			}	
