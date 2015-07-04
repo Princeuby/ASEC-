@@ -60,18 +60,18 @@ class Committee_Model extends Officer_Model {
 		return $query->row_array();
 	}
 
-	public function set_applicant_interview($applicantID, $interviewStatus, $interviewDate) {
+	public function set_applicant_interview($applicantID, $interviewStatus, $interviewDate, $interviewLocation) {
 		if ($interviewStatus === '1') {
 			$data = array( // Data for update statement
 			'interview_status' => $interviewStatus,
-			'interview_date_time' => $interviewDate
+			'interview_date' => $interviewDate,
+			'interview_location' => $interviewLocation
 			);
 			$this->db->update('application', $data, "applicant_id = $applicantID");
 		}
 		else {
 			$data = array( // Data for update statement
 			'interview_status' => $interviewStatus,
-			'interview_date_time' => $interviewDate,
 			'application_status' => '0'
 			);
 			$this->db->update('application', $data, "applicant_id = $applicantID");
@@ -82,18 +82,18 @@ class Committee_Model extends Officer_Model {
 
 	}
 
-	public function set_applicant_training($applicantID, $trainingStatus, $trainingDate) {
+	public function set_applicant_training($applicantID, $trainingStatus, $trainingDate, $trainingLocation) {
 		if ($trainingStatus === '1') {
 			$data = array( // Data for update statement
 			'training_status' => $trainingStatus,
-			'training_date_time' => $interviewDate
+			'training_date' => $interviewDate,
+			'training_location' => $trainingLocation
 			);
 			$this->db->update('application', $data, "applicant_id = $applicantID");
 		}
 		else {
 			$data = array( // Data for update statement
 			'training_status' => $trainingStatus,
-			'training_date_time' => $interviewDate,
 			'application_status' => '0'
 			);
 			$this->db->update('application', $data, "applicant_id = $applicantID");

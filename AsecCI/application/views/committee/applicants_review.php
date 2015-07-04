@@ -51,6 +51,7 @@
 								<?php 
 									echo "<label>Interview Date: <input type='date' min='".date('Y-m-d')."' name='applicant-interview-date' 
 										class='size-input'></label>";
+									echo "<label>Interview Location: <textarea name='applicant-interview-location'></textarea></label><br>";
 									echo "<label>Approval Status: <select required name='applicant-interview-status' class='size-input'>
 											<option value='Not Approved' selected>Not Approved</option>
 											<option value='Approved'>Approved</option>
