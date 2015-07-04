@@ -16,7 +16,6 @@
 								<th>Officer Name</th>
 								<th>Officer Rank</th>
 								<th>Leave Type</th>
-								<th>Reason For Leave</th>
 								<th>Proceeding Date</th>
 								<th>Recommendation</th>
 							</tr>
@@ -30,7 +29,6 @@
 									echo "<td>$officer_name</td>";
 									echo "<td>$requests[rank]</td>";
 									echo "<td>$requests[leave_type]</td>";
-									echo "<td>$requests[leave_comment]</td>";
 									echo "<td>$requests[proceeding_date]</td>";
 									echo "<td><button class='link-button' name='recCom' value='$requests[leaves_id]'>Add</button></td>";
 								 echo "</tr>";
@@ -44,12 +42,16 @@
 				<section id="addRecommendation" class="6u 12u$(mobile) center">
 					<script> window.location.hash = "addRecommendation"; </script>
 					<p class="10u 12u$(mobile) center">
-					Officer: <span class="blue-text"><?php $officerName = $selected_officer['first_name'] . " " . $selected_officer['last_name']; 
-						echo $officerName;?></span><br>
-					Rank: <span class="blue-text"><?php echo $selected_officer['rank'];?></span><br>
-					Leave Type: <span class="blue-text"><?php echo $selected_leave['leave_type'];?></span><br>
-					Reason For Leave: <span class="blue-text"><?php echo $selected_leave['leave_comment'];?></span><br>
-					Proceeding Date: <span class="blue-text"><?php echo $selected_leave['proceeding_date'];?></span><br>
+					<section id="incidents"><div class="10u 12u$(mobile) center"><article>
+						<header>
+							<strong>Officer: </strong><span class="blue-text"><?php $officerName = $selected_officer['first_name'] . " " . $selected_officer['last_name']; 
+								echo $officerName;?></span><br>
+							<strong>Rank: </strong><span class="blue-text"><?php echo $selected_officer['rank'];?></span><br>
+							<strong>Leave Type: </strong><span class="blue-text"><?php echo $selected_leave['leave_type'];?></span><br>
+							<strong>Proceeding Date: </strong><span class="blue-text"><?php echo $selected_leave['proceeding_date'];?></span><br>
+						</header>
+						<strong>Reason For Leave: </strong><span class="blue-text"><?php echo $selected_leave['leave_comment'];?></span><br>
+					</article></div></section>
 					<?php echo form_open("$designation/add_recommendation") ?>
 						<label>Entilted Days: <input required type="number" min="1" max="365" name="recommendation-days" class="size-input"></label>
 						<label>Comments: <textarea name="recommendation-comment"></textarea></label><br>
