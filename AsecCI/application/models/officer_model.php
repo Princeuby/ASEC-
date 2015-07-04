@@ -26,6 +26,7 @@ class Officer_Model extends CI_Model {
 			'officer_id' => $officerID,
 			'date_timeIn LIKE' => $current_day . '%', 
 			'shift LIKE' => $shift);
+		$this->db->order_by('date_timeIn DESC');
 		// Current activity report
 		$this->db->limit($limit);
 		$query = $this->db->get_where('activity_report', $conditions);
@@ -145,4 +146,14 @@ class Officer_Model extends CI_Model {
 		);
 		$this->db->update('activity_report', $data, "report_id = $reportID");
 	} 
+	
+	// Gets the schedule of the officer for a particular officer and week
+	public function get_schedule($officerID, $weekStart) {
+		$conditions = array(
+			'officer_id' => $officerID,
+			'week_start' => $weekStart,
+			'approved' => 1
+		);
+		return $this->db->get_where('scheduling', $conditions)->row_array();
+	}
 }

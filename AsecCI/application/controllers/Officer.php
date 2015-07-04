@@ -12,9 +12,17 @@ class Officer extends CI_Controller {
 	
 	public function index() {
 		$data = $this->set_data();
+		$data['weekStart'] = $this->get_week_start();
+		$data['schedule'] = $this->{$this->session->userdata('model')}->get_schedule($data['id'], 
+			$data['weekStart']);
+		$officer_schedule[] = $data['schedule'];
+		$data['days'] = $this->get_working_days($officer_schedule);
 	    $this->load->view('templates/header', $data);
-	    $this->load->view('templates/nav', $data);
-	    $this->load->view($this->session->userdata('home').'/index');
+	    $this->load->view('templates/nav');
+		if (empty($data['schedule']))
+		    $this->load->view($this->session->userdata('home').'/no_schedule');
+		else
+		    $this->load->view($this->session->userdata('home').'/index');
 	    $this->load->view('templates/footer');
 	}
 	
@@ -25,10 +33,36 @@ class Officer extends CI_Controller {
 		$data['name'] = $this->session->userdata('officerFullName');
 		$data['rank'] = $this->session->userdata('officerRank');
 		$data['id'] = $this->session->userdata('officerID');
-		$data['functions'] = ['home', 'schedule', 'activity report', 'view activity reports', 'leaves'];
+		$data['functions'] = ['home', 'activity report', 'view activity reports', 'leaves'];
 		$data['designation'] = $this->session->userdata('home');
 		return $data;
 	}
+	
+	// Gets the start of the week for finding the correct schedule
+	private function get_week_start() {
+		$today = date('Y-m-d');
+		
+		if (date('N', strtotime($today)) === 7)
+			return $today;
+		else
+			return date('Y-m-d', strtotime('last Sunday'));
+	}
+	
+	// Gets all the working days of an officer
+	public function get_working_days($officers) {
+		$days = ['Sunday'=>[], 'Monday'=>[], 'Tuesday'=>[], 'Wednesday'=>[], 'Thursday'=>[],
+			 'Friday'=>[], 'Saturday'=>[]];
+
+		// Adds officers to days that are not their off days
+		foreach ($days as $day => $schedule) {
+			for ($j = 0; $j < count($officers); $j++) {
+				if ($day != $officers[$j]['off_day_1'] && $day != $officers[$j]['off_day_2'])
+					$days[$day][] = $this->{$this->session->userdata('model')}
+						->get_officer_name($officers[$j]['officer_id']);
+			}
+		}
+		return $days;
+	} 
 	
 	public function home() {
 		redirect($this->session->userdata('home'));

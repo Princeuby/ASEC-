@@ -5,10 +5,17 @@ class Cso extends Officer {
 
 	protected function set_data($page='Home') { // sets the data variables to avoid repition
 		$data = parent::set_data($page);
-		$data['functions'] = ['home', 'schedule', 'pending leaves', 'vacancy', 'activity report'];
+		$data['functions'] = ['home', 'pending leaves', 'vacancy', 'view activity reports'];
 
 		return $data;
 	} 
+	
+	public function index() {
+		$data = $this->set_data();
+		$this->load->view('templates/header', $data);
+	    $this->load->view('templates/nav');
+	    $this->load->view('templates/footer');
+	}
 
 	public function pending_leaves() {
 		$data = $this->set_data('Pending Leaves');

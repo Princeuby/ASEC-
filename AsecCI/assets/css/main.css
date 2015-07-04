@@ -1578,6 +1578,11 @@
 		line-height: 1.75em;
 		color: #888;
 	}
+	
+	button:disabled, select:disabled, button:disabled:hover {
+		background-color: #888 !important;
+		color: #555 !important;
+	}
 
 	h1, h2, h3, h4, h5, h6 {
 		font-weight: 300;
@@ -1644,10 +1649,10 @@
 		outline: 0;
 	}
 
-		a:hover {
+		/*a:hover {
 			color: #E27689;
 			border-bottom-color: rgba(255, 255, 255, 0);
-		}
+		}*/
 
 	sub {
 		position: relative;
@@ -1810,6 +1815,7 @@
 		/*background: #fff;
 		background: rgba(255, 255, 255, 0.75);*/
 		background: #bbb;
+		color: #555;
 		width: 100%;
 		/*border-radius: 0.35em;*/
 		padding: 0.5em 0.5em;
