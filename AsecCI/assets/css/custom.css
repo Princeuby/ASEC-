@@ -201,3 +201,6 @@ button.green-box:hover {
 .text-left {
 	text-align: left;
 }
+.error {
+	color: red;
+}

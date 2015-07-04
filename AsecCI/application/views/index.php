@@ -7,6 +7,7 @@
 					<section style="margin-left: 80%">
 						<a style='color:white;' href="<?php echo base_url('vacancy');?>">Click to Apply>>></a>
 					</section>
+					<hr><h2>Security Management System</h2><hr>
 				</header>
 				
 				<section class="6u center size-panel">
@@ -15,7 +16,9 @@
 					<?php echo form_open('login') ?>
 					    <label class="red-box"><input type="text" name="id" placeholder="Officer ID" class="size-input" required></label>
 					    <label class="red-box"><input type="password" name="password" placeholder="Password" class="size-input" required></label><br>
+
 					    <input type="submit" name="submit" value="Login">
+					    <p class="error"><?php echo $this->session->flashdata('error'); ?></p>
 					</form>
 				</section>
 
