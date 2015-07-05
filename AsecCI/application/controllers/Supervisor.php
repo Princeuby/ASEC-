@@ -15,7 +15,6 @@ class Supervisor extends Officer {
 		$data['leave_requests'] = $this->{$this->session->userdata('model')}->get_leave_requests($data['id']);
 		$data['display_requests'] = 'block';
 		$data['no_requests'] = '';
-		$data['failed_recommendation'] = '';
 		$data['display_recommendation'] = 'None';
 
 		//Check if there is leave request
@@ -58,7 +57,9 @@ class Supervisor extends Officer {
 	    	$this->{$this->session->userdata('model')}->set_recommendation($leaveID, $entitledDays, $recommendation);
 	    	redirect($this->session->userdata('home').'/leave_requests');
 		}
-		$data['failed_recommendation'] = "Failed to add recommendation, Please try again!";
+		else {
+			$this->session->set_flashdata('failed_recommendation', "Failed to add recommendation, please try again!");
+		}
 		redirect($this->session->userdata('home').'/leave_requests');
 	}
 }
