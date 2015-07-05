@@ -7,6 +7,7 @@
 				<h2 class="alt">Activity Report<strong> Details</strong></h2>
 				<!--<a id="new-link" href="<?php echo base_url("$designation/view_activity_reports"); ?>">View Activity Reports</a>-->
 			</header>
+			<?php if ($onDuty) { ?>
 			<section id="new-report" class="6u 12u$(mobile) center">
 				<?php echo form_open("$designation/new_activity_report") ?>
 				    <label><input type="text" name="prevID" placeholder="Previous Officer ID" class="size-input"></label>					
@@ -51,6 +52,9 @@
 					</form>
 				</section>
 			</section>
+			<?php } else {
+				echo "<h3>You are only allowed to create reports during your scheduled shift</h3>";
+			} ?>
 		</div>
 	</section>
 </div>
