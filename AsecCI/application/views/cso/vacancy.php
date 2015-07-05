@@ -2,10 +2,10 @@
 				<h2 class="alt">Create <strong>Vacancy</strong></h2>
 			</header>
 			<section class="center">
-				<?php echo "<h3>$failed_create</h3>"; ?>
+				<p class="error"><?php echo $this->session->flashdata('vacancy_failed'); ?></p>
 				<section id="createvacancy" class="6u 12u$(mobile) center">
 					<hr>
-					<?php echo form_open("$designation/vacancy"); ?>
+					<?php echo form_open("$designation/add_vacancy"); ?>
 						<label>Position: <input type="text" name="vacant-position" required></label>
 						<label>Position Summary: <textarea name="vacant-summary"></textarea></label>
 						<label>Department: <input type="text" name="vacant-department" required></label>

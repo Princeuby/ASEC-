@@ -143,15 +143,17 @@ class Cso extends Officer {
 
 	public function vacancy() {
 		$data = $this->set_data('Vacancy');
-		$data['failed_create'] = '';
-
-		$this->load->helper('form');
-		$this->load->library('form_validation');
 
 		$this->load->view('templates/header', $data);
 	    $this->load->view('templates/nav', $data);
 	    $this->load->view($this->session->userdata('home').'/vacancy', $data);
 	    $this->load->view('templates/footer');
+
+	}
+
+	public function add_vacancy() {
+		$this->load->helper('form');
+		$this->load->library('form_validation');
 
 		$this->form_validation->set_rules('vacant-position', 'Text', 'required');
 		$this->form_validation->set_rules('vacant-summary', 'date', 'required');
@@ -178,8 +180,10 @@ class Cso extends Officer {
 	    		$workingExperience, $otherSpecifications, $openingDate, $closingDate);
 	    	redirect($this->session->userdata('home'));
 	    }
-	    $data['failed_create'] = "Sorry, creating vacancy failed";
-		// redirect($this->session->userdata('home').'/vacancy');
+	    else {
+			$this->session->set_flashdata('vacancy_failed', "Failed to create vacancy, please try again!");
+		}
+		redirect($this->session->userdata('home').'/vacancy');
 	}
 }
 ?>
