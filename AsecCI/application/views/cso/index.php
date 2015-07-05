@@ -6,7 +6,7 @@
 			<header>
 				<h2 class="alt">Created <strong>Schedules</strong></h2>
 				<p>Week: <span class='blue-text'><?php echo date('d/m/Y', strtotime('this Sunday'))
-					   . " - " . date('d/m/Y', strtotime('this Saturday + 1 week')); ?></span>
+					   . " - " . date('d/m/Y', strtotime('this Sunday + 1 week - 1 day')); ?></span>
 				</p>
 			</header>
 			<section>

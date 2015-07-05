@@ -82,17 +82,39 @@ class CSO_Model extends Supervisor_Model {
 			'location' => $location,
 			'shift' => $shift
 		);
-		// $this->db-where($conditions);
 		$this->db->update('scheduling', $data, $conditions);
 	}
 	
-	// Gets all officers based on location and last shift
+	// Gets officers schedules based on location and last shift
 	public function get_officers_schedule($location, $shift) {
 		$weekStart = date('Y-m-d', strtotime('this Sunday'));
 		return $this->db->query("SELECT * FROM scheduling WHERE 
 			officer_id in (SELECT officer_id FROM officer_locations
 			 WHERE officer_location='$location' AND last_shift='$shift') 
 			 AND week_start = '$weekStart'")->result_array();
+	}
+	public function get_approved_officers_schedule($location, $shift) {
+		$weekStart = date('Y-m-d', strtotime('this Sunday'));
+		return $this->db->query("SELECT * FROM scheduling WHERE 
+			officer_id in (SELECT officer_id FROM officer_locations
+			 WHERE officer_location='$location') AND shift='$shift' 
+			 AND week_start = '$weekStart'")->result_array();
+	}
+	
+	public function set_last_shift($officerID, $shift) {
+		$data = array(
+			'last_shift' => $shift
+		);
+		$this->db->update('officer_locations', $data, "officer_id = '$officerID'");
+	}
+	
+	// Gets all officers based on location and last shift
+	public function get_officers($location, $shift) {
+		$conditions = array(
+			'officer_location' => $location,
+			'last_shift' => $shift
+		);
+		return $this->db->get_where('officer_locations', $conditions)->result_array();
 	}
 
 	public function create_vacancy($position, $summary, $department, $educationLevel, 

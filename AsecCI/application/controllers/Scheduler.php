@@ -27,13 +27,17 @@ class Scheduler extends Officer {
 		
 		// Sets officer's off days		
 		if ($this->input->post('set-schedule')) {
+			$status = $this->{$this->session->userdata('model')}->get_schedule_status(
+				$this->session->userdata('location'), $this->session->userdata('selected_shift'));
+		
+			if ($status['approved'] == 1) // Has already been approved
+				redirect($this->session->userdata('home'));
+				
 			$off_days_1 = $this->input->post('off-day-1');
 			$off_days_2 = $this->input->post('off-day-2');
 			$officers = $this->{$this->session->userdata('model')}->get_officers_schedule(
 				$this->session->userdata('location'), $this->session->userdata('last_shift'));
 			for ($i = 0; $i < count($officers); $i++) {
-				if ($officers[$i]['approved'] == 1) 
-					break; // If the schedule has already been approved
 				$off_days_1[$i] = intval($off_days_1[$i]) % count($data['workdays']); 
 				$off_days_2[$i] = intval($off_days_2[$i]) % count($data['workdays']); 
 				$this->{$this->session->userdata('model')}->update_officer_schedule($officers[$i]['officer_id'],
@@ -44,13 +48,13 @@ class Scheduler extends Officer {
 		// Checks if the form was submitted or the session variables were set
 		$getSchedule = false; 
 		if ($this->input->post('get-schedule')) {
-			$data['selected_location'] = $this->input->post('location');
+			$data['location'] = $this->input->post('location');
 			$data['selected_shift'] = $this->input->post('shift');
 			$data['last_shift'] = $shifts[$data['selected_shift']];
 			$getSchedule = true; 
 		}
 		else if ($this->session->userdata('location') && $this->session->userdata('last_shift')) {
-			$data['selected_location'] = $this->session->userdata('location');
+			$data['location'] = $this->session->userdata('location');
 			$data['selected_shift'] = $this->session->userdata('selected_shift');
 			$data['last_shift'] = $this->session->userdata('last_shift');
 			$getSchedule = true;
@@ -58,12 +62,12 @@ class Scheduler extends Officer {
 		
 		if ($getSchedule) {	
 			// Session variables for some sort of security
-			$this->session->set_userdata('location', $data['selected_location']);
+			$this->session->set_userdata('location', $data['location']);
 			$this->session->set_userdata('last_shift', $data['last_shift']);
 			$this->session->set_userdata('selected_shift', $data['selected_shift']);
 			
-			$data['officers'] = $this->{$this->session->userdata('model')}->get_officers($data['selected_location'],
-			 	$data['last_shift']);
+			$data['officers'] = $this->officers($data['location'], $data['selected_shift'],
+				$data['last_shift'], "get_officers");
 			
 			$weekStart = date('Y-m-d', strtotime("this Sunday"));			
 			$weekEnd = date('Y-m-d', strtotime($weekStart." + 1 week - 1 day"));
@@ -82,7 +86,7 @@ class Scheduler extends Officer {
 								$this->{$this->session->userdata('model')}->set_leave_status($officerID, 1);
 								$data['officers'][$i]['returning_date'] = $leaves[$j]['returning_date'];
 								$data['unavailable_officers'][] = $data['officers'][$i];
-								$this->{$this->session->userdata('model')}->delete_officer_schedule($officerID, $data['selected_location'],
+								$this->{$this->session->userdata('model')}->delete_officer_schedule($officerID, $data['location'],
 									 $data['selected_shift'], $weekStart);
 								unset($data['officers'][$i]);
 								break;
@@ -105,7 +109,7 @@ class Scheduler extends Officer {
 							$this->{$this->session->userdata('model')}->set_leave_status($officerID, 1);
 							$data['officers'][$i]['returning_date'] = $returningDate;
 							$data['unavailable_officers'][] = $data['officers'][$i];
-							$this->{$this->session->userdata('model')}->delete_officer_schedule($officerID, $data['selected_location'],
+							$this->{$this->session->userdata('model')}->delete_officer_schedule($officerID, $data['location'],
 								 $data['selected_shift'], $weekStart);
 							unset($data['officers'][$i]);
 							break;
@@ -114,25 +118,25 @@ class Scheduler extends Officer {
 				}
 			} 
 			// For the officer schedule... It's confusing
-			$data['schedule_officers'] = $this->{$this->session->userdata('model')}->get_officers_schedule($data['selected_location'],
-					 $data['last_shift']);
+			$data['schedule_officers'] = $this->officers($data['location'], $data['selected_shift'],
+				$data['last_shift']);
 					 
 			if (count($data['schedule_officers']) < count($data['officers'])) {
 				foreach ($data['officers'] as $officer) {
 					$officerID = $officer['officer_id'];
 					$leaveStatus = $this->{$this->session->userdata('model')}->get_leave_status($officerID);
 					if (empty($this->{$this->session->userdata('model')}->get_schedule($officerID, $weekStart, 0)))
-						$this->{$this->session->userdata('model')}->create_officer_schedule($officerID, $data['selected_location'],
+						$this->{$this->session->userdata('model')}->create_officer_schedule($officerID, $data['location'],
 							 $data['selected_shift'], $weekStart);
 				}
-				$data['schedule_officers'] = $this->{$this->session->userdata('model')}->get_officers_schedule($data['selected_location'],
-					 $data['last_shift']);
+				$data['schedule_officers'] = $this->officers($data['location'], $data['selected_shift'],
+				$data['last_shift']);
 			}
 			
 			// Set the status and disabled property of the set schedule form
 			if (!empty($data['schedule_officers'])) {
 				$status = $this->{$this->session->userdata('model')}->get_schedule_status(
-					$data['selected_location'], $data['selected_shift']);
+					$data['location'], $data['selected_shift']);
 				if ($status['approved'] === null) {
 					$data['color_class'] = 'blue-text';
 					$data['status'] = 'Pending';
@@ -173,8 +177,9 @@ class Scheduler extends Officer {
 		$data['location'] = $this->session->userdata('location');
 		$data['selected_shift'] = $this->session->userdata('selected_shift');
 
-		$officers = $this->{$this->session->userdata('model')}->get_officers_schedule(
-				$data['location'], $this->session->userdata('last_shift'));
+		$officers = $this->officers($data['location'], $data['selected_shift'],
+			$this->session->userdata('last_shift'));
+		
 		$data['days'] = $this->get_working_days($officers);
 		
 		$this->load->view('templates/header', $data);
@@ -240,4 +245,24 @@ class Scheduler extends Officer {
 				(strtotime($leave['returning_date']) >= strtotime($weekEnd) && 
 			     strtotime($leave['proceeding_date']) <= strtotime($weekStart))));
 	}	
+	
+	// Finds the right schedule
+	protected function officers($location, $selected_shift, $last_shift, $method=null) {
+		$status = $this->{$this->session->userdata('model')}->get_schedule_status(
+				$location, $selected_shift);
+		
+		if ($status['approved'] == 1)
+			$officers = $this->{$this->session->userdata('model')}->get_approved_officers_schedule(
+				$location, $selected_shift);
+		else {
+			if ($method != null)
+				$officers = $this->{$this->session->userdata('model')}->{$method}(
+					$location, $last_shift);
+			else
+				$officers = $this->{$this->session->userdata('model')}->get_officers_schedule(
+					$location, $last_shift);
+		}
+				
+		return $officers;
+	}
 }

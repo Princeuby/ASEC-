@@ -98,11 +98,17 @@ class Cso extends Officer {
 			$data = $this->set_data();
 			list($data['location'], $data['selected_shift']) = explode('.', $this->input->post('show-schedule'));	
 			$shifts = ["Morning"=>"Afternoon", "Afternoon"=>"Night", "Night"=>"Morning"];
-			$officers = $this->{$this->session->userdata('model')}->get_officers_schedule(
-					$data['location'], $shifts[$data['selected_shift']]);
 			$status = $this->{$this->session->userdata('model')}->get_schedule_status(
 					$data['location'], $data['selected_shift']);
 			$data['status'] = $status['approved'];
+			
+			if ($data['status'] == 1)
+				$officers = $this->{$this->session->userdata('model')}->get_approved_officers_schedule(
+					$data['location'], $data['selected_shift']);
+			else
+				$officers = $this->{$this->session->userdata('model')}->get_officers_schedule(
+					$data['location'], $shifts[$data['selected_shift']]);
+
 			$data['days'] = $this->get_working_days($officers);
 			
 			$this->load->view('templates/header', $data);
@@ -119,6 +125,13 @@ class Cso extends Officer {
 			list($location, $shift) = explode('.', $this->input->post('yes'));
 			$this->{$this->session->userdata('model')}->set_schedule_status(
 					$location, $shift, 1);
+			// Rotating algorithm
+			$shifts = ["Morning"=>"Afternoon", "Afternoon"=>"Night", "Night"=>"Morning"];
+		
+			$officers = $this->{$this->session->userdata('model')}->get_officers($location, $shifts[$shift]);
+			foreach ($officers as $officer) 
+				$this->{$this->session->userdata('model')}->set_last_shift($officer['officer_id'], $shift);
+
 		}
 		elseif ($this->input->post('no')) {
 			list($location, $shift) = explode('.', $this->input->post('no'));
