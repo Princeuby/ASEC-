@@ -74,6 +74,8 @@ class Officer extends CI_Controller {
 		$model = $this->session->userdata('model');
 		$days = $this->get_working_days([$data['schedule']]);
 		$data['onDuty'] = $this->onDuty($days, $data['schedule']['shift']);
+		// $data['previous_officers'] = $this->getOfficers($data['schedule'], 'previous');
+		$data['next_officers'] = $this->getOfficers($data['schedule'], 'next');
 		// Gets activity report for current shift
 		$current_day = date('Y-m-d'); // Current day
 		$shift = $this->{$model}->get_shift(); // Current shift
@@ -311,16 +313,42 @@ class Officer extends CI_Controller {
 	
 	// Checks if an officer is allowed to be on duty
 	protected function onDuty($days, $scheduleShift) {
-		$onDuty = true;
+		$onDuty = true; return true;
 		if (count($days[date('l')]) < 1)
 			$onDuty = false;
 		
 		$shift = $this->{$this->session->userdata('model')}->get_shift();
-		// $scheduleShift = $shift; // Testing
 		if ($shift != $scheduleShift)
 			$onDuty = false;
 			
 		return $onDuty;
+	}
+	
+	// Gets officers for next or previous shift
+	protected function getOfficers($schedule, $officerType) {
+		$weekStart = date('Y-m-d');
+		if ($officerType === "previous") {
+			$previousShifts = ["Morning"=>"Night", "Afternoon"=>"Morning", "Night"=>"Afternoon"];
+			$shift = $previousShifts[$schedule['shift']];
+			if ($shift === "Night" && date('Y-m-d') === $this->get_week_start()) 
+				$weekStart = date('Y-m-d', strtotime("last Sunday"));
+		}
+		else {
+			$nextShifts = ["Morning"=>"Afternoon", "Afternoon"=>"Night", "Night"=>"Morning"];
+			$shift = $nextShifts[$schedule['shift']];
+			if ($shift === "Morning" && date('Y-m-d') === $this->get_week_start()) 
+				$weekStart = date('Y-m-d', strtotime($weekStart." + 1 week"));
+		}
+
+        $this->load->model('cso_model'); // Not the best practice
+		$officers = $this->cso_model->get_approved_officers_schedule($schedule['location'],
+			$shift,	$weekStart);
+			
+		foreach ($officers as $key => $value) {
+			$officers[$key]['officer_name'] = $this->{$this->session->userdata('model')}->
+				get_officer_name($value['officer_id']);
+		}
+		return $officers;
 	}
 }	
 	

@@ -81,7 +81,7 @@ class CSO_Model extends Supervisor_Model {
 		$this->db->update('scheduling', $data, $conditions);
 	}
 	
-	// Gets officers schedules based on location and last shift
+	// Gets officers' schedules based on location and last shift
 	public function get_officers_schedule($location, $shift, $weekStart) {
 		return $this->db->query("SELECT * FROM scheduling WHERE 
 			officer_id in (SELECT officer_id FROM officer_locations
@@ -89,6 +89,7 @@ class CSO_Model extends Supervisor_Model {
 			 AND week_start = '$weekStart'")->result_array();
 	}
 	
+	// Gets approved officers' schedules based on location and current shift
 	public function get_approved_officers_schedule($location, $shift, $weekStart) {
 		return $this->db->query("SELECT * FROM scheduling WHERE 
 			officer_id in (SELECT officer_id FROM officer_locations
