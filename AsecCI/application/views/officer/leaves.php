@@ -12,6 +12,7 @@
 						echo "<input type='submit' name='apply-leave' value='Request Leave'><br>";
 					?>
 					</form>
+					<p class="error"><?php echo $this->session->flashdata('leave_create'); ?></p>
 					<?php echo "<span><h3>$no_leaves</h3></span>"; ?>
 					<section id="leaves_record">
 						<?php echo form_open("$designation/leaves"); ?>
@@ -50,7 +51,7 @@
 					<section id="request_leave" class="6u 12u$(mobile) center">
 						<?php echo $go_to; ?>
 						<!--<script>window.location.hash = 'request_leave';</script>-->
-						<?php echo form_open("$designation/leaves") ?>
+						<?php echo form_open("$designation/add_leave") ?>
 							<?php
 								echo "<label>Leave Type: <select required name='leave-type' class='size-input'>
 									<option value='' disabled selected>Choose Type:</option>
