@@ -137,7 +137,6 @@ class Committee extends Officer {
 		$data['display_scheduledInterview'] = '';
 		$data['no_scheduledInterview'] = '';
 		$data['interview_applicant'] = 'None';
-		$data['can_interview'] ='';
 		$data['job_position'] = $this->session->userdata('vacancy_position');
 
 		if ($this->session->userdata('vacancy_id')) {
@@ -207,7 +206,7 @@ class Committee extends Officer {
 		    	redirect($this->session->userdata('home').'/scheduled_interview');
 			}
 			else {
-				$data['can_interview'] ='Sorry, you have to interview applicant before you can review!';
+				$this->session->set_flashdata('can_interview', 'Sorry, you have to interview applicant before you can review!');
 			}
 		}
 		redirect($this->session->userdata('home').'/scheduled_interview');
@@ -221,7 +220,6 @@ class Committee extends Officer {
 		$data['display_scheduledTraining'] = '';
 		$data['no_scheduledTraining'] = '';
 		$data['training_applicant'] = 'None';
-		$data['can_training'] ='';
 		$data['job_position'] = $this->session->userdata('vacancy_position');
 
 		if ($this->session->userdata('vacancy_id')) {
@@ -282,7 +280,7 @@ class Committee extends Officer {
 		    	redirect($this->session->userdata('home').'/scheduled_training');
 			}
 			else {
-				$data['can_training'] ='Sorry, you have to train applicant before you can review!';
+				$this->session->set_flashdata('can_training', 'Sorry, you have to train applicant before you can review!');
 			}
 		}
 		redirect($this->session->userdata('home').'/scheduled_training');
