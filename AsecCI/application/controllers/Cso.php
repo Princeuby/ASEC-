@@ -39,7 +39,6 @@ class Cso extends Officer {
 		$data['display_all_leaves'] = 'block';
 		$data['no_leave_requests'] = '';
 		$data['display_approval'] = 'None';
-		$data['failed_approval'] = '';
 
 		//Check if there are pending leave requests
 		if (empty($data['pending_leaves'])) {
@@ -89,7 +88,9 @@ class Cso extends Officer {
 	    	$this->{$this->session->userdata('model')}->set_approval_status($leaveID, $proceedingDate, $entitledDays, $approvedStatus, $comments);
 	    	redirect($this->session->userdata('home').'/pending_leaves');
 		}
-		$data['failed_approval'] = "Failed to approve leave, Please try again!";
+		else {
+			$this->session->set_flashdata('failed_approve', "Failed to approve leave, please try again!");
+		}
 		redirect($this->session->userdata('home').'/pending_leaves');
  	}
 

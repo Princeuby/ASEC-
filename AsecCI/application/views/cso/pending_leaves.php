@@ -6,7 +6,8 @@
 				<h2 class="alt">Pending Leaves <strong>Approval</strong></h2>
 			</header>
 			<section class="center">
-				<?php echo "<span><h3>$no_leave_requests</h3></span>"; ?>
+				
+				<p class="error"><?php echo $this->session->flashdata('failed_approve'); ?></p><?php echo "<span><h3>$no_leave_requests</h3></span>"; ?>
 				<section id="leaveapproval">
 					<!--<h3>Pending Leave Approval</h3>-->
 					<hr><br>
@@ -42,7 +43,6 @@
 						</form>
 					</table>
 				</section>
-				<?php echo "<h3>$failed_approval</h3>"; ?>
 				<section id="setApproval" class="10u 12u$(mobile) center">
 					<script> window.location.hash = "setApproval"; </script>
 					<p class="10u 12u$(mobile) center">
