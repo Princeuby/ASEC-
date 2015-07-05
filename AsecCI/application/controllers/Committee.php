@@ -28,8 +28,6 @@ class Committee extends Officer {
 			$data['none_active'] = "There is currently no active vacancy";
 		}
 
-		$this->load->helper('form');
-
 		if ($this->input->post('viewAct')) {
 			$this->session->set_userdata('vacancy_id', $this->input->post('viewAct'));
 			$this->session->set_userdata('vacancy_position', $this->{$this->session->userdata('model')}->

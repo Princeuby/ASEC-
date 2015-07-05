@@ -1,9 +1,9 @@
 			<header>
-				<h2 class="alt">Application <strong>Form</strong></h2>
+				<h2 class="alt">Application Form: <strong><?php echo $position; ?></strong></h2>
 			</header>
 			<section class="center">
-				<?php //echo "<span><h3>$failed_create</h3></span>"; ?>
-				<?php echo form_open_multipart("vacancy/applicants"); ?>
+				<p class="error"><?php echo $this->session->flashdata('failed_create'); ?></p>
+				<?php echo form_open("vacancy/add_application"); ?>
 					<hr/>
 					<section class="4u 6u$(mobile) center">
 						First Name: <input name="applicant-firstName" type="text">

@@ -3,7 +3,7 @@
 			</header>
 			<?php
 				echo "<span><h3>$no_vacancy</h3></span>";
-				echo form_open("vacancy/view_vacancy");
+				echo form_open("vacancy/index");
 				foreach ($vacancies as $vacancy): 
 					echo "<section id='incidents'><div class='10u 12u$(mobile) center'><article>
 							<header>
