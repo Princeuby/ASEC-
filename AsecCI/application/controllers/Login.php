@@ -16,13 +16,13 @@ class Login extends CI_Controller {
 			redirect($this->session->userdata('home'));			
 
 	    $data['title'] = 'Login';
+	    $data['officer']['officer_id'] = '';
 
 	    $this->form_validation->set_rules('id', 'Username', 'required');
 	    $this->form_validation->set_rules('password', 'Password', 'required');
 
 	    if ($this->form_validation->run() === FALSE) {
-	        $this->load->view('templates/header', $data);
-	        $this->load->view('index');
+	        $this->load->view('index', $data);
 
 	    }
 	    else { // Redirects to correct controller after validation
@@ -68,8 +68,7 @@ class Login extends CI_Controller {
 			}
 			else {
             	$this->session->set_flashdata('error','Invalid Username or Password.');
-				$this->load->view('templates/header', $data);
-	        	$this->load->view('index');
+	        	$this->load->view('index',$data);
 			}	
 	    }
 	}

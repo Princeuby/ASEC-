@@ -120,7 +120,6 @@ class Scheduler extends Officer {
 			if (count($data['schedule_officers']) < count($data['officers'])) {
 				foreach ($data['officers'] as $officer) {
 					$officerID = $officer['officer_id'];
-					echo $officerID ."<br>"; 
 					$leaveStatus = $this->{$this->session->userdata('model')}->get_leave_status($officerID);
 					if (empty($this->{$this->session->userdata('model')}->get_schedule($officerID, $weekStart, 0)))
 						$this->{$this->session->userdata('model')}->create_officer_schedule($officerID, $data['selected_location'],
