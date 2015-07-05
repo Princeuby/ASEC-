@@ -12,15 +12,6 @@ class Scheduler_Model extends CSO_Model {
 		return $this->db->get('locations')->result_array();
 	}
 	
-	// Gets all officers based on location and last shift
-	public function get_officers($location, $shift) {
-		$conditions = array(
-			'officer_location' => $location,
-			'last_shift' => $shift
-		);
-		return $this->db->get_where('officer_locations', $conditions)->result_array();
-	}
-	
 	// Creates an based on location and last shift
 	public function create_officer_schedule($officerID, $location, $shift, $weekStart) {
 		$data = array(

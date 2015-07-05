@@ -40,9 +40,7 @@ class CSO_Model extends Supervisor_Model {
 	}
 	
 	// Gets all the schedules
-	public function get_schedules($approved=null, $weekStart=null) {
-		if ($weekStart === null)
-			$weekStart = date('Y-m-d', strtotime("this Sunday"));
+	public function get_schedules($approved=null, $weekStart) {			
 			
 		$conditions = array(
 			'week_start' => $weekStart,
@@ -59,9 +57,7 @@ class CSO_Model extends Supervisor_Model {
 	}
 	
 	// Gets a schedule's status
-	public function get_schedule_status($location, $shift, $weekStart=null) {
-		if ($weekStart === null)
-			$weekStart = date('Y-m-d', strtotime("this Sunday"));
+	public function get_schedule_status($location, $shift, $weekStart) {
 			
 		$conditions = array(
 			'week_start' => $weekStart,
@@ -72,27 +68,48 @@ class CSO_Model extends Supervisor_Model {
 		return $this->db->select('approved')->get_where('scheduling', $conditions)->row_array();
 	}
 	
-	public function set_schedule_status($location, $shift, $approved, $comment=null) {
+	public function set_schedule_status($location, $shift, $approved, $weekStart, $comment=null) {
 		$data = array(
 			'approved' => $approved,
 			'comments' => $comment
 		);
 		$conditions = array(
-			'week_start' => date('Y-m-d', strtotime("this Sunday")),
+			'week_start' => $weekStart,
 			'location' => $location,
 			'shift' => $shift
 		);
-		// $this->db-where($conditions);
 		$this->db->update('scheduling', $data, $conditions);
 	}
 	
-	// Gets all officers based on location and last shift
-	public function get_officers_schedule($location, $shift) {
-		$weekStart = date('Y-m-d', strtotime('this Sunday'));
+	// Gets officers schedules based on location and last shift
+	public function get_officers_schedule($location, $shift, $weekStart) {
 		return $this->db->query("SELECT * FROM scheduling WHERE 
 			officer_id in (SELECT officer_id FROM officer_locations
 			 WHERE officer_location='$location' AND last_shift='$shift') 
 			 AND week_start = '$weekStart'")->result_array();
+	}
+	
+	public function get_approved_officers_schedule($location, $shift, $weekStart) {
+		return $this->db->query("SELECT * FROM scheduling WHERE 
+			officer_id in (SELECT officer_id FROM officer_locations
+			 WHERE officer_location='$location') AND shift='$shift' 
+			 AND week_start = '$weekStart'")->result_array();
+	}
+	
+	public function set_last_shift($officerID, $shift) {
+		$data = array(
+			'last_shift' => $shift
+		);
+		$this->db->update('officer_locations', $data, "officer_id = '$officerID'");
+	}
+	
+	// Gets all officers based on location and last shift
+	public function get_officers($location, $shift) {
+		$conditions = array(
+			'officer_location' => $location,
+			'last_shift' => $shift
+		);
+		return $this->db->get_where('officer_locations', $conditions)->result_array();
 	}
 
 	public function create_vacancy($position, $summary, $department, $educationLevel, 
