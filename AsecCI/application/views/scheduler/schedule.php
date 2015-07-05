@@ -22,7 +22,7 @@
 					<?php endforeach ?>
 				</tbody>
 			</table>
-			<a href="<?php echo base_url($designation); ?>" class='link-button'>Scheduling</a><br><br>
+			<a href="<?php echo base_url($designation); ?>" class='link-button'>Back to Scheduling</a><br><br>
 			<a href="<?php echo base_url($designation.'/created_schedules'); ?>" class='link-button'>Created Schedules</a>
 		</div>
 	</section>
