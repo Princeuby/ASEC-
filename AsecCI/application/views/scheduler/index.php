@@ -25,9 +25,9 @@
 								<?php foreach ($locations as $venue) {
 									$venue = $venue['location']; // Bad stuff
 									if ($venue === $location)
-										echo "<option value='$location' selected>$location</option>";
+										echo "<option value='$venue' selected>$venue</option>";
 									else
-										echo "<option value='$location'>$location</option>";
+										echo "<option value='$venue'>$venue</option>";
 								} ?>
 								</select></td>				
 							<td class="t40"><select name='shift'>
