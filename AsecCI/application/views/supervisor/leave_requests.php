@@ -9,7 +9,7 @@
 				<?php echo "<span><h3>$no_requests</h3></span>"; ?>
 				<section id="leaverequests">
 					<h3>Pending Leave Requests</h3>
-					<hr>
+					<hr><br>
 					<table class="10u 12u$(mobile) center">
 						<thead>
 							<tr>

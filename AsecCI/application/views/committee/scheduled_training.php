@@ -11,7 +11,7 @@
 					<section id="training_records">
 						<?php echo form_open("$designation/scheduled_training"); ?>
 						<h3>Applicant Details</h3>
-						<hr>
+						<hr><br>
 						<table>
 							<thead>
 								<tr>

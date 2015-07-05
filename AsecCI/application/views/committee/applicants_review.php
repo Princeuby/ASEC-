@@ -10,7 +10,7 @@
 					<section id="review_records">
 						<?php echo form_open("$designation/applicants_review"); ?>
 						<h3>Applicant Details</h3>
-						<hr>
+						<hr><br>
 						<table>
 							<thead>
 								<tr>
