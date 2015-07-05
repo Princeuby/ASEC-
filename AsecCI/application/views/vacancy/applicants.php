@@ -3,7 +3,7 @@
 			</header>
 			<section class="center">
 				<?php //echo "<span><h3>$failed_create</h3></span>"; ?>
-				<?php echo form_open("vacancy/applicants"); ?>
+				<?php echo form_open_multipart("vacancy/applicants"); ?>
 					<hr/>
 					<section class="4u 6u$(mobile) center">
 						First Name: <input name="applicant-firstName" type="text">

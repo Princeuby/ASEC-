@@ -16,7 +16,7 @@
 					<section id="leaves_record">
 						<?php echo form_open("$designation/leaves"); ?>
 						<h3>Leave Details</h3>
-						<hr>
+						<hr><br>
 						<table class="10u 12u$(mobile) center">
 							<thead>
 								<tr>

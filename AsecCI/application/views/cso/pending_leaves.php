@@ -9,7 +9,7 @@
 				<?php echo "<span><h3>$no_leave_requests</h3></span>"; ?>
 				<section id="leaveapproval">
 					<!--<h3>Pending Leave Approval</h3>-->
-					<hr>
+					<hr><br>
 					<table>
 						<thead>
 							<tr>
