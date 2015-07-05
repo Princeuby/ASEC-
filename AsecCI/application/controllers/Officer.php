@@ -12,11 +12,9 @@ class Officer extends CI_Controller {
 	
 	public function index() {
 		$data = $this->set_data();
-		$data['weekStart'] = $this->get_week_start();
-		$data['schedule'] = $this->{$this->session->userdata('model')}->get_schedule($data['id'], 
-			$data['weekStart']);
 		$officer_schedule[] = $data['schedule'];
 		$data['days'] = $this->get_working_days($officer_schedule);
+		$data['onDuty'] = $this->onDuty($data['days'], $data['schedule']['shift']);
 	    $this->load->view('templates/header', $data);
 	    $this->load->view('templates/nav');
 		if (empty($data['schedule']))
@@ -35,6 +33,9 @@ class Officer extends CI_Controller {
 		$data['id'] = $this->session->userdata('officerID');
 		$data['functions'] = ['home', 'activity report', 'view activity reports', 'leaves'];
 		$data['designation'] = $this->session->userdata('home');
+		$data['weekStart'] = $this->get_week_start();
+		$data['schedule'] = $this->{$this->session->userdata('model')}->get_schedule($data['id'], 
+			$data['weekStart']);
 		return $data;
 	}
 	
@@ -71,6 +72,8 @@ class Officer extends CI_Controller {
 	public function activity_report() {
 		$data = $this->set_data('Activity Report');
 		$model = $this->session->userdata('model');
+		$days = $this->get_working_days([$data['schedule']]);
+		$data['onDuty'] = $this->onDuty($days, $data['schedule']['shift']);
 		// Gets activity report for current shift
 		$current_day = date('Y-m-d'); // Current day
 		$shift = $this->{$model}->get_shift(); // Current shift
@@ -304,6 +307,20 @@ class Officer extends CI_Controller {
 	    	$this->session->set_flashdata('leave_create', "Failed to create leave request, please try again!");
 	    }
     	redirect($this->session->userdata('home').'/leaves');
+	}
+	
+	// Checks if an officer is allowed to be on duty
+	protected function onDuty($days, $scheduleShift) {
+		$onDuty = true;
+		if (count($days[date('l')]) < 1)
+			$onDuty = false;
+		
+		$shift = $this->{$this->session->userdata('model')}->get_shift();
+		// $scheduleShift = $shift; // Testing
+		if ($shift != $scheduleShift)
+			$onDuty = false;
+			
+		return $onDuty;
 	}
 }	
 	
