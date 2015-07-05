@@ -7,7 +7,7 @@
 				</header>
 				<section class="center">
 					<?php echo "<span><h3>$no_scheduledInterview</h3></span>"; ?>
-					<?php echo "<span><h3>$can_interview</h3></span>"; ?>
+					<p class="error"><?php echo $this->session->flashdata('can_interview'); ?></p>
 					<section id="interview_records">
 						<?php echo form_open("$designation/scheduled_interview"); ?>
 						<h3>Applicant Details</h3>

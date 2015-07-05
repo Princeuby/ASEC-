@@ -7,7 +7,7 @@
 				</header>
 				<section class="center">
 					<?php echo "<span><h3>$no_scheduledTraining</h3></span>"; ?>
-					<?php echo "<span><h3>$can_training</h3></span>"; ?>
+					<p class="error"><?php echo $this->session->flashdata('can_training'); ?></p>
 					<section id="training_records">
 						<?php echo form_open("$designation/scheduled_training"); ?>
 						<h3>Applicant Details</h3>
