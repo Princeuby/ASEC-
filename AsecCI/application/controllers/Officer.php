@@ -276,14 +276,19 @@ class Officer extends CI_Controller {
 	    if ($this->input->post('close-leave')) {
 	    	$data['display_one_leave'] = 'None';
 	    }
+	    
+	    $this->load->view('templates/header', $data);
+	    $this->load->view('templates/nav', $data);
+	    $this->load->view($this->session->userdata('home').'/leaves', $data);
+	    $this->load->view('templates/footer');
+	}
 
-	    $this->load->library('form_validation');
+	public function add_leave() {
+		$this->load->helper('form');
+		$this->load->library('form_validation');
 		
 		$this->form_validation->set_rules('leave-type', 'Text', 'required');
 	    $this->form_validation->set_rules('proceeding-date', 'Date', 'required');
-
-	    $this->load->view('templates/header', $data);
-	    $this->load->view('templates/nav', $data);
 
 	    if ($this->form_validation->run() === TRUE) {
 	    	$leaveType = strip_tags($this->input->post('leave-type'));
@@ -294,9 +299,10 @@ class Officer extends CI_Controller {
 	    		$proceedingDate, $data['supervisor']['officer_id']);
 			redirect($this->session->userdata('home').'/leaves');
 	    }
-
-	    $this->load->view($this->session->userdata('home').'/leaves', $data);
-	    $this->load->view('templates/footer');
+	    else {
+	    	$this->session->set_flashdata('leave_create', "Failed to create leave request, please try again!");
+	    }
+    	redirect($this->session->userdata('home').'/leaves');
 	}
 }	
 	
