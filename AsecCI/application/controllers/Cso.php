@@ -6,14 +6,17 @@ class Cso extends Officer {
 	protected function set_data($page='Home') { // sets the data variables to avoid repition
 		$data = parent::set_data($page);
 		$data['functions'] = ['home', 'pending leaves', 'vacancy', 'view activity reports'];
+		$data['weekStart'] = date('Y-m-d', strtotime("this Sunday"));			
+		if ($data['weekStart'] === date('Y-m-d'))
+			$data['weekStart'] = date('Y-m-d', strtotime("next Sunday"));
 		return $data;
 	} 
 	
 	public function index() {
 		$data = $this->set_data();
-		$data['not_approved'] = $this->{$this->session->userdata('model')}->get_schedules(0);
-		$data['pending'] = $this->{$this->session->userdata('model')}->get_schedules();
-		$data['approved'] = $this->{$this->session->userdata('model')}->get_schedules(1);
+		$data['not_approved'] = $this->{$this->session->userdata('model')}->get_schedules(0, $data['weekStart']);
+		$data['pending'] = $this->{$this->session->userdata('model')}->get_schedules(null, $data['weekStart']);
+		$data['approved'] = $this->{$this->session->userdata('model')}->get_schedules(1, $data['weekStart']);
 
 		$data['display_n'] = '';
 		$data['display_p'] = '';
@@ -107,15 +110,15 @@ class Cso extends Officer {
 			list($data['location'], $data['selected_shift']) = explode('.', $this->input->post('show-schedule'));	
 			$shifts = ["Morning"=>"Afternoon", "Afternoon"=>"Night", "Night"=>"Morning"];
 			$status = $this->{$this->session->userdata('model')}->get_schedule_status(
-					$data['location'], $data['selected_shift']);
+					$data['location'], $data['selected_shift'], $data['weekStart']);
 			$data['status'] = $status['approved'];
 			
 			if ($data['status'] == 1)
 				$officers = $this->{$this->session->userdata('model')}->get_approved_officers_schedule(
-					$data['location'], $data['selected_shift']);
+					$data['location'], $data['selected_shift'], $data['weekStart']);
 			else
 				$officers = $this->{$this->session->userdata('model')}->get_officers_schedule(
-					$data['location'], $shifts[$data['selected_shift']]);
+					$data['location'], $shifts[$data['selected_shift']], $data['weekStart']);
 
 			$data['days'] = $this->get_working_days($officers);
 			
@@ -129,10 +132,14 @@ class Cso extends Officer {
 	}
 	
 	public function set_schedule() {
+		$weekStart = date('Y-m-d', strtotime("this Sunday"));	
+		if ($weekStart === date('Y-m-d'))
+			$weekStart = date('Y-m-d', strtotime("next Sunday"));
+			
 		if ($this->input->post('yes')) {
 			list($location, $shift) = explode('.', $this->input->post('yes'));
 			$this->{$this->session->userdata('model')}->set_schedule_status(
-					$location, $shift, 1);
+					$location, $shift, 1, $weekStart);
 			// Rotating algorithm
 			$shifts = ["Morning"=>"Afternoon", "Afternoon"=>"Night", "Night"=>"Morning"];
 		
@@ -144,7 +151,7 @@ class Cso extends Officer {
 		elseif ($this->input->post('no')) {
 			list($location, $shift) = explode('.', $this->input->post('no'));
 			$this->{$this->session->userdata('model')}->set_schedule_status(
-					$location, $shift, 0, strip_tags($this->input->post('comment')));
+					$location, $shift, 0, $weekStart, strip_tags($this->input->post('comment')));
 		}
 		redirect($this->session->userdata('home'));
 	}

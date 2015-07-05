@@ -4,8 +4,8 @@
 			</style>
 			<header>
 				<h2 class="alt">Officer <strong>Schedule</strong></h2>
-				<p>Week: <span class='blue-text'><?php echo date('d/m/Y', strtotime('this Sunday'))
-					   . " - " . date('d/m/Y', strtotime('this Sunday + 1 week - 1 day')); ?></span>
+				<p>Week: <span class='blue-text'><?php echo date('d/m/Y', strtotime($weekStart))
+					   . " - " . date('d/m/Y', strtotime($weekStart. ' + 1 week - 1 day')); ?></span>
 				</p>
 			</header>
 			
@@ -22,9 +22,9 @@
 					<tbody>	
 					    <tr>
 							<td class="t40"><select name='location'>
-								<?php foreach ($locations as $location) {
-									$location = $location['location']; // Bad stuff
-									if ($location === $selected_location)
+								<?php foreach ($locations as $venue) {
+									$venue = $venue['location']; // Bad stuff
+									if ($venue === $location)
 										echo "<option value='$location' selected>$location</option>";
 									else
 										echo "<option value='$location'>$location</option>";
@@ -46,7 +46,7 @@
 				</table>
 			</form>
 			<?php echo form_open("scheduler/index") ?>
-				<table class="display_s 10u center size-table">
+				<table class="display_s 10u center 12u$(mobile)">
 					<caption><h3>Status: <span class="<?php echo $color_class;?>">
 					<?php echo $status;?></span></h3><caption>
 					<thead>
@@ -83,11 +83,11 @@
 						<?php endforeach ?>
 					</tbody>
 				</table>
-				<section class='display_s t25 center button-label'>
-					<button class='link-button t40' name='set-schedule' value='schedule' <?php echo $disabled?>>Set Schedule</button>
+				<section class='display_s 3u center button-label 6u$(mobile)'>
+					<button class='link-button t40' name='set-schedule' value='schedule' <?php echo $disabled?>>Set</button>
 					<button type='button' class='link-button t40' name='show-schedule' value='schedule'
 							onclick="location.href='<?php echo base_url('scheduler/show_schedule'); ?>'">
-							Show Schedule</button>
+							Show</button>
 				</section>
 				
 				<hr class="display_l">

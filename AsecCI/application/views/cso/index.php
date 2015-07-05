@@ -5,8 +5,8 @@
 			</style>
 			<header>
 				<h2 class="alt">Created <strong>Schedules</strong></h2>
-				<p>Week: <span class='blue-text'><?php echo date('d/m/Y', strtotime('this Sunday'))
-					   . " - " . date('d/m/Y', strtotime('this Sunday + 1 week - 1 day')); ?></span>
+				<p>Week: <span class='blue-text'><?php echo date('d/m/Y', strtotime($weekStart))
+					   . " - " . date('d/m/Y', strtotime($weekStart. ' + 1 week - 1 day')); ?></span>
 				</p>
 			</header>
 			<section>
@@ -59,7 +59,7 @@
 							</table>
 						</div>
 					</section>
-					<table id="not-approved" class="8u center size-table">
+					<table id="not-approved" class="8u center 12u$(mobile)">
 						<caption class='red-text'><h3>Not Approved</h3></caption>
 						<thead>
 							<tr>
