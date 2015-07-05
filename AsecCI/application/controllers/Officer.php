@@ -41,8 +41,8 @@ class Officer extends CI_Controller {
 	// Gets the start of the week for finding the correct schedule
 	private function get_week_start() {
 		$today = date('Y-m-d');
-		
-		if (date('N', strtotime($today)) === 7)
+
+		if (date('N', strtotime($today)) == 7)
 			return $today;
 		else
 			return date('Y-m-d', strtotime('last Sunday'));
