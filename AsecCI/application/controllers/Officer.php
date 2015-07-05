@@ -313,7 +313,7 @@ class Officer extends CI_Controller {
 	
 	// Checks if an officer is allowed to be on duty
 	protected function onDuty($days, $scheduleShift) {
-		$onDuty = true; return true;
+		$onDuty = true; 
 		if (count($days[date('l')]) < 1)
 			$onDuty = false;
 		
