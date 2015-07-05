@@ -284,6 +284,7 @@ class Officer extends CI_Controller {
 	}
 
 	public function add_leave() {
+		$data = $this->set_data();
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 		
@@ -294,8 +295,8 @@ class Officer extends CI_Controller {
 	    	$leaveType = strip_tags($this->input->post('leave-type'));
 	    	$leaveComment = strip_tags($this->input->post('reason-for-leave'));
 	    	$proceedingDate = strip_tags($this->input->post('proceeding-date'));
-	    	$data['supervisor'] = $this->{$model}->get_supervisor($data['id']);
-	    	$this->{$model}->create_officer_leave($data['id'], $leaveType, $leaveComment,
+	    	$data['supervisor'] = $this->{$this->session->userdata('model')}->get_supervisor($data['id']);
+	    	$this->{$this->session->userdata('model')}->create_officer_leave($data['id'], $leaveType, $leaveComment,
 	    		$proceedingDate, $data['supervisor']['officer_id']);
 			redirect($this->session->userdata('home').'/leaves');
 	    }

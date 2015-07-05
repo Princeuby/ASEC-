@@ -82,7 +82,14 @@ class Cso extends Officer {
 	    		$approvedStatus = '1';
 	    	}
 	    	elseif ($approvedStatus === "Not Approved") {
-	    		$approvedStatus = '0';
+	    		$this->form_validation->set_rules('approval-comment', 'Text', 'required');
+			    if ($this->form_validation->run() === TRUE) {
+		    		$approvedStatus = '0';
+		    	}
+		    	else {
+					$this->session->set_flashdata('failed_approve', "Failed to approve leave, please try again!");
+					redirect($this->session->userdata('home').'/pending_leaves');
+				}
 	    	}
 	    	$comments = strip_tags($this->input->post('approval-comment'));
 	    	$this->{$this->session->userdata('model')}->set_approval_status($leaveID, $proceedingDate, $entitledDays, $approvedStatus, $comments);
