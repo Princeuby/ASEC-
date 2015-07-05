@@ -7,6 +7,7 @@
 			</header>
 			<section class="center">
 				<?php echo "<span><h3>$no_requests</h3></span>"; ?>
+				<p class="error"><?php echo $this->session->flashdata('failed_recommendation'); ?></p>
 				<section id="leaverequests">
 					<h3>Pending Leave Requests</h3>
 					<hr><br>
@@ -38,7 +39,6 @@
 						</form>
 					</table>
 				</section>
-				<?php echo "<span><h3>$failed_recommendation</h3></span>"; ?>
 				<section id="addRecommendation" class="6u 12u$(mobile) center">
 					<script> window.location.hash = "addRecommendation"; </script>
 					<p class="10u 12u$(mobile) center">
