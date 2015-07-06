@@ -74,8 +74,10 @@ class Officer extends CI_Controller {
 		$model = $this->session->userdata('model');
 		$days = $this->get_working_days([$data['schedule']]);
 		$data['onDuty'] = $this->onDuty($days, $data['schedule']['shift']);
-		// $data['previous_officers'] = $this->getOfficers($data['schedule'], 'previous');
-		$data['next_officers'] = $this->getOfficers($data['schedule'], 'next');
+		if ($data['onDuty']) {
+			$data['previous_officers'] = $this->getOfficers($data['schedule'], 'previous');
+			$data['next_officers'] = $this->getOfficers($data['schedule'], 'next');
+		}
 		// Gets activity report for current shift
 		$current_day = date('Y-m-d'); // Current day
 		$shift = $this->{$model}->get_shift(); // Current shift

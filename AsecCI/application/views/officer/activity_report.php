@@ -69,7 +69,7 @@
 				</section>-->
 			</section>
 			<?php } else {
-				echo "<br><br><h3 class='8u center'>You are only allowed to create reports
+				echo "<br><h3 class='8u center'>You are only allowed to create reports
 				 during your scheduled shift</h3>";
 			} ?>
 		</div>
