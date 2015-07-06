@@ -6,9 +6,16 @@ class Officer extends CI_Controller {
 		$this->load->library('session');
 		if ($this->session->userdata('officerID') === null) 
 			redirect('login/logout');
+		if (!$this->protectPage())
+			redirect($this->session->userdata('home'));
 		$this->session->set_userdata('model', $this->session->userdata('home').'_model');
         $this->load->model($this->session->userdata('model'));
     }
+	
+	// Prevents other user types from coming to this page
+	protected function protectPage() {
+		return ($this->session->userdata('home') === 'officer');
+	}
 	
 	public function index() {
 		$data = $this->set_data();

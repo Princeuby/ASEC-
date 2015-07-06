@@ -2,6 +2,11 @@
 require 'Cso.php';
 class Scheduler extends Cso {
 	
+	// Prevents other user types from coming to this page
+	protected function protectPage() {
+		return ($this->session->userdata('home') === 'scheduler');
+	}
+	
 	public function set_data($page='Schedule') {
 		$data = parent::set_data($page);
 		$data['functions'] = ['Schedule', 'Created Schedules', 'Alter Schedule'];
