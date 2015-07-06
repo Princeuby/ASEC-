@@ -46,17 +46,31 @@
 									<strong>Phone Number: </strong><span class="blue-text"><?php echo $selected_applicant['phone_number'];?></span><br>
 									<strong>Email: </strong><span class="blue-text"><?php echo $selected_applicant['email_address'];?></span><br>
 								</header>
-								<strong>Application Letter: </strong><span class="blue-text"><?php echo $selected_applicant['application_letter'];?></span><br>
-								<strong>Curriculum Vitae: </strong><span class="blue-text"><?php echo $selected_applicant['curriculum_vitae'];?></span><br>
+								<strong>Application Letter: </strong>
+								<?php	
+									if ($selected_applicant['application_letter']) {
+										echo "<a href='".base_url("$selected_applicant[application_letter]")."'>";
+										echo "Click to Download</a>";
+									}
+								?>								
+								<br>
+								<strong>Curriculum Vitae: </strong>
+								<?php	
+									if ($selected_applicant['curriculum_vitae']) {
+										echo "<a href='".base_url("$selected_applicant[curriculum_vitae]")."'>";	
+										echo "Click to Download</a>";
+									}
+								?>
+								<br>
 							</article></div></section>
 							</p>
 							<section class="6u 6u$(mobile) center">
 							<?php echo form_open("$designation/add_applicant_review") ?>
 								<?php 
-									echo "<label>Interview Date: <input type='date' min='".date('Y-m-d')."' name='applicant-interview-date' 
+									echo "<label>Interview Date: <br><input type='date' min='".date('Y-m-d')."' name='applicant-interview-date' 
 										class='size-input'></label>";
 									echo "<label>Interview Location: <textarea name='applicant-interview-location'></textarea></label><br>";
-									echo "<label>Approval Status: <select required name='applicant-interview-status' class='size-input'>
+									echo "<label>Approval Status: <br><select required name='applicant-interview-status' class='size-input'>
 											<option value='' disabled selected>Choose Status: </option>
 											<option value='Not Approved'>Not Approved</option>
 											<option value='Approved'>Approved</option>
