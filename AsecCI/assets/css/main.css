@@ -1915,7 +1915,6 @@
 		table td {
 			/*padding: 0.5em 1em 0.5em 1em;*/
 			/*padding: 1em;*/
-			padding-left: 0.5em;
 			padding: 0.5em;
 			border-right: #222 1px solid;
 			color: #000;
@@ -1923,9 +1922,10 @@
 		}
 			
 			table td > input, table td > select {
-				padding: 0 0.5em;
+				padding: 0.1em 0.5em !important;
 				font-size: 14pt !important;
 				line-height: 1.5em !important;
+				vertical-align: middle !important;
 				width: 100%;
 			}
 		

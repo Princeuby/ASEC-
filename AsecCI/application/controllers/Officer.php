@@ -6,17 +6,22 @@ class Officer extends CI_Controller {
 		$this->load->library('session');
 		if ($this->session->userdata('officerID') === null) 
 			redirect('login/logout');
+		if (!$this->protectPage())
+			redirect($this->session->userdata('home'));
 		$this->session->set_userdata('model', $this->session->userdata('home').'_model');
         $this->load->model($this->session->userdata('model'));
     }
 	
+	// Prevents other user types from coming to this page
+	protected function protectPage() {
+		return ($this->session->userdata('home') === 'officer');
+	}
+	
 	public function index() {
 		$data = $this->set_data();
-		$data['weekStart'] = $this->get_week_start();
-		$data['schedule'] = $this->{$this->session->userdata('model')}->get_schedule($data['id'], 
-			$data['weekStart']);
 		$officer_schedule[] = $data['schedule'];
 		$data['days'] = $this->get_working_days($officer_schedule);
+		$data['onDuty'] = $this->onDuty($data['days'], $data['schedule']['shift']);
 	    $this->load->view('templates/header', $data);
 	    $this->load->view('templates/nav');
 		if (empty($data['schedule']))
@@ -35,6 +40,9 @@ class Officer extends CI_Controller {
 		$data['id'] = $this->session->userdata('officerID');
 		$data['functions'] = ['home', 'activity report', 'view activity reports', 'leaves'];
 		$data['designation'] = $this->session->userdata('home');
+		$data['weekStart'] = $this->get_week_start();
+		$data['schedule'] = $this->{$this->session->userdata('model')}->get_schedule($data['id'], 
+			$data['weekStart']);
 		return $data;
 	}
 	
@@ -71,6 +79,12 @@ class Officer extends CI_Controller {
 	public function activity_report() {
 		$data = $this->set_data('Activity Report');
 		$model = $this->session->userdata('model');
+		$days = $this->get_working_days([$data['schedule']]);
+		$data['onDuty'] = $this->onDuty($days, $data['schedule']['shift']);
+		if ($data['onDuty']) {
+			$data['previous_officers'] = $this->getOfficers($data['schedule'], 'previous');
+			$data['next_officers'] = $this->getOfficers($data['schedule'], 'next');
+		}
 		// Gets activity report for current shift
 		$current_day = date('Y-m-d'); // Current day
 		$shift = $this->{$model}->get_shift(); // Current shift
@@ -156,12 +170,20 @@ class Officer extends CI_Controller {
 		$shift = '%';
 		$data['shifts'] = $this->{$model}->get_shifts();
 		$data['selected_shift'] = '%';
+		$data['officer_id'] = '';
+		if ($this->session->userdata('home') === 'cso')
+			$officerID = '%';
+				
 		if ($this->input->post('filter')) {
 			$data['limit'] = $this->input->post('limit');
 			$day = $this->input->post('day');
 			$data['selected_shift'] = $this->input->post('shift');
+			if ($this->input->post('officer')) {
+				$officerID = $this->input->post('officer');
+				$data['officer_id'] = $officerID;
+			}
 		}
-		
+
 		$data['reports'] = $this->{$model}->get_activity_reports($officerID,
 			$day, $data['selected_shift'], $data['limit']);
 		for ($i = 0; $i < count($data['reports']); $i ++) {
@@ -304,6 +326,46 @@ class Officer extends CI_Controller {
 	    	$this->session->set_flashdata('leave_create', "Failed to create leave request, please try again!");
 	    }
     	redirect($this->session->userdata('home').'/leaves');
+	}
+	
+	// Checks if an officer is allowed to be on duty
+	protected function onDuty($days, $scheduleShift) {
+		$onDuty = true; 
+		if (count($days[date('l')]) < 1)
+			$onDuty = false;
+		
+		$shift = $this->{$this->session->userdata('model')}->get_shift();
+		if ($shift != $scheduleShift)
+			$onDuty = false;
+			
+		return $onDuty;
+	}
+	
+	// Gets officers for next or previous shift
+	protected function getOfficers($schedule, $officerType) {
+		$weekStart = $this->get_week_start();
+		if ($officerType === "previous") {
+			$previousShifts = ["Morning"=>"Night", "Afternoon"=>"Morning", "Night"=>"Afternoon"];
+			$shift = $previousShifts[$schedule['shift']];
+			if ($shift === "Night" && date('Y-m-d') === $this->get_week_start()) 
+				$weekStart = date('Y-m-d', strtotime("last Sunday"));
+		}
+		else {
+			$nextShifts = ["Morning"=>"Afternoon", "Afternoon"=>"Night", "Night"=>"Morning"];
+			$shift = $nextShifts[$schedule['shift']];
+			if ($shift === "Morning" && date('Y-m-d') === $this->get_week_start()) 
+				$weekStart = date('Y-m-d', strtotime($weekStart." + 1 week"));
+		}
+
+        $this->load->model('cso_model'); // Not the best practice
+		$officers = $this->cso_model->get_approved_officers_schedule($schedule['location'],
+			$shift,	$weekStart);
+			
+		foreach ($officers as $key => $value) {
+			$officers[$key]['officer_name'] = $this->{$this->session->userdata('model')}->
+				get_officer_name($value['officer_id']);
+		}
+		return $officers;
 	}
 }	
 	

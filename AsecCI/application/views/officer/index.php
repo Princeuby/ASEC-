@@ -30,7 +30,9 @@
 			</table>
 
 			<footer>
-				<a href="<?php echo base_url("$designation/activity_report"); ?>" class="link-button">Start Shift</a>
+				<?php if ($onDuty) { ?>
+					<a href="<?php echo base_url("$designation/activity_report"); ?>" class="link-button">Start Shift</a>
+				<?php } ?>
 			</footer>
 
 		</div>

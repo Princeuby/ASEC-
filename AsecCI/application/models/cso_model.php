@@ -2,6 +2,19 @@
 require_once 'supervisor_model.php';
 class CSO_Model extends Supervisor_Model {
 
+	// Gets activity reports
+	public function get_activity_reports($officerID, $current_day, $shift, $limit=6) {
+		$conditions = array(
+			'officer_id LIKE' => $officerID,
+			'date_timeIn LIKE' => $current_day . '%',
+			'shift LIKE' => $shift
+		);
+		$this->db->order_by('date_timeIn DESC');
+		// Current activity report
+		$this->db->limit($limit);
+		return $this->db->get_where('activity_report', $conditions)->result_array();
+	}
+	
 	public function get_officer_details($officerID) {
 		$query = $this->db->get_where('security_officer', 
 			array('officer_id' => $officerID));
@@ -81,7 +94,7 @@ class CSO_Model extends Supervisor_Model {
 		$this->db->update('scheduling', $data, $conditions);
 	}
 	
-	// Gets officers schedules based on location and last shift
+	// Gets officers' schedules based on location and last shift
 	public function get_officers_schedule($location, $shift, $weekStart) {
 		return $this->db->query("SELECT * FROM scheduling WHERE 
 			officer_id in (SELECT officer_id FROM officer_locations
@@ -89,6 +102,7 @@ class CSO_Model extends Supervisor_Model {
 			 AND week_start = '$weekStart'")->result_array();
 	}
 	
+	// Gets approved officers' schedules based on location and current shift
 	public function get_approved_officers_schedule($location, $shift, $weekStart) {
 		return $this->db->query("SELECT * FROM scheduling WHERE 
 			officer_id in (SELECT officer_id FROM officer_locations

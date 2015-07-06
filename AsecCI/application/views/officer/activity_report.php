@@ -5,12 +5,18 @@
 		</style>
 			<header>
 				<h2 class="alt">Activity Report<strong> Details</strong></h2>
-				<!--<a id="new-link" href="<?php echo base_url("$designation/view_activity_reports"); ?>">View Activity Reports</a>-->
 			</header>
-			<section id="new-report" class="6u 12u$(mobile) center">
+			<?php if ($onDuty) { ?>
+			<section id="new-report" class="4u 12u$(mobile) center">
 				<?php echo form_open("$designation/new_activity_report") ?>
-				    <label><input type="text" name="prevID" placeholder="Previous Officer ID" class="size-input"></label>					
-					<input type="submit" name="submit" value="Create New Report">
+					<label>Previous Officer<br><select name="prevID" required>	
+					<option value='' Selected>Choose Officer</option>
+					<?php foreach ($previous_officers as $officers) {
+						echo "<option value='$officers[officer_id]'>$officers[officer_name]</option>"; 
+					}?>				
+					</select></label>	
+					<button class='ts' name='submit' value='new-report'>
+								New Report</button>
 				</form>
 			</section>
 			<section id="not-new">
@@ -44,13 +50,28 @@
 					</form>
 				</section>
 				<hr><br>
-				<section id="next-officer" class="6u 12u$(mobile) center">
+				<section id="next-officer" class="4u 12u$(mobile) center">
+					<?php echo form_open("$designation/close_activity_report") ?>
+						<label>Next Officer<br><select name="nextID" required>	
+						<option value='' Selected>Choose Officer</option>
+						<?php foreach ($next_officers as $officers) {
+							echo "<option value='$officers[officer_id]'>$officers[officer_name]</option>"; 
+						}?>				
+						</select></label>	
+						<button class='ts' name='submit' value='new-report'>Close Report</button>
+					</form>
+				</section>
+				<!--<section id="next-officer" class="6u 12u$(mobile) center">
 					<?php echo form_open("$designation/close_activity_report") ?>
 					    <label><input type="text" name="nextID" placeholder="Next Officer ID" class="size-input"></label>					
 						<input type="submit" name="submit" value="Close Report">
 					</form>
-				</section>
+				</section>-->
 			</section>
+			<?php } else {
+				echo "<br><h3 class='8u center'>You are only allowed to create reports
+				 during your scheduled shift</h3>";
+			} ?>
 		</div>
 	</section>
 </div>
