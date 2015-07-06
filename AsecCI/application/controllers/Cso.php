@@ -156,7 +156,8 @@ class Cso extends Officer {
 		elseif ($this->input->post('no')) {
 			list($location, $shift) = explode('.', $this->input->post('no'));
 			$this->{$this->session->userdata('model')}->set_schedule_status(
-					$location, $shift, 0, $weekStart, strip_tags($this->input->post('comment')));
+					$location, $shift, 0, $weekStart, strip_tags($this->input->post('comment'),
+	    		"<ul><ol><li><span><strong><em><h1><h2><h3><h4><h5><h6><blockquote><pre>"));
 		}
 		redirect($this->session->userdata('home'));
 	}
