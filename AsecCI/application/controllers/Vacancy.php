@@ -132,7 +132,7 @@ class Vacancy extends CI_Controller {
 
         $config['upload_path']          = 'assets/uploads/';
         $config['allowed_types']        = 'doc|docx';
-        $config['max_size']             = 100;
+        $config['max_size']             = 2000;
        
         $this->load->library('upload', $config);
 
@@ -153,7 +153,7 @@ class Vacancy extends CI_Controller {
 	protected function file_upload($fieldName, $fileName) {
 		$config['upload_path']          = 'assets/uploads/';
         $config['allowed_types']        = 'doc|docx';
-        $config['max_size']             = 100;
+        $config['max_size']             = 2000;
         $config['overwrite']			= 1;
         $config['file_name']			= $fileName;
         
