@@ -103,11 +103,19 @@ class CSO_Model extends Supervisor_Model {
 	}
 	
 	// Gets approved officers' schedules based on location and current shift
-	public function get_approved_officers_schedule($location, $shift, $weekStart) {
-		return $this->db->query("SELECT * FROM scheduling WHERE 
+	public function get_approved_officers_schedule($location, $shift, $weekStart, $not=false) {
+		$sql = "SELECT * FROM scheduling WHERE 
 			officer_id in (SELECT officer_id FROM officer_locations
-			 WHERE officer_location='$location') AND shift='$shift' 
-			 AND week_start = '$weekStart'")->result_array();
+			 WHERE officer_location='$location') AND week_start = '$weekStart'";
+		if ($not) 
+			$sql .= " AND shift!='$shift'";
+		else
+			$sql .= " AND shift='$shift'";
+		// return $this->db->query("SELECT * FROM scheduling WHERE 
+		// 	officer_id in (SELECT officer_id FROM officer_locations
+		// 	 WHERE officer_location='$location') AND shift='$shift' 
+		// 	 AND week_start = '$weekStart'")->result_array();
+		return $this->db->query($sql)->result_array();
 	}
 	
 	public function set_last_shift($officerID, $shift) {

@@ -65,4 +65,14 @@ class Scheduler_Model extends CSO_Model {
 			'approved_status' => 1);
 		return $this->db->get_where('leaves', $data)->row_array();
 	}
+	
+	// Swaps two officer's schedules
+	public function swap_schedules($officerOne, $location, $officerTwo, $weekStart) {
+		$data = array(
+			'officer_id' => $officerOne,
+			'location' => $location,
+			'week_start' => $weekStart);
+		
+		$this->db->update('scheduling', array('officer_id' => $officerTwo), $data);
+	}
 }

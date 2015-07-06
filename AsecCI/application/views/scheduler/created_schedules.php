@@ -10,8 +10,8 @@
 				</p>
 			</header>
 			<section>
-				<?php echo form_open("scheduler/created_schedules") ?>
-					<table id="not-approved" class="8u center size-table">
+				<?php echo form_open("$designation/created_schedules") ?>
+					<table id="not-approved" class="9u center size-table">
 						<caption class='red-text'><h3>Not Approved</h3></caption>
 						<thead>
 							<tr>

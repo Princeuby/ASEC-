@@ -240,6 +240,78 @@ class Scheduler extends Cso {
 	    $this->load->view('templates/footer');
 	}
 	
+	public function alter_schedule() {
+		$data = $this->set_data('Alter Schedule');	
+		$data['weekStart'] = date('Y-m-d', strtotime($data['weekStart'].' - 1 week'));
+		if ($this->session->userdata('selected_officer_id'))
+			$data['officerID'] = $this->session->userdata('selected_officer_id');
+		else	
+			$data['officerID'] = null;
+			
+		if ($this->session->userdata('options'))
+			$data['options'] = $this->session->userdata('options');
+		else	
+			$data['options'] = null;
+			
+		$data['schedules'] = [];
+			
+		$schedule = [];
+		if ($this->input->post('get-schedule')) {
+			$data['officerID'] = $this->input->post('officer-id');
+			$schedule = $this->{$this->session->userdata('model')}->
+				get_schedule($data['officerID'], $data['weekStart']);
+			$this->session->set_userdata('selected_officer_id', $data['officerID']);
+		}
+		if (!empty($schedule)) {
+			$schedule['officer_name'] = $this->{$this->session->userdata('model')}->
+				get_officer_name($data['officerID']);
+			$data['options'] = $this->{$this->session->userdata('model')}->
+				get_approved_officers_schedule($schedule['location'], $schedule['shift'],
+				 $data['weekStart'], true);
+			foreach($data['options'] as $key => $value) {
+				$data['options'][$key]['officer_name'] = $this->{$this->session->userdata('model')}->
+				get_officer_name($data['options'][$key]['officer_id']);
+			}
+			$this->session->set_userdata('options', $data['options']);
+			$this->session->set_userdata('location', $schedule['location']);
+		}
+		if ($this->input->post('get-other-officer')) {
+			$otherOfficerID = $this->input->post('second-officer');
+			$this->session->set_userdata('officer-two', $otherOfficerID);
+			$data['schedules'][0] = $this->{$this->session->userdata('model')}->
+				get_schedule($data['officerID'], $data['weekStart']);
+			$data['schedules'][0]['officer_name'] = $this->{$this->session->userdata('model')}->
+				get_officer_name($data['officerID']);
+			$data['schedules'][1] = $this->{$this->session->userdata('model')}->
+				get_schedule($otherOfficerID, $data['weekStart']);
+			$data['schedules'][1]['officer_name'] = $this->{$this->session->userdata('model')}->
+				get_officer_name($otherOfficerID);
+
+		}
+		if ($this->input->post('swap')) {
+			$officerID = $this->session->userdata('selected_officer_id');
+			$otherOfficerID = $this->session->userdata('officer-two');
+			$location = $this->session->userdata('location');
+			$this->{$this->session->userdata('model')}->swap_schedules(
+				$officerID, $location, $data['id'], $data['weekStart']);
+				// die();
+			$this->{$this->session->userdata('model')}->swap_schedules(
+				$otherOfficerID, $location, $officerID, $data['weekStart']);
+			$this->{$this->session->userdata('model')}->swap_schedules(
+				$data['id'], $location, $otherOfficerID, $data['weekStart']);
+        	$this->session->set_flashdata('success','Successfully swapped the schedules.');
+			$this->session->unset_userdata('selected_officer_id');
+			$this->session->unset_userdata('officer-two');
+			$this->session->unset_userdata('location');
+			$this->session->unset_userdata('options');
+			redirect($this->session->userdata('home').'/alter_schedule');
+		}
+		$this->load->view('templates/header', $data);
+	    $this->load->view('templates/nav');
+	    $this->load->view($this->session->userdata('home').'/alter_schedule');
+	    $this->load->view('templates/footer');
+	}
+	
 	// Checks if an officer is available
 	protected function isNotAvailable($leave, $weekStart, $weekEnd) {
 		return ($leave['approved_status'] == 1 &&
