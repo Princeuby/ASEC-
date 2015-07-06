@@ -6,9 +6,15 @@
 				<h2 class="alt">View Activity Report<strong> Details</strong></h2>
 			</header>
 			<?php echo form_open("$designation/view_activity_reports") ?>
-				<table class="8u center size-table">
+				<?php if ($designation === "cso") 
+					echo '<table class="10u center size-table">';
+				else
+					echo '<table class="8u center size-table">'; ?>
 					<thead>
 						<tr>
+							<?php if ($designation === "cso") {
+								echo "<th>Officer ID</th>";
+							} ?>
 							<th>Day</th>
 							<th>Shift</th>
 							<th>Max Rows</th>
@@ -17,6 +23,10 @@
 					</thead>
 					<tbody>	
 					    <tr>
+							<?php if ($designation === "cso") {
+								echo "<td class='t20'><input type='text' name='officer' placeholder='P.123'
+								value='$officer_id'></td>";
+							} ?>
 							<td class="t25"><input type="date" name="day"></td>					
 							<td class="t40"><select name='shift'>
 								<option value='%'>All</option>

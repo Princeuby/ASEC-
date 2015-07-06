@@ -3,8 +3,9 @@ require_once 'supervisor_model.php';
 class CSO_Model extends Supervisor_Model {
 
 	// Gets activity reports
-	public function get_activity_reports($supervisorID, $current_day, $shift, $limit=6) {
+	public function get_activity_reports($officerID, $current_day, $shift, $limit=6) {
 		$conditions = array(
+			'officer_id LIKE' => $officerID,
 			'date_timeIn LIKE' => $current_day . '%',
 			'shift LIKE' => $shift
 		);

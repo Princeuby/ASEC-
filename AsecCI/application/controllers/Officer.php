@@ -170,12 +170,20 @@ class Officer extends CI_Controller {
 		$shift = '%';
 		$data['shifts'] = $this->{$model}->get_shifts();
 		$data['selected_shift'] = '%';
+		$data['officer_id'] = '';
+		if ($this->session->userdata('home') === 'cso')
+			$officerID = '%';
+				
 		if ($this->input->post('filter')) {
 			$data['limit'] = $this->input->post('limit');
 			$day = $this->input->post('day');
 			$data['selected_shift'] = $this->input->post('shift');
+			if ($this->input->post('officer')) {
+				$officerID = $this->input->post('officer');
+				$data['officer_id'] = $officerID;
+			}
 		}
-		
+
 		$data['reports'] = $this->{$model}->get_activity_reports($officerID,
 			$day, $data['selected_shift'], $data['limit']);
 		for ($i = 0; $i < count($data['reports']); $i ++) {
@@ -335,7 +343,7 @@ class Officer extends CI_Controller {
 	
 	// Gets officers for next or previous shift
 	protected function getOfficers($schedule, $officerType) {
-		$weekStart = date('Y-m-d');
+		$weekStart = $this->get_week_start();
 		if ($officerType === "previous") {
 			$previousShifts = ["Morning"=>"Night", "Afternoon"=>"Morning", "Night"=>"Afternoon"];
 			$shift = $previousShifts[$schedule['shift']];
