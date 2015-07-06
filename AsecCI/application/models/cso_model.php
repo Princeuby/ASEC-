@@ -2,6 +2,18 @@
 require_once 'supervisor_model.php';
 class CSO_Model extends Supervisor_Model {
 
+	// Gets activity reports
+	public function get_activity_reports($supervisorID, $current_day, $shift, $limit=6) {
+		$conditions = array(
+			'date_timeIn LIKE' => $current_day . '%',
+			'shift LIKE' => $shift
+		);
+		$this->db->order_by('date_timeIn DESC');
+		// Current activity report
+		$this->db->limit($limit);
+		return $this->db->get_where('activity_report', $conditions)->result_array();
+	}
+	
 	public function get_officer_details($officerID) {
 		$query = $this->db->get_where('security_officer', 
 			array('officer_id' => $officerID));
