@@ -56,7 +56,7 @@
 							<section class="6u 6u$(mobile) center">
 							<?php echo form_open("$designation/add_applicant_training") ?>
 								<?php 
-									echo "<label>Approval Status: <select required name='applicant-success-status' class='size-input'>
+									echo "<label>Approval Status: <br><select required name='applicant-success-status' class='size-input'>
 											<option value='' disabled selected>Choose Status: </option>
 											<option value='Not Approved'>Not Approved</option>
 											<option value='Approved'>Approved</option>

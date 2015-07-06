@@ -20,7 +20,7 @@
 							</select></label>
 						<label>Working Experience: <textarea name="vacant-working-experience"></textarea></label>
 						<label>Other Specifiations: <textarea name="vacant-other-specifications"></textarea></label>
-						<label>Closing Date: <input type="date" name="vacant-closing-date" min="<?php echo date('Y-m-d'); ?>"></label>
+						<label>Closing Date: <br><input type="date" name="vacant-closing-date" min="<?php echo date('Y-m-d'); ?>"></label>
 						<input name="Submit" type="submit" value="Create Vacancy">
 					</form>
 				</section>

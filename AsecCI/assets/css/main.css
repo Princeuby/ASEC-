@@ -1852,6 +1852,9 @@
 		transition: all 0.35s ease-in-out;
 	}
 	
+	form input[type="file"] {
+		color: #bbb;
+	}
 	form select {
 		display: inline;
 	}

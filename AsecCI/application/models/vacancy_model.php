@@ -23,8 +23,7 @@ class Vacancy_Model extends CI_Model {
 	}
 
 	public function create_application($vacancy_id, $first_name, 
-				$middle_name, $last_name, $phone_number, $email, $application_letter,
-				$curriculum_vitae) {
+				$middle_name, $last_name, $phone_number, $email) {
 
 		$data = array( // Data for insert statement
 			'date_of_application' => date('Y-m-d H:i:s'),
@@ -33,13 +32,20 @@ class Vacancy_Model extends CI_Model {
 			'last_name' => $last_name,
 			'phone_number' => $phone_number,
 			'email_address' => $email,
-			'application_letter' => $application_letter,
-			'curriculum_vitae' => $curriculum_vitae,
 			'vacancy_id' => $vacancy_id,
 			'application_status' => '1',
 			'applicant_added' => '0'			
 		);
 		$this->db->insert('application', $data);
+		return $this->db->insert_id();
+	}
+
+	public function add_upload_files($applicant_id, $application_letter, $curriculum_vitae) {
+		$data = array(
+			'application_letter' => $application_letter,
+			'curriculum_vitae' => $curriculum_vitae
+		);
+		$this->db->update('application', $data, "applicant_id = $applicant_id");
 	}
 }
 ?>
