@@ -60,9 +60,9 @@
 					</article></div></section>
 					<?php echo form_open("$designation/leave_approval") ?>
 						<?php 
-							echo "<label>Entilted Days: <input required type='number' min='1' max='365' id='approval-days' name='approval-days' 
+							echo "<label>Entilted Days: <br><input required type='number' min='1' max='365' id='approval-days' name='approval-days' 
 							class='size-input' value='$selected_leave[entitled_days]'></label>";
-							echo "<label>Approval Status: <select required name='approval-status' class='size-input'>
+							echo "<label>Approval Status: <br><select required name='approval-status' class='size-input'>
 									<option value='' disabled selected>Select Status</option>
 									<option value='Not Approved'>Not Approved</option>
 									<option value='Approved'>Approved</option>

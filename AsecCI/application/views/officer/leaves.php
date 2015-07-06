@@ -53,7 +53,7 @@
 						<!--<script>window.location.hash = 'request_leave';</script>-->
 						<?php echo form_open("$designation/add_leave") ?>
 							<?php
-								echo "<label>Leave Type: <select required name='leave-type' class='size-input'>
+								echo "<label>Leave Type: <br><select required name='leave-type' class='size-input'>
 									<option value='' disabled selected>Choose Type:</option>
 									<option value='Annual' $disable_annual>Annual</option>
 									<option value='Burial'>Burial</option>
@@ -62,7 +62,7 @@
 								</select></label>";	
 							?>
 							<label>Reason For Leave: <textarea name="reason-for-leave"></textarea></label><br>
-						    <label>Proceeding date: <input type="date" name="proceeding-date" min="<?php echo date('Y-m-d'); ?>" class="size-input"></label><br>
+						    <label>Proceeding date: <br><input type="date" name="proceeding-date" min="<?php echo date('Y-m-d'); ?>" class="size-input"></label><br>
 						    <input type="submit" name="submit" value="Request Leave">
 						</form>
 					</section>

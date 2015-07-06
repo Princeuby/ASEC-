@@ -39,7 +39,7 @@
 						</form>
 					</table>
 				</section>
-				<section id="addRecommendation" class="6u 12u$(mobile) center">
+				<section id="addRecommendation" class="10u 12u$(mobile) center">
 					<script> window.location.hash = "addRecommendation"; </script>
 					<p class="10u 12u$(mobile) center">
 					<section id="incidents"><div class="10u 12u$(mobile) center"><article>
@@ -54,7 +54,7 @@
 					</article></div></section>
 					</p>
 					<?php echo form_open("$designation/add_recommendation") ?>
-						<label>Entilted Days: <input required type="number" min="1" max="365" name="recommendation-days" class="size-input"></label>
+						<label>Entilted Days: <br><input required type="number" min="1" max="365" name="recommendation-days" class="size-input"></label>
 						<label>Comments: <textarea name="recommendation-comment"></textarea></label><br>
 						<?php echo "<input type='hidden' id='buttonLeaveId' name='buttonLeaveId' value='$selected_leave[leaves_id]'>"; ?>
 						<input type="submit" name="submit" id="addRec" value="Add Recommendation">
