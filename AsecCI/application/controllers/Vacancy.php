@@ -5,6 +5,7 @@ class Vacancy extends CI_Controller {
 		parent::__construct();
 		$this->load->model('vacancy_model');
 		$this->load->library('session');
+		$this->load->helper(array('form', 'url'));
 	}
 
 	public function set_data() {
@@ -79,7 +80,7 @@ class Vacancy extends CI_Controller {
 		
 		$this->load->view('templates/header', $data);
 	    $this->load->view('templates/nav');
-	    $this->load->view('vacancy/applicants');
+	    $this->load->view('vacancy/applicants', array('error' => ' ' ));
 	    $this->load->view('templates/footer');
 	}
 
@@ -91,28 +92,84 @@ class Vacancy extends CI_Controller {
 		$this->form_validation->set_rules('applicant-lastName', 'Text', 'required');
 		$this->form_validation->set_rules('applicant-phoneNumber', 'Text', 'required');
 		$this->form_validation->set_rules('applicant-email', 'Text', 'required');
-		$this->form_validation->set_rules('applicant-applicationLetter', 'file', 'required');
-		$this->form_validation->set_rules('applicant-curriculumVitae', 'file', 'required');
 
 		if ($this->form_validation->run() === TRUE) {
+			$AL = $this->check_upload('applicant-applicationLetter');
+			// print_r('AL: '.$AL); die();
+			
+			$CV = $this->check_upload('applicant-curriculumVitae');
+			// print_r('CV: '.$CV); die();
+
 			$first_name = strip_tags($this->input->post('applicant-firstName'));
 			$middle_name = strip_tags($this->input->post('applicant-middleName'));
 			$last_name = strip_tags($this->input->post('applicant-lastName'));
 			$phone_number = strip_tags($this->input->post('applicant-phoneNumber'));
 			$email = strip_tags($this->input->post('applicant-email'));
-			$application_letter = $this->input->post('applicant-applicationLetter');
-			$curriculum_vitae = $this->input->post('applicant-curriculumVitae');
 
-			$this->vacancy_model->create_application($this->session->userdata('application_vacancy_id'), $first_name, 
-				$middle_name, $last_name, $phone_number, $email, $application_letter,
-				$curriculum_vitae);
-				
+			$applicant_id = $this->vacancy_model->create_application($this->session->userdata('application_vacancy_id'), 
+				$first_name, $middle_name, $last_name, $phone_number, $email);
+			
+			// print_r('Applicant ID: '.$applicant_id); die();
+			
+			$application_letter = $this->file_upload('applicant-applicationLetter', $applicant_id.'_'.$AL);
+			// print_r('application_letter: '.$application_letter); die();
+			
+			$curriculum_vitae = $this->file_upload('applicant-curriculumVitae', $applicant_id.'_'.$CV);
+			// print_r('curriculum_vitae: '.$curriculum_vitae); die();
+
+			$this->vacancy_model->add_upload_files($applicant_id, $application_letter, $curriculum_vitae);	
+			
 			redirect('vacancy');
 		}
 		else {
 			$this->session->set_flashdata('failed_create', "Failed to create application, please try again!");
 		}
 		redirect('vacancy/applicants');
+	}
+
+	protected function check_upload($fieldName) {
+		// $data = $this->set_data();
+
+        $config['upload_path']          = 'assets/uploads/';
+        $config['allowed_types']        = 'doc|docx';
+        $config['max_size']             = 100;
+       
+        $this->load->library('upload', $config);
+
+        if (!$this->upload->do_upload($fieldName)) {
+            $error = $this->upload->display_errors();
+            $this->session->set_flashdata('failed_create', $error);
+
+			redirect('vacancy/applicants');
+        }
+        else{
+        	// $data = array('upload_data' => $this->upload->data());
+	        $file_is_named = $this->upload->data('file_name');
+	        unlink($config['upload_path'].$file_is_named);
+	        return  $file_is_named;
+        }
+	}
+
+	protected function file_upload($fieldName, $fileName) {
+		$config['upload_path']          = 'assets/uploads/';
+        $config['allowed_types']        = 'doc|docx';
+        $config['max_size']             = 100;
+        $config['overwrite']			= 1;
+        $config['file_name']			= $fileName;
+        
+        $this->upload->initialize($config);
+
+        // $this->load->library('upload', $config);
+
+        $this->upload->do_upload($fieldName);
+
+        $data = array('upload_data' => $this->upload->data());
+        
+        // $this->upload->data('file_name') = $this->upload->data('file_name') . $fileName;
+        $filename = $this->upload->data('file_name');
+        // $uploadPath = $this->upload->data('upload_path');
+
+        return $config['upload_path'].$filename;
 	}
 }
 ?>
