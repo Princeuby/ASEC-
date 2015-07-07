@@ -1,7 +1,7 @@
 	<script src="<?php echo base_url('assets/js/datepickr.min.js'); ?>"></script>
     <script>
         // Regular datepickr
-        datepickr('#datepickr');
+        datepickr('#datepickr', {dateFormat: 'Y-m-d'});
 
         // Custom date format
         datepickr('.datepickr', { minDate: new Date().getTime(), dateFormat: 'Y-m-d'});

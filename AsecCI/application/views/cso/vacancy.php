@@ -21,10 +21,20 @@
 							</select></label>
 						<label>Working Experience: <textarea name="vacant-working-experience"></textarea></label>
 						<label>Other Specifiations: <textarea name="vacant-other-specifications"></textarea></label>
-						<input name="Submit" type="submit" value="Create Vacancy">
+						<input name="Submit" type="submit" onclick="return confirm_submit();" value="Create Vacancy">
 					</form>
 				</section>
 			</section>
+			<script type="text/javascript">
+				function confirm_submit() {
+					var message = confirm('Are you sure you want to submit!');
+					if (message == true) {
+						return true;
+					} else {
+						return false;
+					}
+				}
+			</script>
 		</div>
 	</section>
 </div>
