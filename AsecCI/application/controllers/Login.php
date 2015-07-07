@@ -52,7 +52,7 @@ class Login extends CI_Controller {
 				elseif ($data['officer']['designation'] == "Supervisor") {
 					$this->session->set_userdata('home','supervisor');
 				}
-				elseif ($data['officer']['designation'] == "CSO") {
+				elseif ($data['officer']['designation'] == "CSO" || $data['officer']['designation'] == "ACSO") {
 					$this->session->set_userdata('home','cso');
 				}
 				elseif ($data['officer']['designation'] == "Scheduler") {
@@ -60,6 +60,9 @@ class Login extends CI_Controller {
 				}
 				elseif ($data['officer']['designation'] == "Committee") {
 					$this->session->set_userdata('home','committee');
+				}
+				elseif ($data['officer']['designation'] == "AVP") {
+					$this->session->set_userdata('home','avp');
 				}
 				else {
 					$this->session->set_userdata('home','other');
