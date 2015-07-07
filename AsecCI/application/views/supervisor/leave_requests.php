@@ -14,11 +14,11 @@
 					<table class="10u 12u$(mobile) center">
 						<thead>
 							<tr>
+								<th>Recommendation</th>
 								<th>Officer Name</th>
 								<th>Officer Rank</th>
 								<th>Leave Type</th>
 								<th>Proceeding Date</th>
-								<th>Recommendation</th>
 							</tr>
 						</thead>
 						<?php echo form_open("$designation/leave_requests") ?>
@@ -27,11 +27,11 @@
 								<?php
 								echo "<tr>";
 									$officer_name = $requests['first_name'] . " " . $requests['last_name'];
+									echo "<td><button class='link-button' name='recCom' value='$requests[leaves_id]'>Add</button></td>";
 									echo "<td>$officer_name</td>";
 									echo "<td>$requests[rank]</td>";
 									echo "<td>$requests[leave_type]</td>";
 									echo "<td>$requests[proceeding_date]</td>";
-									echo "<td><button class='link-button' name='recCom' value='$requests[leaves_id]'>Add</button></td>";
 								 echo "</tr>";
 								 ?>
 							<?php endforeach ?>

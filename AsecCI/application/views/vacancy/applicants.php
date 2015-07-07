@@ -16,10 +16,19 @@
 						Curriculum Vitae: <br><em>Only word documents supported</em>
 							<input class="size-input" name="applicant-curriculumVitae" type="file">
 					</section>
-					<button name="applicant-apply" value="<?php echo $vacancyID; ?>"/>Apply</button>
+					<button name="applicant-apply" onclick=" return confirm_submit();" value="<?php echo $vacancyID; ?>"/>Apply</button>
 				<?php echo form_close(); ?>
 			</section>
-
+			<script type="text/javascript">
+				function confirm_submit() {
+					var message = confirm('Are you sure you want to submit!');
+					if (message == true) {
+						return true;
+					} else {
+						return false;
+					}
+				}
+			</script>
 		</div>
 	</section>
 </div>

@@ -2,7 +2,8 @@
 			#leaves_record { display: <?php echo $display_leaves; ?>; }
 			#request_leave { display: <?php echo $display_request; ?>; }
 			#leave_view { display: <?php echo $display_one_leave; ?>; }
-		</style>	
+		</style>
+
 				<header>
 					<h2 class="alt">Your Leaves <strong>Records</strong></h2>
 				</header>
@@ -21,26 +22,26 @@
 						<table class="10u 12u$(mobile) center">
 							<thead>
 								<tr>
+									<th></th>
 									<th>Leave Type</th>
 									<th>Proceeding Date</th>
 									<th>Returning Date</th>
 									<th>Supervisor Name</th>
 									<th>Approval Status</th>
-									<th></th>
 								</tr>
 							</thead>
 							<tbody>
 								<?php foreach ($leaves as $leave):?>
 									<?php
 									echo "<tr>";
+										echo "<td><button class='link-button' name='view-leave' value='$leave[leaves_id]'>
+												View Leave</button></td>";
 										echo "<td>$leave[leave_type]</td>";
 										echo "<td>$leave[proceeding_date]</td>";
 										echo "<td>$leave[returning_date]</td>";
 										$supervisor_name = $leave['first_name'] . " " . $leave['last_name'];
 										echo "<td>$supervisor_name</td>";
 										echo "<td>$leave[approved_status]</td>";
-										echo "<td><button class='link-button' name='view-leave' value='$leave[leaves_id]'>
-												View Leave</button></td>";
 									 echo "</tr>";
 									 ?>
 								<?php endforeach ?>
@@ -61,8 +62,8 @@
 									<option value='Other'>Other</option>
 								</select></label>";	
 							?>
+							<label>Proceeding date: <br><input name="proceeding-date" class="datepickr"></label><br>
 							<label>Reason For Leave: <textarea name="reason-for-leave"></textarea></label><br>
-						    <label>Proceeding date: <br><input type="date" name="proceeding-date" min="<?php echo date('Y-m-d'); ?>" class="size-input"></label><br>
 						    <input type="submit" name="submit" value="Request Leave">
 						</form>
 					</section>
@@ -91,3 +92,34 @@
 		</div>
 	</section>
 </div>
+	<script src="<?php echo base_url('assets/js/datepickr.min.js'); ?>"></script>
+        <script>
+            // Regular datepickr
+            datepickr('#datepickr');
+
+            // Custom date format
+            datepickr('.datepickr', { minDate: new Date().getTime(), dateFormat: 'Y-m-d'});
+
+            // Min and max date
+            datepickr('#minAndMax', {
+                // few days ago
+                minDate: new Date().getTime() - 2.592e8,
+                // few days from now
+                maxDate: new Date().getTime() + 2.592e8
+            });
+
+            // datepickr on an icon, using altInput to store the value
+            // altInput must be a direct reference to an input element (for now)
+            datepickr('.calendar-icon', { altInput: document.getElementById('calendar-input') });
+
+            // If the input contains a value, datepickr will attempt to run Date.parse on it
+            datepickr('[title="parseMe"]');
+
+            // Overwrite the global datepickr prototype
+            // Won't affect previously created datepickrs, but will affect any new ones
+            datepickr.prototype.l10n.months.shorthand = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Cct', 'Nov', 'Dec'];
+            datepickr.prototype.l10n.months.longhand = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            datepickr.prototype.l10n.weekdays.shorthand = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
+            datepickr.prototype.l10n.weekdays.longhand = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            datepickr('#someEnglish.please', { dateFormat: '\\ j F Y' });
+        </script>

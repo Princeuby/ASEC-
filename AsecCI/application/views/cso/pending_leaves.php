@@ -14,13 +14,13 @@
 					<table>
 						<thead>
 							<tr>
+								<th>Approval Status</th>
 								<th>Officer Name</th>
 								<th>Officer Rank</th>
 								<th>Department</th>
 								<th>Leave Type</th>
 								<th>Proceeding Date</th>
 								<th>Entitled Days</th>
-								<th>Approval Status</th>
 							</tr>
 						</thead>
 						<?php echo form_open("$designation/pending_leaves") ?>
@@ -29,13 +29,13 @@
 								<?php 
 								echo "<tr>";
 									$officer_name = $requests['first_name'] . " " . $requests['last_name'];
+									echo "<td><button class='link-button' name='setApp' value='$requests[leaves_id]'>Set Approval</button></td>";
 									echo "<td>$officer_name</td>";
 									echo "<td>$requests[rank]</td>";
 									echo "<td>$requests[dept_name]</td>";
 									echo "<td>$requests[leave_type]</td>";
 									echo "<td>$requests[proceeding_date]</td>";
 									echo "<td>$requests[entitled_days]</td>";
-									echo "<td><button class='link-button' name='setApp' value='$requests[leaves_id]'>Set Approval</button></td>";
 								 echo "</tr>";
 								 ?>
 							<?php endforeach ?>
