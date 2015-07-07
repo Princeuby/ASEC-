@@ -17,6 +17,7 @@
 								<th>Recommendation</th>
 								<th>Officer Name</th>
 								<th>Officer Rank</th>
+								<th>Department</th>
 								<th>Leave Type</th>
 								<th>Proceeding Date</th>
 							</tr>
@@ -30,6 +31,7 @@
 									echo "<td><button class='link-button' name='recCom' value='$requests[leaves_id]'>Add</button></td>";
 									echo "<td>$officer_name</td>";
 									echo "<td>$requests[rank]</td>";
+									echo "<td>$requests[dept_name]</td>";
 									echo "<td>$requests[leave_type]</td>";
 									echo "<td>$requests[proceeding_date]</td>";
 								 echo "</tr>";

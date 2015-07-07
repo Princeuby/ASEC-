@@ -25,7 +25,7 @@ class Supervisor_Model extends Officer_Model {
 
 	//Gets all pending leave requests
 	public function get_leave_requests($officerID) {
-		$query = $this->db->query("SELECT first_name, last_name, rank, leaves_id, leave_type, 
+		$query = $this->db->query("SELECT first_name, last_name, rank, dept_name, leaves_id, leave_type, 
 			leave_comment, proceeding_date, recommendation
 			FROM security_officer, leaves
 			WHERE security_officer.officer_id = leaves.officer_id AND supervisor_id_leaves = '$officerID' 
