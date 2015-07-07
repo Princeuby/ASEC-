@@ -21,6 +21,24 @@ class CSO_Model extends Supervisor_Model {
 		return $query->row_array();
 	}
 
+	public function get_officer_name($officerID) {
+		$query = $this->db->get_where('security_officer', 
+			array('officer_id' => $officerID))->row_array();
+		// Name of officer
+		return $query['first_name'] . " " . $query['last_name'];
+	}
+
+	public function get_all_leaves($leavesID=false) {
+		if ($leavesID === false) {
+			$query = $this->db->get('leaves');
+			return $query->result_array();
+		}
+		
+		$conditions = array(
+			'leaves_id' => $leavesID
+		);
+		return $this->db->get_where('leaves', $conditions)->row_array();
+	}
 	public function get_leave_record($leavesID) {
 		$query = $this->db->get_where('leaves', array('leaves_id' => $leavesID));
 		return $query->row_array();

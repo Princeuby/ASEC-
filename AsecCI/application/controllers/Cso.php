@@ -10,7 +10,7 @@ class Cso extends Officer {
 	
 	protected function set_data($page='Home') { // sets the data variables to avoid repition
 		$data = parent::set_data($page);
-		$data['functions'] = ['home', 'pending leaves', 'vacancy', 'view activity reports'];
+		$data['functions'] = ['home', 'pending leaves', 'view leaves', 'vacancy', 'view activity reports'];
 		$data['weekStart'] = date('Y-m-d', strtotime("this Sunday"));			
 		if ($data['weekStart'] === date('Y-m-d'))
 			$data['weekStart'] = date('Y-m-d', strtotime("next Sunday"));
@@ -107,6 +107,89 @@ class Cso extends Officer {
 			$this->session->set_flashdata('failed_approve', "Failed to approve leave, please try again!");
 		}
 		redirect($this->session->userdata('home').'/pending_leaves');
+ 	}
+
+ 	public function view_leaves() {
+ 		$data = $this->set_data('View Leaves');
+ 		$model = $this->session->userdata('model');
+ 		$data['all_leaves'] = $this->{$model}->get_all_leaves();
+
+		for ($i = 0; $i < count($data['all_leaves']); $i ++) {
+			if ($data['all_leaves'][$i]['returning_date'] === Null) {
+				$data['all_leaves'][$i]['returning_date'] = "Not Assigned";
+			}
+			if ($data['all_leaves'][$i]['approved_status'] === '1') {
+				$data['all_leaves'][$i]['approved_status'] = "Approved";
+			}
+			elseif ($data['all_leaves'][$i]['approved_status'] === '0') {
+				$data['all_leaves'][$i]['approved_status'] = "Not Approved";
+			}
+			else {
+				$data['all_leaves'][$i]['approved_status'] = "Pending";
+			}
+			$officerInfo = $this->{$model}->get_officer_details($data['all_leaves'][$i]['officer_id']);
+
+			$officerInfoName = $this->{$model}->get_officer_name($data['all_leaves'][$i]['officer_id']);
+			$supervisorInfoName = $this->{$model}->get_officer_name($data['all_leaves'][$i]['supervisor_id_leaves']);
+
+			$data['all_leaves'][$i]['officer_name'] = $officerInfoName;
+			$data['all_leaves'][$i]['officer_rank'] = $officerInfo['rank'];
+			$data['all_leaves'][$i]['supervisor_name'] = $supervisorInfoName;
+
+ 		}
+
+ 		$data['display_leave_records'] = '';
+		$data['no_record'] = '';
+		$data['display_a_leave'] = 'None';
+
+		if (empty($data['all_leaves'])) {
+			//No Leave history
+			$data['display_leave_records'] = 'None';
+			$data['no_record'] = "There is no leave record to show";
+		}
+
+		$data['officer_leave'] = '';
+
+		$this->load->helper('form');
+
+	    if ($this->input->post('view-one-leave')) {
+			$data['officer_leave'] = $this->{$model}->
+				get_all_leaves($this->input->post('view-one-leave'));
+				
+			if ($data['officer_leave']['returning_date'] === Null) {
+				$data['officer_leave']['returning_date'] = "Not Assigned";	
+			} 
+			if ($data['officer_leave']['approved_status'] === "1") {
+				$data['officer_leave']['approved_status'] = "Approved";
+			}
+			else if ($data['officer_leave']['approved_status'] === "0") {
+				$data['officer_leave']['approved_status'] = "Not Approved";
+			}
+			else {
+				$data['officer_leave']['approved_status'] = "Pending";	
+			}
+
+			$officer_Info = $this->{$model}->get_officer_details($data['officer_leave']['officer_id']);
+
+			$officer_InfoName = $this->{$model}->get_officer_name($data['officer_leave']['officer_id']);
+			$supervisor_InfoName = $this->{$model}->get_officer_name($data['officer_leave']['supervisor_id_leaves']);
+
+			$data['officer_leave']['officer_name'] = $officer_InfoName;
+			$data['officer_leave']['officer_rank'] = $officer_Info['rank'];
+			$data['officer_leave']['supervisor_name'] = $supervisor_InfoName;
+
+			$data['display_a_leave'] = 'block';
+		}
+
+		if ($this->input->post('close-one-leave')) {
+	    	$data['display_a_leave'] = 'None';
+	    }
+	    
+	    $this->load->view('templates/header', $data);
+	    $this->load->view('templates/nav', $data);
+	    $this->load->view($this->session->userdata('home').'/view_leaves', $data);
+	    $this->load->view('templates/footer');
+
  	}
 
 	public function show_schedule() {
