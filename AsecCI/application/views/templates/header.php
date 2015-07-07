@@ -10,6 +10,7 @@
 		<link rel="stylesheet" href="<?php echo base_url('assets/css/custom.css'); ?>">
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+		<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/datepickr.min.css'); ?>">
 	</head>
 	<body>
 		<div class="wrapper">
