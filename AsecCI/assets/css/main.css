@@ -1644,6 +1644,7 @@
 
 	header {
 		margin: 0 0 2em 0;
+		clear:both;
 	}
 
 		header > p {
@@ -2317,7 +2318,8 @@
 		/* Main */
 
 			#main > section {
-				padding: 3em 0;
+				/*padding: 3em 0;*/
+				padding: 1em 0;
 			}
 
 			#main section.cover {
@@ -2574,7 +2576,8 @@
 			}
 
 				#main > section {
-					padding: 3em 0;
+					/*padding: 3em 0;*/
+					padding: 1em 0;
 				}
 
 				#main section.cover {
@@ -2613,7 +2616,8 @@
 		/* Main */
 
 			#main > section {
-				padding: 2em 0;
+				/*padding: 2em 0;*/
+				padding: 1em 0;
 			}
 
 			#main section.cover {

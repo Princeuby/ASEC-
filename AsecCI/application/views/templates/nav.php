@@ -21,13 +21,7 @@
 				<?php endforeach ?>
 			</ul>
 		</nav>
-	</div>
-	
-	<div class="bottom center">
-			<ul class="icons">
-				<li><a href="<?php echo base_url('login/logout'); ?>" class="icon">Logout</a></li>
-			</ul>
-	</div>
+	</div>	
 </div>
 
 <!-- Main -->
@@ -36,3 +30,6 @@
 	<!-- Intro -->
 	<section id="top" class="one dark">
 		<div class="container">
+			<button id="logout" type='button' onclick="location.href='<?php echo base_url('login/logout'); ?>'">
+							Logout</button>
+			

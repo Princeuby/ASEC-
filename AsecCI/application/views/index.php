@@ -18,9 +18,10 @@
 					<div class="container">
 						<header>
 							<hr><h1>Security Management System</h1><hr>
-							<section style="margin-left: 80%">
-								<a style='color:white;' href="<?php echo base_url('vacancy');?>">Click to Apply>>></a>
+							<section id='right'>
+								<a href="<?php echo base_url('vacancy');?>">Click to Apply>>></a>
 							</section>
+							<br>
 						</header>
 						
 						<section class="6u center size-panel">
