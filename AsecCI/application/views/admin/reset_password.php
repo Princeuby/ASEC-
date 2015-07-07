@@ -3,6 +3,7 @@
 				</header>
 				<section class="row">
 					<div id="officer_search" class="6u 12u$(mobile) center">
+						<p class="error"><?php echo $this->session->flashdata('failed_add'); ?></p>
 						<?php echo form_open("$designation/reset_password"); ?>
 							<label class='8u center'>Officer ID:<br>
 							<input type="text" class='size-input' placeholder='P.123' name='id-officer'

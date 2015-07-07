@@ -55,6 +55,7 @@ class Admin extends Officer {
 	}
 
 	public function reset_password() {
+		$this->load->helper('form');
 		$data = $this->set_data('Reset Password');	
 		$model = $this->session->userdata('model');
 		$data['details_officer'] ='';
@@ -62,6 +63,12 @@ class Admin extends Officer {
 		if ($this->input->post('get-officer')) {
 			$data['details_officer'] = $this->{$model}->
 				get_officer_details($this->input->post('id-officer'));
+
+			if (empty($data['details_officer'])) {
+				$this->session->set_flashdata('failed_add', 'ID not found!');
+
+				redirect($this->session->userdata('home').'/reset_password');
+			}
 
 			$data['details_officer']['officer_name'] = $this->{$model}->get_officer_name(
 				$this->input->post('id-officer'));
