@@ -1,7 +1,7 @@
 <?php 
-require 'officer_model.php';
+require 'cso_model.php';
 
-class Admin_Model extends Officer_Model {
+class Admin_Model extends CSO_Model {
 
 	public function get_success_applicants($applicantID = False) {
 		if ($applicantID === False) {
@@ -28,6 +28,14 @@ class Admin_Model extends Officer_Model {
 			'vacancy_id' => $vacancyID
 		));
 		return $query->row_array();
+	}
+
+	public function reset_officer_password($officerID) {
+		$password = password_hash('pass', PASSWORD_DEFAULT);
+		$data = array(
+			'password' => $password
+		);
+		$this->db->update('security_officer', $data, "officer_id = '$officerID'");
 	}
 }
 ?>

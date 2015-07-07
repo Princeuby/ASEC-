@@ -54,5 +54,31 @@ class Admin extends Officer {
 	    $this->load->view('templates/footer');	
 	}
 
+	public function reset_password() {
+		$data = $this->set_data('Reset Password');	
+		$model = $this->session->userdata('model');
+		$data['details_officer'] ='';
+
+		if ($this->input->post('get-officer')) {
+			$data['details_officer'] = $this->{$model}->
+				get_officer_details($this->input->post('id-officer'));
+
+			$data['details_officer']['officer_name'] = $this->{$model}->get_officer_name(
+				$this->input->post('id-officer'));
+		}
+
+		if ($this->input->post('reset-password')) {
+			$this->{$model}->reset_officer_password($this->input->post('reset-password'));
+
+			redirect($this->session->userdata('home').'/reset_password');
+		}
+
+		$this->load->view('templates/header', $data);
+	    $this->load->view('templates/nav');
+	    $this->load->view($this->session->userdata('home').'/reset_password');
+	    $this->load->view('templates/footer');
+
+	}
+
 }
 ?>
