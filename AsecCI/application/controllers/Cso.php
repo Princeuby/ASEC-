@@ -260,7 +260,7 @@ class Cso extends Officer {
 		$this->load->library('form_validation');
 
 		$this->form_validation->set_rules('vacant-position', 'Text', 'required');
-		$this->form_validation->set_rules('vacant-summary', 'date', 'required');
+		$this->form_validation->set_rules('vacant-summary', 'Text', 'required');
 		$this->form_validation->set_rules('vacant-department', 'Text', 'required');
 		$this->form_validation->set_rules('vacant-education-level', 'Text', 'required');
 		$this->form_validation->set_rules('vacant-working-experience', 'Text', 'required');

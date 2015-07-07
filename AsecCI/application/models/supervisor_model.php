@@ -54,7 +54,7 @@ class Supervisor_Model extends Officer_Model {
 			'entitled_days' => $entitledDays,
 			'recommendation' => $recommendation
 		);
-		$this->db->update('leaves', $data, "leaves_id = $leaveID");
+		$this->db->update('leaves', $data, "leaves_id = '$leaveID'");
 	}
 	
 	// Gets activity reports

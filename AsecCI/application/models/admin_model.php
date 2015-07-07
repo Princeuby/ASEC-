@@ -30,6 +30,37 @@ class Admin_Model extends CSO_Model {
 		return $query->row_array();
 	}
 
+	public function create_officer($officerID, $dateOfEmp, $dateOfBirth, $firstName, 
+		$middleName, $lastName, $gender, $rank, $department, $applicantID) {
+
+		$password = password_hash('pass', PASSWORD_DEFAULT);
+		$designation = $rank;
+
+		$designation_list = array('Supervisor', 'CSO', 'ACSO', 'Scheduler', 'Committee', 'AVP', 'Admin', 'Senior Supervisor');
+		if (!in_array($designation, $designation_list)  ) {
+			$designation = "Rank and File";
+		}
+
+		$data = array( // Data for insert statement
+			'officer_id' => $officerID,
+			'date_of_emp' => $dateOfEmp,
+			'date_of_birth' => $dateOfBirth,
+			'first_name' => $firstName,
+			'middle_name' => $middleName,
+			'last_name' => $lastName,
+			'gender' => $gender,
+			'rank' => $rank,
+			'dept_name' => $department,
+			'designation' => $designation,
+			'leave_status' => '0',
+			'officer_status' => '1',
+			'password' => $password			
+		);
+		
+		$this->db->update('application', array('applicant_added' => '1'), "applicant_id = '$applicantID'");
+		$this->db->insert('security_officer', $data);
+	}
+
 	public function reset_officer_password($officerID) {
 		$password = password_hash('pass', PASSWORD_DEFAULT);
 		$data = array(

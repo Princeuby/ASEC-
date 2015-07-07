@@ -67,7 +67,7 @@ class CSO_Model extends Supervisor_Model {
 			'comments' => $comments
 		);
 		
-		$this->db->update('leaves', $data, "leaves_id = $leavesID");
+		$this->db->update('leaves', $data, "leaves_id = '$leavesID'");
 	}
 	
 	// Gets all the schedules
@@ -154,7 +154,7 @@ class CSO_Model extends Supervisor_Model {
 
 	public function create_vacancy($position, $summary, $department, $educationLevel, 
 	    		$workingExperience, $otherSpecifications, $openingDate, $closingDate) {
-		$data = array(//Data for update statement
+		$data = array(//Data for insert statement
 			'position' => $position,
 			'summary' => $summary,
 			'department' => $department,

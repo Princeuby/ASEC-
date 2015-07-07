@@ -45,7 +45,7 @@ class Vacancy_Model extends CI_Model {
 			'application_letter' => $application_letter,
 			'curriculum_vitae' => $curriculum_vitae
 		);
-		$this->db->update('application', $data, "applicant_id = $applicant_id");
+		$this->db->update('application', $data, "applicant_id = '$applicant_id'");
 	}
 }
 ?>

@@ -144,7 +144,7 @@ class Officer_Model extends CI_Model {
 			'next_officer_id' => $nextOfficerID,
 			'date_timeOut' => date('Y-m-d H:i:s')	
 		);
-		$this->db->update('activity_report', $data, "report_id = $reportID");
+		$this->db->update('activity_report', $data, "report_id = '$reportID'");
 	} 
 	
 	// Gets the schedule of the officer for a particular officer and week

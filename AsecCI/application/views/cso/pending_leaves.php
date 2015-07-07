@@ -45,7 +45,6 @@
 				</section>
 				<section id="setApproval" class="10u 12u$(mobile) center">
 					<script> window.location.hash = "setApproval"; </script>
-					<p class="10u 12u$(mobile) center">
 					<section id="incidents"><div class="10u 12u$(mobile) center"><article>
 						<header>
 							<strong>Officer: </strong><span class="blue-text"><?php $officerName = $selected_officer['first_name'] . " " . $selected_officer['last_name']; 

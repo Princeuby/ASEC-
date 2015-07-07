@@ -20,7 +20,7 @@ class Committee_Model extends Officer_Model {
 		$data = array( // Data for update statement
 			'vacancy_status' => '0'
 		);
-		$this->db->update('vacancy', $data, "vacancy_id = $vacancyID");
+		$this->db->update('vacancy', $data, "vacancy_id = '$vacancyID'");
 	}
 
 	public function count_active_applicants($vacancyID) {
@@ -67,14 +67,14 @@ class Committee_Model extends Officer_Model {
 			'interview_date' => $interviewDate,
 			'interview_location' => $interviewLocation
 			);
-			$this->db->update('application', $data, "applicant_id = $applicantID");
+			$this->db->update('application', $data, "applicant_id = '$applicantID'");
 		}
 		else {
 			$data = array( // Data for update statement
 			'interview_status' => $interviewStatus,
 			'application_status' => '0'
 			);
-			$this->db->update('application', $data, "applicant_id = $applicantID");
+			$this->db->update('application', $data, "applicant_id = '$applicantID'");
 		}
 	}
 
@@ -101,14 +101,14 @@ class Committee_Model extends Officer_Model {
 			'training_date' => $trainingDate,
 			'training_location' => $trainingLocation
 			);
-			$this->db->update('application', $data, "applicant_id = $applicantID");
+			$this->db->update('application', $data, "applicant_id = '$applicantID'");
 		}
 		else {
 			$data = array( // Data for update statement
 			'training_status' => $trainingStatus,
 			'application_status' => '0'
 			);
-			$this->db->update('application', $data, "applicant_id = $applicantID");
+			$this->db->update('application', $data, "applicant_id = '$applicantID'");
 		}
 	}
 
@@ -135,14 +135,14 @@ class Committee_Model extends Officer_Model {
 			'applicant_success' => $succesStatus,
 			'application_status' => '0'
 			);
-			$this->db->update('application', $data, "applicant_id = $applicantID");
+			$this->db->update('application', $data, "applicant_id = '$applicantID'");
 		}
 		else {
 			$data = array( // Data for update statement
 			'applicant_success' => $succesStatus,
 			'application_status' => '0'
 			);
-			$this->db->update('application', $data, "applicant_id = $applicantID");
+			$this->db->update('application', $data, "applicant_id = '$applicantID'");
 		}
 	}
 }
