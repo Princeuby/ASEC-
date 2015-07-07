@@ -15,11 +15,11 @@
 						<table>
 							<thead>
 								<tr>
+									<th></th>
 									<th>Applicant Name</th>
 									<th>Phone Number</th>
 									<th>Email Address</th>
 									<th>Interview Date</th>
-									<th></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -27,12 +27,11 @@
 									foreach ($selected_scheduledInterview as $interview) {
 										echo "<tr>";
 											$applicant_name = $interview['first_name'].' '.$interview['last_name'];
-											echo "<td>$applicant_name</td>";
+											echo "<td><button class='link-button' name='intApp' value='$interview[applicant_id]'>
+												Review</button></td>";echo "<td>$applicant_name</td>";
 											echo "<td>$interview[phone_number]</td>";
 											echo "<td>$interview[email_address]</td>";
 											echo "<td>$interview[interview_date]</td>";
-											echo "<td><button class='link-button' name='intApp' value='$interview[applicant_id]'>
-												Review</button></td>";
 										echo "</tr>";
 									}
 								?>

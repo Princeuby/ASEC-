@@ -14,10 +14,10 @@
 						<table>
 							<thead>
 								<tr>
+									<th></th>
 									<th>Applicant Name</th>
 									<th>Phone Number</th>
 									<th>Email Address</th>
-									<th></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -25,11 +25,10 @@
 									foreach ($selected_applicantsReview as $review) {
 										echo "<tr>";
 											$applicant_name = $review['first_name'].' '.$review['last_name'];
-											echo "<td>$applicant_name</td>";
+											echo "<td><button class='link-button' name='revApp' value='$review[applicant_id]'>
+												Review</button></td>";echo "<td>$applicant_name</td>";
 											echo "<td>$review[phone_number]</td>";
 											echo "<td>$review[email_address]</td>";
-											echo "<td><button class='link-button' name='revApp' value='$review[applicant_id]'>
-												Review</button></td>";
 										echo "</tr>";
 									}
 								?>

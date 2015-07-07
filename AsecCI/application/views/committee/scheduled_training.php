@@ -15,11 +15,11 @@
 						<table>
 							<thead>
 								<tr>
+									<th></th>
 									<th>Applicant Name</th>
 									<th>Phone Number</th>
 									<th>Email Address</th>
 									<th>Training Date</th>
-									<th></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -27,12 +27,11 @@
 									foreach ($selected_scheduledTraining as $training) {
 										echo "<tr>";
 											$applicant_name = $training['first_name'].' '.$training['last_name'];
-											echo "<td>$applicant_name</td>";
+											echo "<td><button class='link-button' name='traApp' value='$training[applicant_id]'>
+												Review</button></td>";echo "<td>$applicant_name</td>";
 											echo "<td>$training[phone_number]</td>";
 											echo "<td>$training[email_address]</td>";
 											echo "<td>$training[training_date]</td>";
-											echo "<td><button class='link-button' name='traApp' value='$training[applicant_id]'>
-												Review</button></td>";
 										echo "</tr>";
 									}
 								?>

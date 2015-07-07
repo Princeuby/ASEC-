@@ -128,6 +128,10 @@ class Committee extends Officer {
 	    	$interviewDate = strip_tags($this->input->post('applicant-interview-date'));
 	    	$interviewLocation = strip_tags($this->input->post('applicant-interview-location'));
 	    	
+	    	$applicantDetails = $this->{$this->session->userdata('model')}->get_applicant($applicantID);
+	    	unlink($applicantDetails['application_letter']);
+	    	unlink($applicantDetails['curriculum_vitae']);
+
 	    	$this->{$this->session->userdata('model')}->set_applicant_interview($applicantID, $interviewStatus, $interviewDate, $interviewLocation);
 	    	redirect($this->session->userdata('home').'/applicants_review');
 		}
