@@ -1,0 +1,58 @@
+<?php
+require_once 'Officer.php';
+
+class Admin extends Officer {
+
+	protected function protectPage() {
+		return ($this->session->userdata('home') === 'admin');
+	}
+
+	protected function set_data($page='Home') { // sets the data variables to avoid repition
+		$data = parent::set_data($page);
+		$data['functions'] = ['home', 'add officer', 'reset password'];
+		return $data;
+	} 
+
+	public function index() {
+		$data = $this->set_data();
+		redirect($this->session->userdata('home').'/add_officer');
+	}
+
+	public function add_officer() {
+		$data = $this->set_data('Add Officer');
+		$model = $this->session->userdata('model');
+
+		$data['applicants'] = $this->{$model}->get_success_applicants();
+		$data['display_success_applicants'] = 'block';
+		$data['no_applicants'] = '';
+		$data['add_new_officer'] = 'None';
+
+		for ($i = 0; $i < count($data['applicants']); $i++) {
+			$vacancy_details = $this->{$model}->get_vacancy($data['applicants'][$i]['vacancy_id']);
+			$data['applicants'][$i]['position'] = $vacancy_details['position'];
+			$data['applicants'][$i]['department'] = $vacancy_details['department'];
+		}	
+
+		if (empty($data['applicants'])) {
+			$data['display_success_applicants'] = 'None';
+			$data['no_applicants'] = "There are no applicants to be added";
+		}
+
+		$this->load->helper('form');
+
+		$this->load->view('templates/header', $data);
+	    $this->load->view('templates/nav', $data);
+
+	    if ($this->input->post('addApp')) {
+	    	$data['selected_applicant'] = $this->{$model}->
+	    		get_success_applicants($this->input->post('addApp'));
+
+			$data['add_new_officer'] = 'block';
+	    }
+
+	    $this->load->view($this->session->userdata('home').'/add_officer', $data);
+	    $this->load->view('templates/footer');	
+	}
+
+}
+?>

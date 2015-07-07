@@ -64,6 +64,9 @@ class Login extends CI_Controller {
 				elseif ($data['officer']['designation'] == "AVP") {
 					$this->session->set_userdata('home','avp');
 				}
+				elseif ($data['officer']['designation'] == "Admin") {
+					$this->session->set_userdata('home','admin');
+				}
 				else {
 					$this->session->set_userdata('home','other');
 				}
