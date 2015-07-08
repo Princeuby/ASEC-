@@ -111,7 +111,7 @@ class CSO_Model extends Supervisor_Model {
 	public function get_officers_schedule($location, $shift, $weekStart) {
 		return $this->db->query("SELECT * FROM scheduling WHERE 
 			officer_id in (SELECT officer_id FROM officer_locations
-			 WHERE officer_status='1' AND officer_location='$location' AND last_shift='$shift') 
+			 WHERE officer_location='$location' AND last_shift='$shift') 
 			 AND week_start = '$weekStart'")->result_array();
 	}
 	
