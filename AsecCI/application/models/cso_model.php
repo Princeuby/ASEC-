@@ -119,7 +119,7 @@ class CSO_Model extends Supervisor_Model {
 	public function get_approved_officers_schedule($location, $shift, $weekStart, $not=false) {
 		$sql = "SELECT * FROM scheduling WHERE 
 			officer_id in (SELECT officer_id FROM officer_locations
-			 WHERE officer_status='1' AND officer_location='$location') AND week_start = '$weekStart'";
+			 WHERE officer_location='$location') AND week_start = '$weekStart'";
 		if ($not) 
 			$sql .= " AND shift!='$shift'";
 		else
