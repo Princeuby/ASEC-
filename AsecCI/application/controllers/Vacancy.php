@@ -13,7 +13,7 @@ class Vacancy extends CI_Controller {
 		$data['page'] = 'Vacancy';
 		$data['name'] = "Applicant";
 		$data['rank'] = '';
-		$data['functions'] = ['vacancy', 'manage account'];
+		$data['functions'] = ['vacancy'];
 		return $data;
 	}
 
