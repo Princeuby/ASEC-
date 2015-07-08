@@ -248,6 +248,8 @@ class Cso extends Officer {
 	public function vacancy() {
 		$data = $this->set_data('Vacancy');
 
+		$data['departments'] = $this->{$this->session->userdata('model')}->get_departments();
+
 		$this->load->view('templates/header', $data);
 	    $this->load->view('templates/nav', $data);
 	    $this->load->view($this->session->userdata('home').'/vacancy', $data);
@@ -261,7 +263,6 @@ class Cso extends Officer {
 
 		$this->form_validation->set_rules('vacant-position', 'Text', 'required');
 		$this->form_validation->set_rules('vacant-summary', 'Text', 'required');
-		$this->form_validation->set_rules('vacant-department', 'Text', 'required');
 		$this->form_validation->set_rules('vacant-education-level', 'Text', 'required');
 		$this->form_validation->set_rules('vacant-working-experience', 'Text', 'required');
 		$this->form_validation->set_rules('vacant-other-specifications', 'Text', 'required');

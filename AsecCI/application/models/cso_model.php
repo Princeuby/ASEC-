@@ -167,5 +167,13 @@ class CSO_Model extends Supervisor_Model {
 		);
 		$this->db->insert('vacancy', $data);
 	}
+
+	public function get_departments($departmentID = False) {
+		if ($departmentID === False) {
+			return $this->db->get('department')->result_array();
+		}
+		return $this->db->get_where('department', array(
+			'dept_name' => $departmentID))->row_array();
+	}
 }
 ?>

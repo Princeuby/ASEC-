@@ -55,8 +55,8 @@
 										<option value='Male'>Male</option>
 										<option value='Female'>Female</option>
 									</select></label>";
-								echo "<label>Rank: <br><input required type='text' name='create-rank' class='size-input' value='$selected_applicant[position]'></label>";
-								echo "<label>Department: <br><input required type='text' name='create-department' class='size-input' value='$selected_applicant[department]'></label>";
+								echo "<label>Rank: <br><input readonly required type='text' name='create-rank' class='size-input' value='$selected_applicant[position]'></label>";
+								echo "<label>Department: <br><input readonly type='text' name='create-department' class='size-input' value='$selected_applicant[department]'></label>";
 								echo "<label>Password: <br><input readonly type='text' name='create-password' class='size-input' value='pass'></label>";
 								echo "<input type='hidden' name='create-applicant-id' value='$selected_applicant[applicant_id]'>";
 								echo "<input type='submit' name='creOff' id='creOff' value='Create Officer'>";

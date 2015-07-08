@@ -70,7 +70,6 @@ class Admin extends Officer {
 		$this->form_validation->set_rules('create-last-name', 'Text', 'required');
 		$this->form_validation->set_rules('create-gender', 'Text', 'required');
 		$this->form_validation->set_rules('create-rank', 'Text', 'required');
-		$this->form_validation->set_rules('create-department', 'Text', 'required');
 
 	    if ($this->form_validation->run() === TRUE) {
 			$officerID = strip_tags($this->input->post('create-officer-id'));			

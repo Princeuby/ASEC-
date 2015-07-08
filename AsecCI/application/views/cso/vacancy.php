@@ -7,9 +7,23 @@
 					<hr>
 					<?php echo form_open("$designation/add_vacancy"); ?>
 						<label>Closing Date: <br><input name="vacant-closing-date" class="datepickr"></label>
-						<label>Position: <input type="text" name="vacant-position" required></label>
+						<label>Position: <br><select name="vacant-position" class='size-input'required>
+							<option value='' disabled selected>Choose:</option>
+							<option value='Cleaner'>Cleaner</option>
+							<option value='Tailor'>Tailor</option>
+							<option value='Officer One'>Officer One</option>
+							<option value='Officer Two'>Officer Two</option>
+							<option value='Officer Three'>Officer Three</option>
+							<option value='Ast. Supervisor'>Ast. Supervisor</option>
+							<option value='Supervisor'>Supervisor</option>
+						</select></label>
 						<label>Position Summary: <textarea name="vacant-summary"></textarea></label>
-						<label>Department: <input type="text" name="vacant-department" required></label>
+						<label>Department: <br><select name="vacant-department" class='size-input'>
+							<option value='' disabled selected>Choose:</option>
+							<?php foreach($departments as $department):
+								echo "<option value='$department[dept_name]'>$department[dept_name]</option>";
+							endforeach?>
+						</select></label>
 						<label>Education Level: <br><select name="vacant-education-level" class='size-input' required>
 								<option value='' disabled selected>Select Level:</option>
 								<option value='Primary'>Primary</option>
