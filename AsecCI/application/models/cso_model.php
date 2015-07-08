@@ -17,7 +17,7 @@ class CSO_Model extends Supervisor_Model {
 	
 	public function get_officer_details($officerID) {
 		$query = $this->db->get_where('security_officer', 
-			array('officer_id' => $officerID));
+			array('officer_id' => $officerID, 'officer_status' => '1'));
 		return $query->row_array();
 	}
 
@@ -48,7 +48,8 @@ class CSO_Model extends Supervisor_Model {
 		$query = $this->db->query("SELECT first_name, last_name, rank, dept_name,
 			leaves_id, leave_type, leave_comment, proceeding_date, entitled_days, recommendation
 		FROM security_officer, leaves
-		WHERE security_officer.officer_id = leaves.officer_id AND approved_status IS NULL 
+		WHERE security_officer.officer_id = leaves.officer_id AND officer_status = '1' 
+		AND approved_status IS NULL 
 		AND (low_rank ='0' OR recommendation IS NOT NULL) 
 		ORDER BY proceeding_date"
 		);
@@ -116,7 +117,7 @@ class CSO_Model extends Supervisor_Model {
 	public function get_officers_schedule($location, $shift, $weekStart) {
 		return $this->db->query("SELECT * FROM scheduling WHERE 
 			officer_id in (SELECT officer_id FROM officer_locations
-			 WHERE officer_location='$location' AND last_shift='$shift') 
+			 WHERE officer_status='1' AND officer_location='$location' AND last_shift='$shift') 
 			 AND week_start = '$weekStart'")->result_array();
 	}
 	
@@ -124,7 +125,7 @@ class CSO_Model extends Supervisor_Model {
 	public function get_approved_officers_schedule($location, $shift, $weekStart, $not=false) {
 		$sql = "SELECT * FROM scheduling WHERE 
 			officer_id in (SELECT officer_id FROM officer_locations
-			 WHERE officer_location='$location') AND week_start = '$weekStart'";
+			 WHERE officer_status='1' AND officer_location='$location') AND week_start = '$weekStart'";
 		if ($not) 
 			$sql .= " AND shift!='$shift'";
 		else

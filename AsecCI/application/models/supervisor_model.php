@@ -6,6 +6,7 @@ class Supervisor_Model extends Officer_Model {
 			first_name, last_name, proceeding_date, returning_date, comments, approved_status
 			FROM security_officer, leaves 
 			WHERE security_officer.officer_id = leaves.officer_id AND security_officer.officer_id = '$officerID'
+			AND officer_status = '1'
 			ORDER BY proceeding_date DESC, returning_date DESC
 			");
 		return $query->result_array();

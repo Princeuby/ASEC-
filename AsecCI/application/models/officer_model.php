@@ -116,7 +116,7 @@ class Officer_Model extends CI_Model {
 		$query = $this->db->query("SELECT officer_id
 			FROM security_officer
 			WHERE designation = 'Supervisor' AND dept_name IN
-				(SELECT dept_name FROM security_officer WHERE officer_id = '$officerID')");
+				(SELECT dept_name FROM security_officer WHERE officer_id = '$officerID' AND officer_status='1')");
 		return $query->row_array();
 	}
 	
