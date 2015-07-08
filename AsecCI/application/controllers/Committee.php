@@ -48,6 +48,8 @@ class Committee extends Officer {
 					($this->{$this->session->userdata('model')}->count_active_applicants($this->input->post('closeAct')) == 0)) {
 				$this->{$this->session->userdata('model')}->
 					close_active_vacancy($this->input->post('closeAct'));
+				$this->session->unset_userdata('vacancy_id');
+				
 				redirect('committee/index');
 			}
 			else {
