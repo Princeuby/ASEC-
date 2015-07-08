@@ -38,7 +38,7 @@ class Officer extends CI_Controller {
 		$data['name'] = $this->session->userdata('officerFullName');
 		$data['rank'] = $this->session->userdata('officerRank');
 		$data['id'] = $this->session->userdata('officerID');
-		$data['functions'] = ['home', 'activity report', 'view activity reports', 'leaves'];
+		$data['functions'] = ['home', 'activity report', 'view activity reports', 'leaves', 'manage account'];
 		$data['designation'] = $this->session->userdata('home');
 		$data['weekStart'] = $this->get_week_start();
 		$data['schedule'] = $this->{$this->session->userdata('model')}->get_schedule($data['id'], 
@@ -366,6 +366,35 @@ class Officer extends CI_Controller {
 				get_officer_name($value['officer_id']);
 		}
 		return $officers;
+	}
+	
+	public function manage_account() {
+		$data = $this->set_data('Manage Account');
+		
+		if ($this->input->post('change-password')) {
+			$pass = strip_tags($this->input->post('pass'));
+			$passNew1 = strip_tags($this->input->post('pass-new-1'));
+			$passNew2 = strip_tags($this->input->post('pass-new-2'));
+			if ($passNew1 !== $passNew2)
+	        	$this->session->set_flashdata('error','Passwords do not match');				
+			else if (strlen($passNew1) <= 6)
+	        	$this->session->set_flashdata('error','Choose a longer password (> 6 characters)');				
+			else {
+				$this->load->model('login_model');
+				$officer = $this->login_model->get_officer($data['id']);
+				if (password_verify($pass, $officer['password'])) {
+					$this->{$this->session->userdata('model')}->change_password($data['id'], $passNew1);
+					redirect('login/logout/password_changed');
+				}
+				else {
+		        	$this->session->set_flashdata('error','Incorrect password');
+				}	
+			}
+		}
+		$this->load->view('templates/header', $data);
+	    $this->load->view('templates/nav');
+	    $this->load->view($this->session->userdata('home').'/manage_account');
+	    $this->load->view('templates/footer');
 	}
 }	
 	

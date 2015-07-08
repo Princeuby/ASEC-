@@ -45,9 +45,9 @@ CREATE TABLE IF NOT EXISTS `mydb`.`security_officer` (
   `office` VARCHAR(45) NULL,
   `date_of_emp` DATE NULL,
   `date_of_res` DATE NULL,
-  `education_level` VARCHAR(50) NOT NULL,
-  `focus_area` VARCHAR(100) NOT NULL,
-  `school` VARCHAR(100) NOT NULL,
+  `education_level` VARCHAR(50) NULL,
+  `focus_area` VARCHAR(100) NULL,
+  `school` VARCHAR(100) NULL,
   `password` VARCHAR(250) NOT NULL,
   `leave_status` TINYINT(1) NOT NULL,
   `officer_status` TINYINT(1) NOT NULL,
@@ -240,8 +240,8 @@ CREATE TABLE IF NOT EXISTS `mydb`.`application` (
   `last_name` VARCHAR(45) NOT NULL,
   `phone_number` VARCHAR(15) NOT NULL,
   `email_address` VARCHAR(80) NOT NULL,
-  `application_letter` LONGBLOB NOT NULL,
-  `curriculum_vitae` LONGBLOB NOT NULL,
+  `application_letter` VARCHAR(400) NULL,
+  `curriculum_vitae` VARCHAR(400) NULL,
   `vacancy_id` INT NOT NULL,
   `interview_status` TINYINT(1) NULL,
   `interview_date` DATE NULL,
@@ -519,7 +519,16 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `mydb`;
-INSERT INTO `mydb`.`department` (`dept_name`, `number_of_shift`) VALUES ('Surveillance', 4);
+INSERT INTO `mydb`.`department` (`dept_name`, `number_of_shift`) VALUES ('Surveillance', 3);
+INSERT INTO `mydb`.`department` (`dept_name`, `number_of_shift`) VALUES ('K9', 3);
+INSERT INTO `mydb`.`department` (`dept_name`, `number_of_shift`) VALUES ('Internal Affairs', 3);
+INSERT INTO `mydb`.`department` (`dept_name`, `number_of_shift`) VALUES ('Special Squad', 2);
+INSERT INTO `mydb`.`department` (`dept_name`, `number_of_shift`) VALUES ('Traffic', 3);
+INSERT INTO `mydb`.`department` (`dept_name`, `number_of_shift`) VALUES ('Communication', 3);
+INSERT INTO `mydb`.`department` (`dept_name`, `number_of_shift`) VALUES ('Equine', 2);
+INSERT INTO `mydb`.`department` (`dept_name`, `number_of_shift`) VALUES ('Tailoring', 2);
+INSERT INTO `mydb`.`department` (`dept_name`, `number_of_shift`) VALUES ('Training ', 2);
+INSERT INTO `mydb`.`department` (`dept_name`, `number_of_shift`) VALUES ('Aerial Research', 2);
 
 COMMIT;
 

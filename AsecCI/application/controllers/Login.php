@@ -46,7 +46,8 @@ class Login extends CI_Controller {
 				);
 				$this->session->set_userdata($newdata);
 
-				if ($data['officer']['designation'] == "Rank and File") {
+				if ($data['officer']['designation'] == "Rank and File" ||
+					 $data['officer']['designation'] == "Assistant Supervisor") {
 					$this->session->set_userdata('home','officer');
 				}
 				elseif ($data['officer']['designation'] == "Supervisor") {
@@ -79,10 +80,13 @@ class Login extends CI_Controller {
 	    }
 	}
 	
-	public function logout() {
+	public function logout($message=null) {
 		$this->load->library('session');
 		$this->session->sess_destroy();
-		redirect('');
+		if ($message == 'password_changed') {
+        	$this->session->set_flashdata('message','Login with your new password');
+		}
+		$this->index();
 	}
 }	
 	

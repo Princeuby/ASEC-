@@ -10,7 +10,7 @@
 					<section id="all_leaves">
 						<?php echo form_open("$designation/view_leaves"); ?>
 						<hr><br>
-						<table class="10u 12u$(mobile) center">
+						<table class="12u$(mobile) center">
 							<thead>
 								<tr>
 									<th></th>

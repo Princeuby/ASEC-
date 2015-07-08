@@ -9,7 +9,7 @@ class Admin extends Officer {
 
 	protected function set_data($page='Home') { // sets the data variables to avoid repition
 		$data = parent::set_data($page);
-		$data['functions'] = ['home', 'add officer', 'reset password'];
+		$data['functions'] = ['home', 'add officer', 'reset password', 'manage account'];
 		return $data;
 	} 
 

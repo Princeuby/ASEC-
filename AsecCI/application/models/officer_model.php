@@ -163,4 +163,13 @@ class Officer_Model extends CI_Model {
 		$query = $this->db->get_where('leaves', array('leaves_id' => $leaveID));
 		return $query->row_array();
 	}
+	
+	// Changes an officer's password
+	public function change_password($officerID, $newPass) {
+		$password = password_hash($newPass, PASSWORD_DEFAULT);
+		$data = array(
+			'password' => $password
+		);
+		$this->db->update('security_officer', $data, "officer_id = '$officerID'");
+	}
 }

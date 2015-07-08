@@ -9,7 +9,7 @@ class Scheduler extends Cso {
 	
 	public function set_data($page='Schedule') {
 		$data = parent::set_data($page);
-		$data['functions'] = ['Schedule', 'Created Schedules', 'Alter Schedule'];
+		$data['functions'] = ['Schedule', 'Created Schedules', 'Alter Schedule', 'manage account'];
 		return $data;
 	}
 	

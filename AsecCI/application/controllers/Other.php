@@ -10,7 +10,7 @@ class Other extends Supervisor {
 	
 	protected function set_data($page='Home') { // sets the data variables to avoid repition
 		$data = parent::set_data($page);
-		$data['functions'] = ['view activity reports', 'leaves'];
+		$data['functions'] = ['view activity reports', 'leaves', 'manage account'];
 
 		return $data;
 	} 

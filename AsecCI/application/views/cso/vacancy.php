@@ -14,7 +14,7 @@
 							<option value='Officer One'>Officer One</option>
 							<option value='Officer Two'>Officer Two</option>
 							<option value='Officer Three'>Officer Three</option>
-							<option value='Ast. Supervisor'>Ast. Supervisor</option>
+							<option value='Assistant Supervisor'>Assistant Supervisor</option>
 							<option value='Supervisor'>Supervisor</option>
 						</select></label>
 						<label>Position Summary: <textarea name="vacant-summary"></textarea></label>

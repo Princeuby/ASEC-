@@ -10,7 +10,7 @@ class Cso extends Officer {
 	
 	protected function set_data($page='Home') { // sets the data variables to avoid repition
 		$data = parent::set_data($page);
-		$data['functions'] = ['home', 'pending leaves', 'view leaves', 'vacancy', 'view activity reports'];
+		$data['functions'] = ['home', 'pending leaves', 'view leaves', 'vacancy', 'view activity reports', 'manage account'];
 		$data['weekStart'] = date('Y-m-d', strtotime("this Sunday"));			
 		if ($data['weekStart'] === date('Y-m-d'))
 			$data['weekStart'] = date('Y-m-d', strtotime("next Sunday"));

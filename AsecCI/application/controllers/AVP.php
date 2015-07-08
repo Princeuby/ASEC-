@@ -10,7 +10,11 @@ class AVP extends Cso {
 	
 	protected function set_data($page='Home') { // sets the data variables to avoid repition
 		$data = parent::set_data($page);
-		$data['functions'] = ['officer leaves', 'view activity reports'];
+		$data['functions'] = ['view leaves', 'view activity reports', 'manage account'];
 		return $data;
 	} 
+	
+	public function index() {
+		redirect($this->session->userdata('home').'/view_leaves');
+	}
 }
