@@ -67,7 +67,7 @@
 							<section class="6u 6u$(mobile) center">
 							<?php echo form_open("$designation/add_applicant_review") ?>
 								<?php 
-									echo "<label>Interview Date: <br><input type='date' min='".date('Y-m-d')."' name='applicant-interview-date' 
+									echo "<label>Interview Date: <br><input type='text' class='datepickr' name='applicant-interview-date' 
 										class='size-input'></label>";
 									echo "<label>Interview Location: <textarea name='applicant-interview-location'></textarea></label><br>";
 									echo "<label>Approval Status: <br><select required name='applicant-interview-status' class='size-input'>

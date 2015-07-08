@@ -55,7 +55,7 @@
 							<section class="6u 6u$(mobile) center">
 							<?php echo form_open("$designation/add_applicant_interview") ?>
 								<?php 
-									echo "<label>Training Date: <br><input type='date' min='".date('Y-m-d')."' name='applicant-training-date' 
+									echo "<label>Training Date: <br><input type='text' class='datepickr' name='applicant-training-date' 
 										class='size-input'></label>";
 									echo "<label>Training Location: <br><textarea name='applicant-training-location'></textarea></label><br>";
 									echo "<label>Approval Status: <br><select required name='applicant-training-status' class='size-input'>
