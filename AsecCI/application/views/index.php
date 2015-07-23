@@ -44,7 +44,7 @@
 		<div id="footer" class="login">
 			<!-- Copyright -->
 			<ul class="copyright">
-				<li>&copy; American University of Nigeria. All rights reserved.</li><li>Design: <a href="#">UNKNOWN</a></li>
+				<li>&copy; <a href='http://aun.edu.ng'>American University of Nigeria.</a> All rights reserved.</li><li>Design: <a href="#">ASEC Team</a></li>
 			</ul>
 		</div>	
 	</body>
