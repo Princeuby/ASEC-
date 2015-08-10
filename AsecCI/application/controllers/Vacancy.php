@@ -129,7 +129,13 @@ class Vacancy extends CI_Controller {
 
 	protected function check_upload($fieldName) {
 		// $data = $this->set_data();
+		
+		$path = "assets/uploads";
 
+	    if(!is_dir($path)) //create the folder if it's not already exists
+	    {
+	      mkdir($path,0755,TRUE);
+	    } 
         $config['upload_path']          = 'assets/uploads/';
         $config['allowed_types']        = 'doc|docx';
         $config['max_size']             = 2000;
